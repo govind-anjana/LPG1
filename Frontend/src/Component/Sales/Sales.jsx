@@ -1,0 +1,145 @@
+import axios from "axios";
+import React, { useState } from "react";
+
+function Sales() {
+  const [conType, setConType] = useState("");
+  const [rate, setRate] = useState("0");
+  const [qty, setQty] = useState("");
+  const [payment, setPayment] = useState("");
+  const [model, setModel] = useState("");
+  const [remarks, setRemarks] = useState("");
+
+  const model_name = {
+    nfr: ["14.2 KG Filled Cyl Domestic", "5 KG Filled Cyl Domestic"],
+    equipment: [
+      "14.2 KG Filled Cyl Domestic",
+      "5 KG Filled Cyl Domestic",
+      "19 KG Filled Cyl CM",
+      "5 KG Filled Cyl CM FTL POS",
+      "10 KG Filled Cyl Composite",
+      "45 KG Filled Cyl",
+      "LPG Pressure Regulator Sound",
+    ],
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:4001/addsale", {
+        conType,
+        model,
+        rate,
+        qty,
+        payment,
+        remarks,
+      });
+
+      alert(res.data.message);
+    } catch (err) {
+      alert("Failed to save agent.", err.message);
+    }
+     setConType(""),setModel(""),setPayment(""),setQty(""),setRate(""),setRemarks("")
+  };
+
+  return (
+    <div className="allworking boxdesign">
+      <span className="fs-5 fw-semibold">Sales</span>
+      <div className="settion mt-2 p-3  bg-light rounded-3 border-top border-warning border-3 shadow-sm">
+        <span className="fs-6 fw-semibold">Sales</span>
+        <form onSubmit={handleSubmit}>
+          <div className="box-body row mt-3">
+            <div className="form-group col-md-6">
+              <label htmlFor="conType">Sales Type</label>
+              <select
+                required
+                id="conType"
+                name="conType"
+                onChange={(e) => {
+                  setConType(e.target.value);
+                  setModel("");
+                }}
+              >
+                <option value="">Select</option>
+                <option value="nfr">NFR</option>
+                <option value="equipment">Equipment</option>
+              </select>
+            </div>
+
+            {conType && (
+              <>
+                <div className="form-group col-md-6">
+                  <label htmlFor="model">{conType} Model Name</label>
+                  <select
+                    id="model"
+                    value={model}
+                    onChange={(e) => setModel(e.target.value)}
+                  >
+                    <option value="">Select</option>
+                    {model_name[conType].map((item, index) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group col-md-6">
+                  <label htmlFor="rate">Rate</label>
+                  <br />
+                  <input
+                    type="number"
+                    id="rate"
+                    step={0.01}
+                    value={rate}
+                    onChange={(e) => setRate(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group col-md-6">
+                  <label htmlFor="qty">Qty</label>
+                  <br />
+                  <input
+                    type="number"
+                    id="qty"
+                    value={qty}
+                    onChange={(e) => setQty(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group col-md-6">
+                  <label htmlFor="paymentType">Payment Type</label>
+                  <select
+                    id="paymentType"
+                    name="paymentType"
+                    onChange={(e) => setPayment(e.target.value)}
+                  >
+                    <option value="">Select</option>
+                    <option value="Online">Online</option>
+                    <option value="PatTm">PayTM</option>
+                    <option value="Google pay">Google Pay</option>
+                    <option value="Bhimupi">Bhim UPI</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Other">Others</option>
+                  </select>
+                </div>
+                <div className="form-group col-md-6">
+                  <label htmlFor="remarks">Remarks</label>
+                  <input
+                    type="text"
+                    onChange={(e) => setRemarks(e.target.value)}
+                    name="remarks"
+                  />
+                </div>
+              </>
+            )}
+          </div>
+          <div className="text-end my-2">
+            <button type="submit" className="btn btn-dark btn-sm px-3">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default Sales;

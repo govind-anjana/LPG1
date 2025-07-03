@@ -1,0 +1,41 @@
+.refill label ,.document label,.sales label,.transaction label, .kgrefill label,.addEmployee label,.agent label,.allworking label {
+    font-size: 13px;
+    font-weight:700;
+    margin:9px 0px 3px 0px;
+    text-transform: capitalize;
+}
+.refill input,select, .document input,.sales input ,.transaction input,.kgrefill input  ,.addEmployee input, .agent .agentname input ,.allworking input[type="text"] , .allworking input[type="number"] ,textarea,.allworking input[type="date"]{
+    width:97%; 
+    padding:2px 9px;
+    font-size: 13px;
+    outline:none ;
+    border:1px solid silver;
+}
+.refill input:focus,.refill select:focus,.sales input:focus,select:focus,.transaction input:focus ,.kgrefill input:focus ,.addEmployee input:focus ,.allworking input:focus , textarea:focus {
+    border:1px solid blue;
+    /* border-radius: 1px; */
+
+}
+ select option{
+    font-size: 14px;
+}
+
+select option:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.EmployeeList input[type="text"],.search {
+    /* width:100px; */
+    outline: none;
+    padding:2px 5px;
+    font-size: 13px;
+    border:1px solid silver;
+}
+.EmployeeList input[type="text"]:focus,.search:focus{
+    border:1px solid blue;
+
+}
+.allworking .search {
+    width:150px;
+}
