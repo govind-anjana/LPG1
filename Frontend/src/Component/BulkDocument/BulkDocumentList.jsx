@@ -4,13 +4,14 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function BulkDocumentList() {
   const [bulkDocumentList, setBulkDocumentList] = useState([]);
+  const navigate=useNavigate();
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/bulkdoclist");
+      const res = await axios.get("/api/bulkdoclist");
       setBulkDocumentList(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -20,8 +21,8 @@ function BulkDocumentList() {
     fetchEmployees();
   }, []);
 
-  function Edithandle() {
-    alert();
+  function Edithandle(id,data) {
+            navigate(`/bulkDocument/${id}`,{state:{empData:data}})
   }
 
   async function Deletehandle(id) {
@@ -29,7 +30,7 @@ function BulkDocumentList() {
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deletebulkdoc/${id}`
+          `/api/deletebulkdoc/${id}`
         );
         fetchEmployees();
       } catch (err) {
@@ -90,8 +91,8 @@ function BulkDocumentList() {
                     <td>{item.amountDeposit}</td>
                     <td>{item.svDiscount}</td>
                     <td>
-                      <div className="divbtn fs-5 ">
-                        <FaEdit className="me-2" onClick={Edithandle} />
+                      <div className="divbtn ">
+                        <FaEdit className="me-2" onClick={()=>Edithandle(item._id,item)} />
                         <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
                       </div>
                     </td>
@@ -105,7 +106,7 @@ function BulkDocumentList() {
                         No data available in table
                       </span>
                       <br />
-                      <img src="" alt="No data" className="my-4" />
+                      <img src="xyz.jpg" alt="No data" className="my-4" />
                       <br />
                       <span className="text-success">
                         Add new record or search with different criteria.

@@ -8,7 +8,7 @@ function PromotionRateList() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/promotionlist");
+        const res = await axios.get("/api/promotionlist");
         setPromotion_list(res.data);
       } catch (err) {
         console.error(" Error fetching employee list:", err.message);
@@ -21,7 +21,7 @@ function PromotionRateList() {
   }
  async function Deletehandle(id){
        try {
-    const res = await axios.delete(`http://localhost:4001/deleteemployee/${id}`);
+    const res = await axios.delete(`/api/deleteemployee/${id}`);
     setEmployees(res.data);
   } catch (err) {
     console.error("Error deleting employee:", err.message);

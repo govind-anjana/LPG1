@@ -10,7 +10,7 @@ function StockPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/currntstock");
+        const res = await axios.get("/api/currntstock");
         setCurrent_Stock(res.data);
       } catch (err) {
         alert(err.message);

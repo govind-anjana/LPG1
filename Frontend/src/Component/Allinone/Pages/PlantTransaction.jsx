@@ -23,7 +23,7 @@ function PlantTransaction() {
   async function handleSubmit(e) {
     e.preventDefault();
     await axios
-      .post("http://localhost:4001/planttransaction", {
+      .post("/api/planttransaction", {
        ReDate,
       selectedEquipment,
       qty,

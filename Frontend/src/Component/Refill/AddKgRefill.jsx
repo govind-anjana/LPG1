@@ -53,9 +53,9 @@ function AddKgRefill() {
   ];
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/kgrefilllist");
+      const res = await axios.get("/api/kgrefilllist");
       setKgRefill_List(res.data);
-      const res1 = await axios.get("http://localhost:4001/consumerlist");
+      const res1 = await axios.get("/api/consumerlist");
       setConsumer(res1.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -66,7 +66,7 @@ function AddKgRefill() {
 
     const fetchPrice = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/addratelist");
+        const res = await axios.get("/api/addratelist");
         const rateList = [...res.data].reverse();
 
         const latestValidRate = rateList.find(
@@ -107,9 +107,9 @@ function AddKgRefill() {
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deletekgrefill/${id}`
+          `/api/deletekgrefill/${id}`
         );
-        console.log(res);
+        // console.log(res);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -120,7 +120,7 @@ function AddKgRefill() {
     e.preventDefault();
 
     await axios
-      .post("http://localhost:4001/addkgrefill", {
+      .post("/api/addkgrefill", {
         consumerName,
         equipment,
         deliveryMan,
@@ -219,7 +219,7 @@ function AddKgRefill() {
                 type="number"
                 name="currentRate"
                 value={currentRate}
-                onChange={(e) => setCurrentRate(e.target.value)}
+                 disabled
               />
             </div>
 

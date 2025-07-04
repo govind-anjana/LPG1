@@ -147,11 +147,7 @@ function Navbar() {
               <FaAngleDoubleRight className="me-2" />Add Expenses
             </Link>
           </li>
-          <li>
-            <Link to="/expenses" className="p-0">
-              <FaAngleDoubleRight className="me-2" />Expenses List
-            </Link>
-          </li>
+          
           <li>
             <Link to="/expensehead" className="p-0">
              <FaAngleDoubleRight className="me-2" />Expenses Head

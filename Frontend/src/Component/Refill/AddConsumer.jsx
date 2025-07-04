@@ -82,7 +82,7 @@ function AddConsumer() {
   ];
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/consumerlist");
+      const res = await axios.get("/api/consumerlist");
       setAddConsumer_List(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -100,7 +100,7 @@ function AddConsumer() {
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deleteconsumer/${id}`
+          `/api/deleteconsumer/${id}`
         );
         console.log(res);
         fetchEmployees();
@@ -112,7 +112,7 @@ function AddConsumer() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:4001/addconsumer", {
+      .post("/api/addconsumer", {
         consumreType,
         consumerName,
         mobile,
@@ -666,7 +666,7 @@ function AddConsumer() {
                       </span>
                       <br />
                       <img
-                        src="https://placeholder.com"
+                        src="xyz.jpg"
                         alt="No data"
                         className="my-4"
                       />

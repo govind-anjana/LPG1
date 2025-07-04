@@ -76,17 +76,19 @@ function App() {
               <Route path="/kgRefill" element={<AddKgRefill />} />
               <Route path="/KgRefill/bulk" element={<AddConsumer />} />
               <Route path="/document/document" element={<AddDocument />} />
+              <Route path="/document/document/:id" element={<AddDocument />} />
               <Route path="/document" element={<DocumentList />} />
               <Route path="/sales/sales" element={<Sales />} />
               <Route path="/sales" element={<SalesList />} />
               <Route path="/expenses/expenses" element={<Addexpense />} />
               <Route path="/expenses/expenses/:id" element={<Addexpense />} />
 
-              <Route path="/expenses" element={<ExpenseList />} />
+              
               <Route path="/expensehead" element={<ExpenseHead />} />
               <Route path="/expensehead/:id" element={<ExpenseHead />} />
 
               <Route path="/bulkDocument" element={<BulkDocuments />} />
+              <Route path="/bulkDocument/:id" element={<BulkDocuments />} />
               <Route path="/bulkDocumentList" element={<BulkDocumentList />} />
               <Route path="/depositCyl" element={<DepositCyl />} />
               <Route path="/depositCylList" element={<DepositCyllist />} />

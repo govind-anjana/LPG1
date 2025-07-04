@@ -17,7 +17,7 @@ function ExpenseHead() {
   const editData = location.state?.empData;
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/expenseheadlist");
+      const res = await axios.get("/api/expenseheadlist");
       setExpense_List(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -42,7 +42,7 @@ function ExpenseHead() {
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deleteexpensehead/${id}`
+          `/api/deleteexpensehead/${id}`
         );
         console.log(res);
         fetchEmployees();
@@ -55,7 +55,7 @@ function ExpenseHead() {
     e.preventDefault();
     if (id) {
       const res = await axios.put(
-        `http://localhost:4001/updateexpenses/${id}`,
+        `/api/updateexpenses/${id}`,
         {
           expenseType,
           expenseH,
@@ -67,7 +67,7 @@ function ExpenseHead() {
       fetchEmployees();
     } else {
       await axios
-        .post("http://localhost:4001/addexpensehead", {
+        .post("/api/addexpensehead", {
           expenseType,
           expenseH,
           description,

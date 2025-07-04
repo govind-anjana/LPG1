@@ -23,7 +23,7 @@ function AddNfr() {
     e.preventDefault();
     try {
       if (id) {
-        await axios.put(`http://localhost:4001/updatenfr/${id}`, {
+        await axios.put(`/api/updatenfr/${id}`, {
           itemGroup,
           vendorNames,
           modelName,
@@ -35,7 +35,7 @@ function AddNfr() {
         });
         alert("NFR updated successfully!");
       } else {
-        const res = await axios.post("http://localhost:4001/addnfr", {
+        const res = await axios.post("/api/addnfr", {
           itemGroup,
           vendorNames,
           modelName,
@@ -62,7 +62,7 @@ function AddNfr() {
   };
   useEffect(() => {
     const fetchapi = async () => {
-      const res = await axios.get("http://localhost:4001/consumerlist");
+      const res = await axios.get("/api/consumerlist");
       setVendorName(res.data);
       console.log(res.data)
     };

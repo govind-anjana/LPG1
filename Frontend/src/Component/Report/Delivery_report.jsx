@@ -45,7 +45,7 @@ function Delivery_report() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get("http://localhost:4001/deliverylist");
+      const res = await axios.get("/api/deliverylist");
       const result = res.data;
 
       const filtered = result.filter(

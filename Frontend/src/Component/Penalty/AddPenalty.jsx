@@ -33,7 +33,7 @@ function AddPenalty() {
   ];
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/penaltylist");
+      const res = await axios.get("/api/penaltylist");
       setPenaltyList(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -48,10 +48,10 @@ function AddPenalty() {
     alert();
   }
   async function Deletehandle(id) {
-    const valid = confirm("Delete kg Refill Delivery");
+    const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(`http://localhost:4001/deletepenalty/${id}`);
+        const res = await axios.delete(`/api/deletepenalty/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -62,7 +62,7 @@ function AddPenalty() {
     e.preventDefault();
 
     await axios
-      .post("http://localhost:4001/addpenalty", {
+      .post("/api/addpenalty", {
         employeeName,
         amount,
         remarks,

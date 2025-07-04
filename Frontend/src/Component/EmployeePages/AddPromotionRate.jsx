@@ -18,7 +18,7 @@ function AddPromotionRate() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4001/addpromotion", {
+      const res = await axios.post("/api/addpromotion", {
         itId:1,
         promotion,
         rate,

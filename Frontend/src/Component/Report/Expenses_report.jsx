@@ -25,7 +25,7 @@ function Expenses_report() {
   const handleSubmit =async (e) => {
     e.preventDefault();
      try {
-      const res = await axios.get("http://localhost:4001/expenselist");
+      const res = await axios.get("/api/expenselist");
       const result = res.data;
 
      const filtered = result.filter((item) =>

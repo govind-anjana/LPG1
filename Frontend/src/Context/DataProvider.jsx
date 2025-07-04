@@ -7,7 +7,7 @@ const DataProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:4001/addratelist") 
+    axios.get("/api/addratelist") 
       .then((res) => {
         setData(res.data);
         setLoading(false);

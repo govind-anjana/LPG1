@@ -34,7 +34,7 @@ function Sales_report() {
    const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const res = await axios.get("http://localhost:4001/salelist");
+    const res = await axios.get("/api/salelist");
     const result = res.data;
 
     const filtered = result.filter((item) =>

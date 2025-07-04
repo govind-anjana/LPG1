@@ -23,7 +23,7 @@ function Nft_report() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get("http://localhost:4001/nfrlist");
+      const res = await axios.get("/api/nfrlist");
       const result = res.data;
 
       const filtered = result.filter(

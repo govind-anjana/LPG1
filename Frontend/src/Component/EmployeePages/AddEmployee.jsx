@@ -26,7 +26,7 @@ function AddEmployee() {
    
 useEffect(() => {
     if (editId) {
-      axios.get(`http://localhost:4001/employee/${editId}`).then((res) => {
+      axios.get(`/api/employee/${editId}`).then((res) => {
         const result= res.data;
       setAadhar(result.aadhar),
       setAddress(result.address),
@@ -52,7 +52,7 @@ useEffect(() => {
   const handleSubmit = async(e) => {
     e.preventDefault();
      if (editId) {
-      await axios.put(`http://localhost:4001/employee/${editId}`,{ userType,
+      await axios.put(`/api/employee/${editId}`,{ userType,
         name,
         mobile,
         salaryType,
@@ -73,7 +73,7 @@ useEffect(() => {
       alert("Updated Successfully");
     } else {
     axios
-      .post("http://localhost:4001/addEmployee", {
+      .post("/api/addEmployee", {
         userType,
         name,
         mobile,

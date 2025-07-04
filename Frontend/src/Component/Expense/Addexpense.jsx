@@ -20,7 +20,7 @@ function AddExpense() {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/expenselist");
+      const res = await axios.get("/api/expenselist");
       setExpense_list(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -36,7 +36,7 @@ function AddExpense() {
     }
     const fetchapi = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/expenseheadlist");
+        const res = await axios.get("/api/expenseheadlist");
         setExpenseName(res.data);
         // alert(res.data)
       } catch (err) {
@@ -50,7 +50,7 @@ function AddExpense() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (id) {
-      const res = await axios.put(`http://localhost:4001/updateexpense/${id}`, {
+      const res = await axios.put(`/api/updateexpense/${id}`, {
         userType,
         names,
         expenseHead,
@@ -63,7 +63,7 @@ function AddExpense() {
        fetchEmployees()
     } else {
       try {
-        const res = await axios.post("http://localhost:4001/addexpense", {
+        const res = await axios.post("/api/addexpense", {
           userType,
           names,
           expenseHead,
@@ -92,7 +92,7 @@ function AddExpense() {
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deleteexpense/${id}`
+          `/api/deleteexpense/${id}`
         );
         fetchEmployees();
       } catch (err) {

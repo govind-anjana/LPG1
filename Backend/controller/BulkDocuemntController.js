@@ -31,3 +31,12 @@ export const deleteBulkDocument = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const UpdateBulkDocument = async (req, res) => {
+  const updated = await AddBulkModel.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.json(updated);
+};

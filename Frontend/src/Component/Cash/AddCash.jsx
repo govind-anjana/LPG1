@@ -25,7 +25,7 @@ function AddCash() {
     a10 * 10;
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/cashlist");
+      const res = await axios.get("/api/cashlist");
       setCashList(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -45,7 +45,7 @@ function AddCash() {
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deletecash/${id}`
+          `/api/deletecash/${id}`
         );
         fetchEmployees();
       } catch (err) {
@@ -62,7 +62,7 @@ function AddCash() {
     }
 
     await axios
-      .post("http://localhost:4001/addcash", {
+      .post("/api/addcash", {
         totalAmount,
       })
       .then((res) => {

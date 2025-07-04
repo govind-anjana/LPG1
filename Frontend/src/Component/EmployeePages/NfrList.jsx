@@ -10,7 +10,7 @@ function NfrList() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/nfrlist");
+        const res = await axios.get("/api/nfrlist");
         setNft_list(res.data);
       } catch (err) {
         console.error(" Error fetching employee list:", err.message);
@@ -28,7 +28,7 @@ function NfrList() {
     );
     if (!confirmDelete) return;
     try {
-      const res = await axios.delete(`http://localhost:4001/deletenfr/${id}`);
+      const res = await axios.delete(`/api/deletenfr/${id}`);
       setNft_list(res.data);
     } catch (err) {
       console.error("Error deleting employee:", err.message);

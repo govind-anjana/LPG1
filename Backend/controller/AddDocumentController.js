@@ -33,3 +33,9 @@ export const deleteDoc = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const updateDoc= async (req, res) => {
+  const updated = await AddDocModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updated);
+}
+

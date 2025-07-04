@@ -10,7 +10,7 @@ function DeliveryList() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/deliverylist");
+        const res = await axios.get("/api/deliverylist");
         setDelivery_list(res.data);
         
       } catch (err) {
@@ -28,7 +28,7 @@ function DeliveryList() {
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deletedelivery/${id}`
+          `/api/deletedelivery/${id}`
         );
         setDelivery_list(res.data);
       } catch (err) {

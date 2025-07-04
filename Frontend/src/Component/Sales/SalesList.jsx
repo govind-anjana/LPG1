@@ -10,7 +10,7 @@ function SalesList() {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/salelist");
+      const res = await axios.get("/api/salelist");
       setSales_list(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -29,7 +29,7 @@ function SalesList() {
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deletesale/${id}`
+          `/api/deletesale/${id}`
         );
         fetchEmployees();
       } catch (err) {

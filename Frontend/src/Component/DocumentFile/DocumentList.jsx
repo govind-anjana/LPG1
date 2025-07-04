@@ -4,13 +4,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 function DocumentList() {
+  const navigate = useNavigate();
   const [document_List, setDocument_list] = useState([]);
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/documentlist");
+      const res = await axios.get("/api/documentlist");
       setDocument_list(res.data);
+      console.log(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
     }
@@ -19,17 +22,15 @@ function DocumentList() {
     fetchEmployees();
   }, []);
 
-  function Edithandle() {
-    alert();
+  function Edithandle(id, data) {
+    navigate(`/document/document/${id}`, { state: { empData: data } });
   }
 
   async function Deletehandle(id) {
-    const valid = confirm("Delete Delivery");
+    const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(
-          `http://localhost:4001/deletedocument/${id}`
-        );
+        const res = await axios.delete(`/api/deletedocument/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -58,13 +59,12 @@ function DocumentList() {
         <div className="table-responsive px-2 pb-2">
           <table className="table table-striped" style={{ fontSize: "13px" }}>
             <thead className="table-secondary">
-              <tr style={{ verticalAlign: "top",textAlign:'center'  }}>
+              <tr style={{ verticalAlign: "top", textAlign: "center" }}>
                 <th>Date</th>
                 <th>Connection Type</th>
                 <th>Doc Type</th>
                 <th>Delivery Man Name</th>
                 <th>Consumer Name</th>
-                <th>Document Charges</th>
                 <th>Cylinder QTY</th>
                 <th>Total Amount</th>
                 <th>Action</th>
@@ -79,13 +79,14 @@ function DocumentList() {
                     <td>{item.itemType}</td>
                     <td>{item.deliveryMan}</td>
                     <td>{item.consumerName}</td>
-                    <td>{item.docCharges}</td>
                     <td>{item.cylQty}</td>
-                    <td>yes</td>
+                    <td>{(item.totalamount) || (item.finalAmount)}</td>
                     <td>
-                      
-                      <div className="divbtn fs-5 ">
-                        <FaEdit className="me-2" onClick={Edithandle} />
+                      <div className="divbtn">
+                        <FaEdit
+                          className="me-2"
+                          onClick={() => Edithandle(item._id, item)}
+                        />
                         <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
                       </div>
                     </td>

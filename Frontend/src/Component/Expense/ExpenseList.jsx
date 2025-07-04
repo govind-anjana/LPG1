@@ -9,7 +9,7 @@ function ExpenseList() {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/expenselist");
+      const res = await axios.get("/api/expenselist");
       setExpense_list(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -22,11 +22,11 @@ function Edithandle(id, emp) {
     navigate(`/expense/expense/${id}`, { state: { empData: emp } });
   }
   async function Deletehandle(id) {
-    const valid = confirm("Delete Delivery");
+    const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deleteexpense/${id}`
+          `/api/deleteexpense/${id}`
         );
         fetchEmployees();
       } catch (err) {

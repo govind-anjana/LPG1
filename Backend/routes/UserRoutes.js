@@ -47,6 +47,7 @@ import {
   AddDoc,
   deleteDoc,
   DocList,
+  updateDoc,
 } from "../controller/AddDocumentController.js";
 import {
   AddSale,
@@ -69,6 +70,8 @@ import {
   BulkDocument,
   BulkDocumentList,
   deleteBulkDocument,
+  UpdateBulkDocument,
+  
 } from "../controller/BulkDocuemntController.js";
 import {
   AddDeposit,
@@ -149,6 +152,7 @@ router.delete("/deleteconsumer/:id", deleteconsumer);
 router.post("/adddocument", AddDoc);
 router.get("/documentlist", DocList);
 router.delete("/deletedocument/:id", deleteDoc);
+router.put("/updatedocument/:id",updateDoc)
 
 router.post("/addsale", AddSale);
 router.get("/salelist", SaleList);
@@ -167,6 +171,7 @@ router.put("/updateexpenses/:id", UpdateExpenseHead);
 router.post("/addbulkdoc", BulkDocument);
 router.get("/bulkdoclist", BulkDocumentList);
 router.delete("/deletebulkdoc/:id", deleteBulkDocument);
+router.put("/updatebulk/:id",UpdateBulkDocument)
 
 router.post("/adddeposit", AddDeposit);
 router.get("/depositlist", DepositList);

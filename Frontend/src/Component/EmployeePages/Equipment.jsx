@@ -12,7 +12,7 @@ function Equipment() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/equipment");
+        const res = await axios.get("/api/equipment");
         setEmployees(res.data);
         console.log(res.data);
       } catch (err) {
@@ -34,7 +34,7 @@ function Equipment() {
     if (!confirmDelete) return;
     try {
       const res = await axios.delete(
-        `http://localhost:4001/deleteemployee/${id}`
+        `/api/deleteemployee/${id}`
       );
       setEmployees(res.data);
     } catch (err) {

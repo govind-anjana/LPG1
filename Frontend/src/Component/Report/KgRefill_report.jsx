@@ -23,7 +23,7 @@ function KgRefill_report() {
  useEffect(() => {
     const fetchNames = async () => {
       try {
-        const results = await axios.get("http://localhost:4001/kgrefilllist");
+        const results = await axios.get("/api/kgrefilllist");
         setNameList(results.data);
       } catch (err) {
         console.error("Failed to load consumer list", err);
@@ -34,7 +34,7 @@ function KgRefill_report() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get("http://localhost:4001/kgrefilllist");
+      const res = await axios.get("/api/kgrefilllist");
       const result = res.data;
       
       const filtered = result.filter(

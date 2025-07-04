@@ -71,7 +71,7 @@ function AddDelivery() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4001/addDelivery", {
+      const res = await axios.post("/api/addDelivery", {
         validTo,
         currentRate,
         dmanID,

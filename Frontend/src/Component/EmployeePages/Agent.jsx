@@ -24,7 +24,7 @@ function Agent() {
   };
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/masterlist");
+      const res = await axios.get("/api/masterlist");
       setAgentList(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -36,7 +36,7 @@ function Agent() {
   async function Deletehandle(id) {
     try {
       const res = await axios.delete(
-        `http://localhost:4001/deleteagent/${id}`
+        `/api/deleteagent/${id}`
       );
       console.log(res.data)
       fetchEmployees();
@@ -50,7 +50,7 @@ function Agent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4001/master", formData);
+      const res = await axios.post("/api/master", formData);
       alert(res.data.message);
       fetchEmployees();
       setFormData({

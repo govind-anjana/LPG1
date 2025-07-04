@@ -48,7 +48,7 @@ function Kgrefill() {
   async function handleSubmit(e) {
     e.preventDefault();
     await axios
-      .post("http://localhost:4001/addkgrefill", {
+      .post("/api/addkgrefill", {
         consumerName,
         equipment,
         deliveryMan,

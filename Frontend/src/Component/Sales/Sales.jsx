@@ -24,7 +24,7 @@ function Sales() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4001/addsale", {
+      const res = await axios.post("/api/addsale", {
         conType,
         model,
         rate,

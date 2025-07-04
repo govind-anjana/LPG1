@@ -59,7 +59,7 @@ function DocumentForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4001/adddocument", {
+      const res = await axios.post("/api/adddocument", {
         connection,
         equipment,
         itemType,

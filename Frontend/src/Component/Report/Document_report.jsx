@@ -43,7 +43,7 @@ function Document_report() {
   const handleSubmit =async (e) => {
     e.preventDefault();
       try {
-      const res = await axios.get("http://localhost:4001/documentlist");
+      const res = await axios.get("/api/documentlist");
       const result = res.data;
 
      const filtered = result.filter((item) =>

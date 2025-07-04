@@ -1,7 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function BulkDocuments() {
+  const times = new Date().toLocaleTimeString();
   const [agentName, setAgentName] = useState("");
   const [promotionType, setPromotionType] = useState("");
   const [documentSubmit, setDocumentSubmit] = useState("");
@@ -11,25 +14,52 @@ function BulkDocuments() {
   const [rtIssue, setRtIssue] = useState("");
   const [amountDeposit, setAmountDeposit] = useState("");
   const [svDiscount, setSvDiscount] = useState("");
+  const [agentList, setAgentList] = useState([]);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const editData = location.state?.empData;
 
   async function handleSubmit(e) {
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:4001/addbulkdoc", {
-        agentName,
-        promotionType,
-        documentSubmit,
-        svPrepared,
-        cylinderIssue,
-        prIssue,
-        rtIssue,
-        amountDeposit,
-        svDiscount,
-      });
-
-      alert(res.data.message);
-    } catch (err) {
-      alert("Failed to save agent.", err.message);
+    if (id) {
+      try {
+        const res = await axios.put(`/api/updatebulk/${id}`, {
+          agentName,
+          promotionType,
+          documentSubmit,
+          svPrepared,
+          cylinderIssue,
+          prIssue,
+          rtIssue,
+          amountDeposit,
+          svDiscount,
+          update_ty: "U",
+        });
+        alert("Update Data");
+        navigate("/bulkDocumentList");
+      } catch (err) {
+        alert("Failed to save agent.", err.message);
+      }
+    } else {
+      try {
+        const res = await axios.post("/api/addbulkdoc", {
+          agentName,
+          promotionType,
+          documentSubmit,
+          svPrepared,
+          cylinderIssue,
+          prIssue,
+          rtIssue,
+          amountDeposit,
+          svDiscount,
+          update_ty: "A",
+          times,
+        });
+        alert(res.data.message);
+      } catch (err) {
+        alert("Failed to save agent.", err.message);
+      }
     }
     setAgentName("");
     setPromotionType("");
@@ -41,13 +71,46 @@ function BulkDocuments() {
     setAmountDeposit("");
     setSvDiscount("");
   }
-
+  const PromotionList = [
+    "SBC WITH HOTPLATE",
+    "SBC WITH OUT HOTPLATE",
+    "DBC WITH HOTPLATE",
+    "DBC WITH OUT HOTPLATE",
+    "DBC",
+  ];
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const res = await axios.get("/api/masterlist");
+        setAgentList(res.data);
+        // console.log(res.data);
+      } catch (err) {
+        console.error(" Error fetching employee list:", err.message);
+      }
+    };
+    fetchEmployees();
+  }, []);
+  useEffect(() => {
+    if (id && editData) {
+      setAgentName(editData.agentName);
+      setPromotionType(editData.promotionType);
+      setDocumentSubmit(editData.documentSubmit);
+      setSvPrepared(editData.svPrepared);
+      setCylinderIssue(editData.cylinderIssue);
+      setPrIssue(editData.prIssue);
+      setRtIssue(editData.rtIssue);
+      setAmountDeposit(editData.amountDeposit);
+      setSvDiscount(editData.svDiscount);
+    }
+  }, [id, editData]);
   return (
     <div className="allworking boxdesign">
       <span className="fs-4 fw-semibold">Add Bulk Document</span>
 
       <div className="mt-3 settion p-3   bg-light rounded-3 border-warning border-3 shadow-sm">
-        <span className="fs-5 fw-semibold">Refill</span>
+        <span className="fs-5 fw-semibold">
+          {id ? "Edit Bulk Document" : "Add Bulk Document"}
+        </span>
         <form onSubmit={handleSubmit}>
           <div className="box-body row mt-2">
             <div className="form-group col-md-3">
@@ -58,8 +121,11 @@ function BulkDocuments() {
                 onChange={(e) => setAgentName(e.target.value)}
               >
                 <option value="">Select</option>
-                <option value="Agent A">Agent A</option>
-                <option value="Agent B">Agent B</option>
+                {agentList.map((item, index) => (
+                  <option key={index} value={item.agentName}>
+                    {item.agentName}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -71,8 +137,11 @@ function BulkDocuments() {
                 onChange={(e) => setPromotionType(e.target.value)}
               >
                 <option value="">Select</option>
-                <option value="New">New</option>
-                <option value="Old">Old</option>
+                {PromotionList.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
               </select>
             </div>
 

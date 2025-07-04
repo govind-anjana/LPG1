@@ -15,7 +15,7 @@ function EditEquipment() {
   const handleSubmit = (e) => {
     e.preventDefault();  
     axios
-      .put(`http://localhost:4001/equipment/${id}`, {
+      .put(`/api/equipment/${id}`, {
         op_stock: strock,
         update_flag: up, 
       })

@@ -42,7 +42,7 @@ function ExpenseHead() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4001/adddeposit", {
+      const res = await axios.post("/api/adddeposit", {
         userType,
         equipmentType,
         employeeName,

@@ -10,9 +10,9 @@ const AddBulkSchema = new mongoose.Schema(
     prIssue: Number,
     rtIssue: Number,
     amountDeposit: Number,
-    amountDeposit: Number,
-    amountDeposit: Number,
     svDiscount: Number,
+    update_ty: String,
+    times: String,
     date: {
       type: Date,
       default: Date.now,

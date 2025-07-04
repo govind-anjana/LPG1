@@ -9,9 +9,9 @@ function RateList() {
   const [Rate_list, setRate_list] = useState([]);
   const fetchRateList = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/addratelist");
+      const res = await axios.get("/api/addratelist");
       setRate_list(res.data);
-      console.log(res);
+      // console.log(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
     }
@@ -25,13 +25,13 @@ function RateList() {
   async function Deletehandle(id) {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
-    try {
-      const res = await axios.delete(`http://localhost:4001/deleterate/${id}`);
-      fetchRateList();
-    } catch (err) {
-      console.error("Error deleting employee:", err.message);
+      try {
+        const res = await axios.delete(`/api/deleterate/${id}`);
+        fetchRateList();
+      } catch (err) {
+        console.error("Error deleting employee:", err.message);
+      }
     }
-  }
   }
   return (
     <div className="ratelist boxdesign">
@@ -119,12 +119,10 @@ function RateList() {
                 </tr>
               )}
             </tbody>
-            
-            
           </table>
-                <div className="text-muted small">
-                  Records: 1 to {Rate_list.length} of {Rate_list.length}
-                </div>
+          <div className="text-muted small">
+            Records: 1 to {Rate_list.length} of {Rate_list.length}
+          </div>
         </div>
       </div>
     </div>

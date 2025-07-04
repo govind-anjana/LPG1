@@ -11,7 +11,7 @@ function DepositCyllist() {
 
    const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:4001/depositlist");
+      const res = await axios.get("/api/depositlist");
       setDeposit_List(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
