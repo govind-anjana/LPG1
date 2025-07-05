@@ -33,3 +33,8 @@ export const deleteSale = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+export const UpdateSale= async (req, res) => {
+  const updated = await AddSaleModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updated);
+}
+

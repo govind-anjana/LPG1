@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const AddProSchema = new mongoose.Schema(
   {
-    itId: String,
+    
     promotion: String,
     rate: Number,
     qty: String,

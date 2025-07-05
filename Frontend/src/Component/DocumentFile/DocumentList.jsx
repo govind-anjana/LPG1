@@ -80,21 +80,36 @@ function DocumentList() {
                     <td>{item.deliveryMan}</td>
                     <td>{item.consumerName}</td>
                     <td>{item.cylQty}</td>
-                    <td>{(item.totalamount) || (item.finalAmount)}</td>
+                    <td>{item.finalAmount}</td>
                     <td>
                       <div className="divbtn">
-                        <FaEdit
-                          className="me-2"
-                          onClick={() => Edithandle(item._id, item)}
-                        />
-                        <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
+                        {item.update_ty == "A" ? (
+                          <span>
+                            <FaEdit
+                              onClick={() => Edithandle(item._id, item)}
+                              title="Edit"
+                            />
+                            <FaDeleteLeft
+                              onClick={() => Deletehandle(item._id)}
+                              title="Delete"
+                              className="ms-3"
+                            />
+                          </span>
+                        ) : (
+                          <span
+                            style={{ cursor: "not-allowed", color: "silver" }}
+                          >
+                            <FaEdit />
+                            <FaDeleteLeft className="ms-3" />
+                          </span>
+                        )}
                       </div>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={10} className="text-center align-middle">
+                  <td colSpan={8} className="text-center align-middle">
                     <div className="text-center py-3">
                       <span className="text-warning">
                         No data available in table
@@ -109,6 +124,11 @@ function DocumentList() {
                   </td>
                 </tr>
               )}
+              <tr>
+                <td colSpan={8}>
+                  <span className=" text-muted small">{`Records : 1 to ${document_List.length} to  ${document_List.length}`}</span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

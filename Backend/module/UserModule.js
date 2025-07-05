@@ -19,7 +19,8 @@ const EmployeeSchema = new mongoose.Schema(
     advance: String,
     deposit: Number,
     discount: Number,
-    date: String,
+    update_ty:String,
+    times:String
   },
   {
     collection: "addemployees",

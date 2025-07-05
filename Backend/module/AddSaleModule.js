@@ -2,12 +2,13 @@ import mongoose from "mongoose";
 
 const AddSaleSchema = new mongoose.Schema(
   {
-    conType:String,
-    model:String,
-    rate:Number,
-    qty:Number,
-    payment:String,
-    remarks:String,
+    conType: String,
+    model: String,
+    rate: Number,
+    qty: Number,
+    payment: String,
+    remarks: String,
+    update_ty: String,
     date: {
       type: Date,
       default: Date.now,

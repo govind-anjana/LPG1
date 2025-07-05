@@ -5,7 +5,7 @@ export const Addnfr = async (req, res) => {
     const newadd = new AddNfrModel(data);
     const saveUser = await newadd.save();
     
-    res.status(201).json({ message: "Employee added", data: saveUser });
+    res.status(201).json({ message: "NFR Add", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
     res.status(500).json({ message: "Failed to save", error: err.message });

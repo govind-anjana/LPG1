@@ -20,14 +20,14 @@ function AddEmployee() {
   const [advance, setAdvance] = useState("");
   const [deposit, setDeposit] = useState("");
   const [discount, setDiscount] = useState("");
-  const today = new Date().toISOString().split("T")[0];
+  const times = new Date().toLocaleTimeString();
   const location = useLocation();
   const editId = location.state?.id;
    
 useEffect(() => {
     if (editId) {
       axios.get(`/api/employee/${editId}`).then((res) => {
-        const result= res.data;
+      const result= res.data;
       setAadhar(result.aadhar),
       setAddress(result.address),
       setAddress2(result.address2),
@@ -69,7 +69,8 @@ useEffect(() => {
         advance,
         deposit,
         discount,
-        date: today,} );
+       update_ty:"U"
+      } );
       alert("Updated Successfully");
     } else {
     axios
@@ -91,7 +92,8 @@ useEffect(() => {
         advance,
         deposit,
         discount,
-        date: today,
+        update_ty:"A",
+        times
       })
       .then((res) => alert(res.data.message))
       .catch((err) => console.log(err));
@@ -143,7 +145,7 @@ useEffect(() => {
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter name"
+              placeholder="Enter Your Name"
             />
           </div>
           <div className="col-md-3 mb-3">
@@ -153,7 +155,8 @@ useEffect(() => {
               name="mobile"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
-              placeholder="Enter mobile"
+              placeholder="Enter Mobile Number"
+              required
             />
           </div>
           <div className="col-md-3 mb-3">
@@ -162,6 +165,7 @@ useEffect(() => {
               name="salaryType"
               value={salaryType}
               onChange={(e) => setSalaryType(e.target.value)}
+             
             >
               <option>Select</option>
               <option value="Day Wise">Day Wise</option>
@@ -176,6 +180,8 @@ useEffect(() => {
               name="salaryAmount"
               value={salaryAmount}
               onChange={(e) => setSalaryAmount(e.target.value)}
+               placeholder="Enter Your Salary"
+               required
             />
           </div>
 
@@ -186,15 +192,18 @@ useEffect(() => {
               name="address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
+              placeholder="Enter Your Address"
             />
           </div>
           <div className="col-md-3 mb-3">
             <label className="form-label">Address 2</label>
+          
             <input
               type="text"
               name="address2"
               value={address2}
               onChange={(e) => setAddress2(e.target.value)}
+               placeholder="Enter Your Address"
             />
           </div>
           <div className="col-md-3 mb-3">
@@ -204,6 +213,7 @@ useEffect(() => {
               name="address3"
               value={address3}
               onChange={(e) => setAddress3(e.target.value)}
+               placeholder="Enter Your Address"
             />
           </div>
 
@@ -214,6 +224,8 @@ useEffect(() => {
               name="city"
               value={city}
               onChange={(e) => setCity(e.target.value)}
+               placeholder="Enter Your City"
+               required
             />
           </div>
 
@@ -224,6 +236,8 @@ useEffect(() => {
               name="district"
               value={district}
               onChange={(e) => setDistrict(e.target.value)}
+               placeholder="Enter Your District"
+               required
             />
           </div>
 
@@ -234,6 +248,7 @@ useEffect(() => {
               name="state"
               value={state}
               onChange={(e) => setState(e.target.value)}
+               placeholder="Enter Your State"
             />
           </div>
 
@@ -244,6 +259,8 @@ useEffect(() => {
               name="aadhar"
               value={aadhar}
               onChange={(e) => setAadhar(e.target.value)}
+               placeholder="************"
+              required
             />
           </div>
 
@@ -254,6 +271,8 @@ useEffect(() => {
               name="licence"
               value={licence}
               onChange={(e) => setLicence(e.target.value)}
+               placeholder="*********"
+
             />
           </div>
 
@@ -264,6 +283,7 @@ useEffect(() => {
               name="vchNo"
               value={vchNo}
               onChange={(e) => setVchNo(e.target.value)}
+               placeholder="**********"
             />
           </div>
 
@@ -274,6 +294,7 @@ useEffect(() => {
               name="advance"
               value={advance}
               onChange={(e) => setAdvance(e.target.value)}
+             
             />
           </div>
 
@@ -283,7 +304,7 @@ useEffect(() => {
               type="number"
               name="deposit"
               value={deposit}
-              onChange={(e) => setDeposit(e.target.value)}
+              onChange={(e) => setDeposit(e.target.value)}  
             />
           </div>
 
@@ -294,6 +315,7 @@ useEffect(() => {
               name="discount"
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
+              
             />
           </div>
 

@@ -10,11 +10,13 @@ import {
   AgentEmployeeList,
   AgentEmployee,
   deleteAgent,
+  AgentUpdate,
 } from "../controller/AgentController.js";
 import {
   AddPro,
   AddProList,
   deletePro,
+  UpdatePromotion,
 } from "../controller/AddPromotionController.js";
 import {
   AddRateEmployee,
@@ -53,6 +55,7 @@ import {
   AddSale,
   deleteSale,
   SaleList,
+  UpdateSale,
 } from "../controller/AddSaleController.js";
 import {
   AddExpense,
@@ -119,6 +122,7 @@ router.put("/equipment/:id", EquipmentUpdate);
 router.post("/master", AgentEmployee);
 router.get("/masterlist", AgentEmployeeList);
 router.delete("/deleteagent/:id", deleteAgent);
+router.put("/master/:id",AgentUpdate)
 
 router.post("/planttransaction", PlantTran);
 router.get("/plantlist", PlantList);
@@ -127,6 +131,7 @@ router.delete("/plantdelete/:id", deletePlant);
 router.post("/addpromotion", AddPro);
 router.get("/promotionlist", AddProList);
 router.delete("/deletepro/:id", deletePro);
+router.put("/promtionupdate/:id",UpdatePromotion)
 
 router.post("/addrate", AddRateEmployee);
 router.get("/addratelist", AddRateList);
@@ -157,6 +162,7 @@ router.put("/updatedocument/:id",updateDoc)
 router.post("/addsale", AddSale);
 router.get("/salelist", SaleList);
 router.delete("/deletesale/:id", deleteSale);
+router.put("/updatesale/:id",UpdateSale)
 
 router.post("/addexpense", AddExpense);
 router.get("/expenselist", ExpenseList);

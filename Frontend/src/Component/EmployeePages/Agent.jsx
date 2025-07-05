@@ -3,16 +3,21 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function Agent() {
   const [agentList, setAgentList] = useState([]);
-
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
+  const editData = location.state?.empData;
   const [formData, setFormData] = useState({
     agentName: "",
     mobile: "",
     address: "",
     promotionName: "",
     discount: "",
+    update_ty: "A",
   });
 
   const handleChange = (e) => {
@@ -30,15 +35,17 @@ function Agent() {
       console.error(" Error fetching employee list:", err.message);
     }
   };
-  function Edithandle() {
-    alert();
+  function Edithandle(id, data) {
+    navigate(`/agent/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this record?"
+    );
+    if (!confirmDelete) return;
     try {
-      const res = await axios.delete(
-        `/api/deleteagent/${id}`
-      );
-      console.log(res.data)
+      const res = await axios.delete(`/api/deleteagent/${id}`);
+      console.log(res.data);
       fetchEmployees();
     } catch (err) {
       console.error("Error deleting employee:", err.message);
@@ -46,23 +53,37 @@ function Agent() {
   }
   useEffect(() => {
     fetchEmployees();
+      setFormData({
+      agentName: "",
+      mobile: "",
+      address: "",
+      promotionName: "",
+      discount: "",
+    });
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("/api/master", formData);
-      alert(res.data.message);
+    if (id) {
+      const res = await axios.put(`/api/master/${id}`, formData);
+      alert("Update Data");
       fetchEmployees();
-      setFormData({
-        agentName: "",
-        mobile: "",
-        address: "",
-        promotionName: "",
-        discount: "",
-      });
-    } catch (err) {
-      alert("Failed to save agent.");
+      console.log(res);
+    } else {
+      try {
+        const res = await axios.post("/api/master", formData);
+        alert(res.data.message);
+        fetchEmployees();
+      } catch (err) {
+        alert("Failed to save agent.");
+      }
     }
+    setFormData({
+      agentName: "",
+      mobile: "",
+      address: "",
+      promotionName: "",
+      discount: "",
+    });
   };
   const promotion_type = [
     "SBC WITH HOTPLATE",
@@ -71,7 +92,18 @@ function Agent() {
     "DBC WITH OUT HOTPLATE",
     "DBC",
   ];
-
+  useEffect(() => {
+    if (id && editData) {
+      setFormData({
+        agentName: editData.agentName,
+        mobile: editData.mobile,
+        address: editData.address,
+        promotionName: editData.promotionName,
+        discount: editData.discount,
+        update_ty: "U",
+      });
+    }
+  }, [id, editData]);
   return (
     <div className="allworking boxdesign">
       <span className="fs-4 fw-semibold">Add Agent</span>
@@ -118,17 +150,16 @@ function Agent() {
               <div className="col-6 mb-3">
                 <label className="form-label">Promotion Name</label>
                 <select
-                  
                   name="promotionName"
                   value={formData.promotionName}
                   onChange={handleChange}
                 >
-                 <option value="">Select Promotion Type</option>
-                 {promotion_type.map((type, index) => (
-                <option key={index} value={type}>
-                  {type}
-                </option>
-              ))}
+                  <option value="">Select Promotion Type</option>
+                  {promotion_type.map((type, index) => (
+                    <option key={index} value={type}>
+                      {type}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -161,7 +192,7 @@ function Agent() {
               placeholder="Search..."
               style={{ maxWidth: "180px" }}
             />
-            <div>{agentList.length}</div>
+            <div></div>
           </div>
 
           <div className="table-responsive">
@@ -187,9 +218,27 @@ function Agent() {
                       <td>{item.address}</td>
                       <td>{item.discount}</td>
                       <td>
-                        <div className="divbtn fs-5 ">
-                          <FaEdit className="me-2" onClick={Edithandle} />
-                          <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
+                        <div className="divbtn">
+                          {item.update_ty == "A" ? (
+                            <span>
+                              <FaEdit
+                                onClick={() => Edithandle(item._id, item)}
+                                title="Edit"
+                              />
+                              <FaDeleteLeft
+                                onClick={() => Deletehandle(item._id)}
+                                title="Delete"
+                                className="ms-3"
+                              />
+                            </span>
+                          ) : (
+                            <span
+                              style={{ cursor: "not-allowed", color: "silver" }}
+                            >
+                              <FaEdit />
+                              <FaDeleteLeft className="ms-3" />
+                            </span>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -215,7 +264,13 @@ function Agent() {
                     </td>
                   </tr>
                 )}
+                 <tr>
+             <td colSpan={5}>
+                <span className=" text-muted small">{`Records : 1 to ${agentList.length} to  ${agentList.length}`}</span>
+                </td>
+             </tr>
               </tbody>
+
             </table>
           </div>
         </div>

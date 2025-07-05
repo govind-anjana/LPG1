@@ -64,7 +64,10 @@ function App() {
               <Route path="/equipment" element={<Equipment />} />
              <Route path="/equipment/:id" element={<EditEquipment />} />
               <Route path="/agent" element={<Agent />} />
+              <Route path="/agent/:id" element={<Agent />} />
+
               <Route path="/promotion/rate" element={<AddPromotionRate />} />
+              <Route path="/promotion/rate/:id" element={<AddPromotionRate />} />
               <Route path="/promation" element={<PromotionRateList />} />
               <Route path="/rate/rate" element={<AddRate />} />
               <Route path="/rate" element={<RateList />} />
@@ -79,6 +82,7 @@ function App() {
               <Route path="/document/document/:id" element={<AddDocument />} />
               <Route path="/document" element={<DocumentList />} />
               <Route path="/sales/sales" element={<Sales />} />
+              <Route path="/sales/sales/:id" element={<Sales />} />
               <Route path="/sales" element={<SalesList />} />
               <Route path="/expenses/expenses" element={<Addexpense />} />
               <Route path="/expenses/expenses/:id" element={<Addexpense />} />

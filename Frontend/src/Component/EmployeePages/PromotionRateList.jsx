@@ -2,30 +2,38 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
-import {Link} from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 function PromotionRateList() {
   const [promotion_list, setPromotion_list] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchEmployees = async () => {
+    try {
+      const res = await axios.get("/api/promotionlist");
+      setPromotion_list(res.data);
+    } catch (err) {
+      console.error(" Error fetching employee list:", err.message);
+    }
+  };
   useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        const res = await axios.get("/api/promotionlist");
-        setPromotion_list(res.data);
-      } catch (err) {
-        console.error(" Error fetching employee list:", err.message);
-      }
-    };
     fetchEmployees();
   }, []);
- function Edithandle(){
-    alert()
+  function Edithandle(id, data) {
+    navigate(`/promotion/rate/${id}`, { state: { empData: data } });
   }
- async function Deletehandle(id){
-       try {
-    const res = await axios.delete(`/api/deleteemployee/${id}`);
-    setEmployees(res.data);
-  } catch (err) {
-    console.error("Error deleting employee:", err.message);
-  }
+  async function Deletehandle(id) {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this record?"
+    );
+    if (!confirmDelete) return;
+    {
+      try {
+        const res = await axios.delete(`/api/deletepro/${id}`);
+        fetchEmployees();
+      } catch (err) {
+        console.error("Error deleting employee:", err.message);
+      }
+    }
   }
   return (
     <div className="promotionrate allworking boxdesign">
@@ -38,12 +46,19 @@ function PromotionRateList() {
             placeholder="Search...."
             style={{ maxWidth: "180px" }}
           />
-          <div><Link to="/promotion/rate"><button className="btn btn-dark btn-sm px-3">Add Rate</button></Link></div>
+          <div>
+            <Link to="/promotion/rate">
+              <button className="btn btn-dark btn-sm px-3">Add Rate</button>
+            </Link>
+          </div>
         </div>
         <div className="table-responsive px-2 pb-2">
-          <table className="table table-striped text-capitalize" style={{ fontSize: "14px ", borderCollapse:'inherit' }}>
+          <table
+            className="table table-striped text-capitalize"
+            style={{ fontSize: "14px ", borderCollapse: "inherit" }}
+          >
             <thead className="table-secondary">
-              <tr style={{ verticalAlign: "top",textAlign:'center'  }}>
+              <tr style={{ verticalAlign: "top", textAlign: "center" }}>
                 <th>Promotion Rate</th>
                 <th>Promotion Type</th>
                 <th>Description</th>
@@ -58,8 +73,33 @@ function PromotionRateList() {
                     <td>{item.rate}</td>
                     <td>{item.promotion}</td>
                     <td>{item.description}</td>
-                    <td>{(item.createdAt).split("T")[0]} {(item.times)}</td>
-                    <td> <div className="divbtn fs-5 "><FaEdit className="me-2" onClick={Edithandle} /><FaDeleteLeft onClick={()=>Deletehandle(item._id)} /></div></td>
+                    <td>
+                      {item.createdAt.split("T")[0]} {item.times}
+                    </td>
+                    <td>
+                      <div className="divbtn">
+                        {item.update_ty == "A" ? (
+                          <span>
+                            <FaEdit
+                              onClick={() => Edithandle(item._id, item)}
+                              title="Edit"
+                            />
+                            <FaDeleteLeft
+                              onClick={() => Deletehandle(item._id)}
+                              title="Delete"
+                              className="ms-3"
+                            />
+                          </span>
+                        ) : (
+                          <span
+                            style={{ cursor: "not-allowed", color: "silver" }}
+                          >
+                            <FaEdit />
+                            <FaDeleteLeft className="ms-3" />
+                          </span>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 ))
               ) : (
@@ -71,7 +111,7 @@ function PromotionRateList() {
                       </span>
                       <br />
                       <img
-                        src="http://plceholder.com/150"
+                        src="xyz.jpg"
                         alt="No data"
                         className="my-4"
                       />
@@ -83,6 +123,11 @@ function PromotionRateList() {
                   </td>
                 </tr>
               )}
+              <tr>
+                <td colSpan={5}>
+                  <span className=" text-muted small">{`Records : 1 to ${promotion_list.length} to  ${promotion_list.length}`}</span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

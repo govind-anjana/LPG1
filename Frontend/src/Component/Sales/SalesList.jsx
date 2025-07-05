@@ -4,10 +4,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function SalesList() {
   const [Sales_List, setSales_list] = useState([]);
-
+  const navigate=useNavigate()
   const fetchEmployees = async () => {
     try {
       const res = await axios.get("/api/salelist");
@@ -20,17 +20,15 @@ function SalesList() {
     fetchEmployees();
   }, []);
 
-  function Edithandle() {
-    alert();
+  function Edithandle(id,data) {
+      navigate(`/sales/sales/${id}`,{state:{empData:data}})
   }
 
   async function Deletehandle(id) {
     const valid = confirm("Delete Delivery");
     if (valid) {
       try {
-        const res = await axios.delete(
-          `/api/deletesale/${id}`
-        );
+        const res = await axios.delete(`/api/deletesale/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -50,18 +48,15 @@ function SalesList() {
             style={{ maxWidth: "180px" }}
           />
           <div>
-       
             <Link to="/sales/sales">
-              <button className="btn btn-dark btn-sm px-3 m-2">
-                Add sale
-              </button>
+              <button className="btn btn-dark btn-sm px-3 m-2">Add sale</button>
             </Link>
           </div>
         </div>
         <div className="table-responsive px-2 pb-2">
           <table className="table table-striped" style={{ fontSize: "13px" }}>
             <thead className="table-secondary">
-              <tr style={{ verticalAlign: "top",textAlign:'center' }}>
+              <tr style={{ verticalAlign: "top", textAlign: "center" }}>
                 <th>Sr No.</th>
                 <th>Sales Type</th>
                 <th>NFR Name</th>
@@ -84,16 +79,34 @@ function SalesList() {
                     <td>{item.payment}</td>
                     <td>{item.date?.split("T")[0]}</td>
                     <td>
-                      <div className="divbtn fs-5 ">
-                        <FaEdit className="me-2" onClick={Edithandle} />
-                        <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
+                      <div className="divbtn">
+                        {item.update_ty == "A" ? (
+                          <span>
+                            <FaEdit
+                              onClick={() => Edithandle(item._id, item)}
+                              title="Edit"
+                            />
+                            <FaDeleteLeft
+                              onClick={() => Deletehandle(item._id)}
+                              title="Delete"
+                              className="ms-3"
+                            />
+                          </span>
+                        ) : (
+                          <span
+                            style={{ cursor: "not-allowed", color: "silver" }}
+                          >
+                            <FaEdit />
+                            <FaDeleteLeft className="ms-3" />
+                          </span>
+                        )}
                       </div>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={10} className="text-center align-middle">
+                  <td colSpan={8} className="text-center align-middle">
                     <div className="text-center py-3">
                       <span className="text-warning">
                         No data available in table
@@ -112,6 +125,11 @@ function SalesList() {
                   </td>
                 </tr>
               )}
+              <tr>
+                <td colSpan={8}>
+                  <span className=" text-muted small">{`Records : 1 to ${Sales_List.length} to  ${Sales_List.length}`}</span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

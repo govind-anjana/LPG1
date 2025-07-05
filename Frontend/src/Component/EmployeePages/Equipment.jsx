@@ -14,7 +14,6 @@ function Equipment() {
       try {
         const res = await axios.get("/api/equipment");
         setEmployees(res.data);
-        console.log(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -107,11 +106,24 @@ function Equipment() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="9" className="text-center text-danger">
-                    No employee found
+                  <td colSpan={7} className="text-center align-middle">
+                    <div className="text-center py-3">
+                      <span className="text-warning">
+                        No data available in table
+                      </span>
+                      <br />
+                      <img src="govind.jpg" alt="No data" className="my-4" />
+                      <br />
+                      <span className="text-success">
+                        Add new record or search with different criteria.
+                      </span>
+                    </div>
                   </td>
                 </tr>
               )}
+                <tr>
+                <td colSpan={7}><span className="text-muted small">{`Records : 1 to ${employees.length} to  ${employees.length}`}</span></td>
+              </tr>
             </tbody>
           </table>
         </div>

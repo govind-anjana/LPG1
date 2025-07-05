@@ -1,13 +1,19 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddPromotionRate() {
   const [promotion, setPromotion] = useState("");
   const [rate, setRate] = useState("");
   const [qty, setQty] = useState("");
   const [description, setDescription] = useState("");
-  const news= new Date().toLocaleTimeString();
-  const today = new Date().toISOString().split("T")[0];
+  const times= new Date().toLocaleTimeString();
+  const navigate=useNavigate()
+  const {id}=useParams()
+  const location=useLocation()
+
+  const editData=location.state?.empData;
   const promotion_type = [
     "SBC WITH HOTPLATE",
     "SBC WITH OUT HOTPLATE",
@@ -17,25 +23,46 @@ function AddPromotionRate() {
   ];
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("/api/addpromotion", {
-        itId:1,
-        promotion,
-        rate,
-        qty,
-        description,
-        times: news,
-        update_ty:'A'
-      });
-      alert(res.data.message);
-      setDescription(""),
-      setPromotion("")
-      setQty("")
-      setRate("")
-    } catch (err) {
-      alert("Failed to save agent.");
+    if(id){
+          const res=await axios.put(`/api/promtionupdate/${id}`,{
+          promotion,
+          rate,
+          qty,
+          description,
+          update_ty:'U'
+          })
+          alert("update Data")
+          navigate("/promation")
     }
+    else {
+
+      try {
+        const res = await axios.post("/api/addpromotion", {
+          promotion,
+          rate,
+          qty,
+          description,
+          times,
+          update_ty:'A'
+        });
+        alert(res.data.message);
+      } catch (err) {
+        alert("Failed to save agent.");
+      }
+    }
+    setDescription(""),
+    setPromotion("")
+    setQty("")
+    setRate("")
   };
+  useEffect(()=>{
+    if(id && editData){
+      setDescription(editData.description)
+      setPromotion(editData.promotion)
+      setQty(editData.qty)
+      setRate(editData.rate)
+    }
+  },[id,editData])
 
   return (
     <div className="addpromotion allworking boxdesign">

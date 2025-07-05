@@ -33,3 +33,7 @@ export const deleteAgent = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+export const AgentUpdate= async (req, res) => {
+  const updated = await AgentModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updated);
+}

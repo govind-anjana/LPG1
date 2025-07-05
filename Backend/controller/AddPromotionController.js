@@ -31,3 +31,7 @@ export const deletePro = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+export const UpdatePromotion= async (req, res) => {
+  const updated = await AddProModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updated);
+}

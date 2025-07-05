@@ -121,7 +121,11 @@ function NfrList() {
                   </td>
                 </tr>
               )}
-              <span className=" text-end text-muted small">{`Records : 1 to ${nft_list.length} to  ${nft_list.length}`}</span>
+             <tr>
+             <td colSpan={7}>
+                <span className=" text-muted small">{`Records : 1 to ${nft_list.length} to  ${nft_list.length}`}</span>
+                </td>
+             </tr>
             </tbody>
           </table>
         </div>

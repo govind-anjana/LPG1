@@ -192,6 +192,11 @@ function AddItemDocument() {
     }
     navigator("/document")
   };
+ async function fetchModel(){
+     const models=await axios.get("/api/nfrlist");
+     console.log(models)
+   
+  }
   useEffect(() => {
     if (!promotionType) return;
     const fetchdata = async () => {
@@ -208,7 +213,6 @@ function AddItemDocument() {
           setTotalAmount(latestValidRate.rate);
           setCylQty(latestValidRate.qty);
           setPrQty(1);
-          // setCurrentRate(latestValidRate.totalRsp);
         } else {
           setPromotionType("");
           setFinalAmount(0);
@@ -223,6 +227,7 @@ function AddItemDocument() {
       }
     };
     fetchdata();
+    fetchModel()
   }, [promotionType]);
 
   useEffect(() => {
@@ -232,6 +237,8 @@ function AddItemDocument() {
     setCylQty(0);
     setPrQty(0);
     setPaddingA(0);
+    setCylDeposit(0)
+    setPrDeposit(0)
     if (itemType == "TV") {
       setCylDeposit(2200);
       setPrDeposit(250);

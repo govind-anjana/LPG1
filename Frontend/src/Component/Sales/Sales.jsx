@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function Sales() {
   const [conType, setConType] = useState("");
@@ -8,7 +10,10 @@ function Sales() {
   const [payment, setPayment] = useState("");
   const [model, setModel] = useState("");
   const [remarks, setRemarks] = useState("");
-
+  const navigate=useNavigate()
+  const { id } = useParams();
+  const location = useLocation();
+  const editData = location.state?.empData;
   const model_name = {
     nfr: ["14.2 KG Filled Cyl Domestic", "5 KG Filled Cyl Domestic"],
     equipment: [
@@ -23,6 +28,18 @@ function Sales() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(id){
+      const res=await axios.put(`/api/updatesale/${id}`,{ conType,
+        model,
+        rate,
+        qty,
+        payment,
+        remarks,
+        update_ty: "U"})
+        alert("Update Data")
+        navigate("/sales")
+    }
+    else {
     try {
       const res = await axios.post("/api/addsale", {
         conType,
@@ -31,15 +48,31 @@ function Sales() {
         qty,
         payment,
         remarks,
+        update_ty: "A",
       });
 
       alert(res.data.message);
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
-     setConType(""),setModel(""),setPayment(""),setQty(""),setRate(""),setRemarks("")
+  }
+    setConType(""),
+      setModel(""),
+      setPayment(""),
+      setQty(""),
+      setRate(""),
+      setRemarks("");
   };
-
+  useEffect(() => {
+    if (id && editData) {
+       setConType(editData.conType),
+      setModel(editData.model),
+      setPayment(editData.payment),
+      setQty(editData.qty),
+      setRate(editData.rate),
+      setRemarks(editData.remarks);
+    }
+  }, [id, editData]);
   return (
     <div className="allworking boxdesign">
       <span className="fs-5 fw-semibold">Sales</span>
@@ -53,6 +86,7 @@ function Sales() {
                 required
                 id="conType"
                 name="conType"
+                value={conType}
                 onChange={(e) => {
                   setConType(e.target.value);
                   setModel("");
@@ -109,6 +143,7 @@ function Sales() {
                   <select
                     id="paymentType"
                     name="paymentType"
+                    value={payment}
                     onChange={(e) => setPayment(e.target.value)}
                   >
                     <option value="">Select</option>

@@ -27,6 +27,7 @@ const AddDocSchema = new mongoose.Schema(
     finalAmount: Number,
     totalamount: Number,
     times: String,
+    update_ty:String,
     date: {
       type: Date,
       default: Date.now,
