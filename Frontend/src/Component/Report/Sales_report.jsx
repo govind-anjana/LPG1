@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 function Sales_report() {
   const today = new Date().toISOString().split("T")[0];
- const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
   const [deliveryData, setDeliveryData] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -31,27 +31,30 @@ function Sales_report() {
     }));
   };
 
-   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.get("/api/salelist");
-    const result = res.data;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get("/api/salelist");
+      const result = res.data;
 
-    const filtered = result.filter((item) =>
-      item.createdAt.split("T")[0] >= formData.dateFrom &&
-      item.date.split("T")[0] <= formData.dateTo &&
-      (!formData.nfrModel || item.conType?.toLowerCase() === formData.nfrModel.toLowerCase()) &&
-      (!formData.equipment || item.model?.toLowerCase() === formData.equipment.toLowerCase())
-    );
+      const filtered = result.filter(
+        (item) =>
+          item.createdAt.split("T")[0] >= formData.dateFrom &&
+          item.date.split("T")[0] <= formData.dateTo &&
+          (!formData.nfrModel ||
+            item.conType?.toLowerCase() === formData.nfrModel.toLowerCase()) &&
+          (!formData.equipment ||
+            item.model?.toLowerCase() === formData.equipment.toLowerCase())
+      );
 
-    console.log(result);
-    setDeliveryData(filtered);
-    setShow(true);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    alert("Failed to fetch delivery data.");
-  }
-};
+      result;
+      setDeliveryData(filtered);
+      setShow(true);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      alert("Failed to fetch delivery data.");
+    }
+  };
 
   return (
     <div className="allworking boxdesign">
@@ -61,39 +64,33 @@ function Sales_report() {
 
         <form onSubmit={handleSubmit}>
           <div className="box-body row mt-2">
-           
             <div className="form-group col-md-2">
               <label htmlFor="dateFrom">Date From</label>
               <input
                 type="date"
                 id="dateFrom"
                 name="dateFrom"
-                
                 value={formData.dateFrom}
                 onChange={handleChange}
               />
             </div>
 
-            
             <div className="form-group col-md-2">
               <label htmlFor="dateTo">Date To</label>
               <input
                 type="date"
                 id="dateTo"
                 name="dateTo"
-                
                 value={formData.dateTo}
                 onChange={handleChange}
               />
             </div>
 
-           
             <div className="form-group col-md-2">
               <label htmlFor="nfrModel">Connection Name</label>
               <select
                 id="nfrModel"
                 name="nfrModel"
-                
                 value={formData.nfrModel}
                 onChange={handleChange}
               >
@@ -103,24 +100,23 @@ function Sales_report() {
               </select>
             </div>
 
-             
             <div className="form-group col-md-2">
               <label htmlFor="equipment">Equipment Name</label>
               <select
                 id="equipment"
                 name="equipment"
-                
                 value={formData.equipment}
                 onChange={handleChange}
               >
                 <option value="">Select</option>
                 {Equipment_name.map((name, idx) => (
-                <option key={idx} value={name}>{name}</option>
-              ))}
+                  <option key={idx} value={name}>
+                    {name}
+                  </option>
+                ))}
               </select>
             </div>
 
-             
             {/* <div className="form-group col-md-2">
               <label htmlFor="reportType">Report Type</label>
               <select
@@ -136,7 +132,6 @@ function Sales_report() {
               </select>
             </div> */}
 
-            
             <div className="form-group col-md-2">
               <label className="invisible">Search</label>
               <button type="submit" className="w-100 btn btn-dark btn-sm">
@@ -145,7 +140,7 @@ function Sales_report() {
             </div>
           </div>
         </form>
-         {show && (
+        {show && (
           <div className="mt-4">
             <h6 className="text-center">Sales Reports List</h6>
             <div className="table-responsive">
@@ -161,7 +156,9 @@ function Sales_report() {
                 <tbody>
                   {deliveryData.length === 0 ? (
                     <tr>
-                      <th colSpan="3" className="text-center text-danger">No records found</th>
+                      <th colSpan="3" className="text-center text-danger">
+                        No records found
+                      </th>
                     </tr>
                   ) : (
                     deliveryData.map((item, index) => (

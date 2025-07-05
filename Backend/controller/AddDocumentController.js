@@ -4,7 +4,7 @@ export const AddDoc = async (req, res) => {
   try {
     const newadd = new AddDocModel(data);
     const saveUser = await newadd.save();
-        console.log(saveUser)
+    saveUser;
     res.status(201).json({ message: "Add Document", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
@@ -26,7 +26,7 @@ export const deleteDoc = async (req, res) => {
       return res.status(404).json({ message: "Refill entry not found" });
     }
 
-    const updatedList = await AddDocModel.find(); 
+    const updatedList = await AddDocModel.find();
     res.json(updatedList);
   } catch (err) {
     console.error("Delete error:", err);
@@ -34,8 +34,9 @@ export const deleteDoc = async (req, res) => {
   }
 };
 
-export const updateDoc= async (req, res) => {
-  const updated = await AddDocModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+export const updateDoc = async (req, res) => {
+  const updated = await AddDocModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
   res.json(updated);
-}
-
+};

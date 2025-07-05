@@ -8,6 +8,7 @@ const PlantTranSchema = new mongoose.Schema(
     emptyQty: Number,
     remarks: String,
     invoice: String,
+    update_ty:String,
     date: {
       type: Date,
       default: Date.now,

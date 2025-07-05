@@ -45,7 +45,7 @@ function Agent() {
     if (!confirmDelete) return;
     try {
       const res = await axios.delete(`/api/deleteagent/${id}`);
-      console.log(res.data);
+      res.data;
       fetchEmployees();
     } catch (err) {
       console.error("Error deleting employee:", err.message);
@@ -53,7 +53,7 @@ function Agent() {
   }
   useEffect(() => {
     fetchEmployees();
-      setFormData({
+    setFormData({
       agentName: "",
       mobile: "",
       address: "",
@@ -67,7 +67,7 @@ function Agent() {
       const res = await axios.put(`/api/master/${id}`, formData);
       alert("Update Data");
       fetchEmployees();
-      console.log(res);
+      res;
     } else {
       try {
         const res = await axios.post("/api/master", formData);
@@ -264,13 +264,12 @@ function Agent() {
                     </td>
                   </tr>
                 )}
-                 <tr>
-             <td colSpan={5}>
-                <span className=" text-muted small">{`Records : 1 to ${agentList.length} to  ${agentList.length}`}</span>
-                </td>
-             </tr>
+                <tr>
+                  <td colSpan={5}>
+                    <span className=" text-muted small">{`Records : 1 to ${agentList.length} to  ${agentList.length}`}</span>
+                  </td>
+                </tr>
               </tbody>
-
             </table>
           </div>
         </div>

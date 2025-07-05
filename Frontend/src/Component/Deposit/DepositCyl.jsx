@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 function ExpenseHead() {
   const [userType, setUserType] = useState("");
@@ -8,8 +10,21 @@ function ExpenseHead() {
   const [equipment, setEquipment] = useState("");
   const [depositCyl, setDepositCyl] = useState("");
   const [remarks, setRemarks] = useState("");
-  const [search, setSearch] = useState("");
+  const {id}=useParams()
+  const location=useLocation()
+  const editData=location.state?.empData;
 
+  useEffect(()=>{
+      if(id,editData){
+        console.log(editData)
+        setDepositCyl(editData.depositCyl)
+        setEquipmentType(editData.equipmentType)
+        setEmployeeName(editData.employeeName)
+        setEquipment(editData.equipment)
+        setRemarks(editData.remarks)
+        setUserType(editData.userType)
+      }
+  },[id,editData])
   const delivery_Man_Name = [
     "Mahendra Singh",
     "Shubham Mali",
@@ -41,6 +56,16 @@ function ExpenseHead() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if(id){
+      await axios.put(`/api/updatedeposit${id}`,{ userType,
+        equipmentType,
+        employeeName,
+        equipment,
+        depositCyl,
+        remarks,
+        update_ty:"U"})
+        alert("Update Data")
+    }
     try {
       const res = await axios.post("/api/adddeposit", {
         userType,
@@ -49,6 +74,7 @@ function ExpenseHead() {
         equipment,
         depositCyl,
         remarks,
+        update_ty:"A"
       });
 
       alert(res.data.message);

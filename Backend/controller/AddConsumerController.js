@@ -4,7 +4,7 @@ export const AddConsumer = async (req, res) => {
   try {
     const newadd = new ConsumerModel(data);
     const saveUser = await newadd.save();
-        console.log(saveUser)
+    saveUser;
     res.status(201).json({ message: "Add Consumer", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
@@ -26,10 +26,16 @@ export const deleteconsumer = async (req, res) => {
       return res.status(404).json({ message: "Consumer entry not found" });
     }
 
-    const updatedList = await ConsumerModel.find(); 
+    const updatedList = await ConsumerModel.find();
     res.json(updatedList);
   } catch (err) {
     console.error("Delete error:", err);
     res.status(500).json({ error: err.message });
   }
+};
+export const UpdateConsumer = async (req, res) => {
+  const updated = await ConsumerModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.json(updated);
 };

@@ -83,7 +83,7 @@ function BulkDocuments() {
       try {
         const res = await axios.get("/api/masterlist");
         setAgentList(res.data);
-        // console.log(res.data);
+        // (res.data);
       } catch (err) {
         console.error(" Error fetching employee list:", err.message);
       }

@@ -29,14 +29,14 @@ function AddItemDocument() {
   const [promotionType, setPromotionType] = useState("");
   const [finalAmount, setFinalAmount] = useState(0);
   const [totalamount, setTotalAmount] = useState(0);
-  const navigator=useNavigate("")
+  const navigator = useNavigate("");
   const { id } = useParams();
   const location = useLocation();
   const editData = location.state?.empData;
 
   useEffect(() => {
     if (id && editData) {
-      console.log(editData);
+      editData;
       setConnection(editData.connection);
       setEquipment(editData.equipment);
       setItemType(editData.itemType), setDeliveryMan(editData.deliveryMan);
@@ -169,7 +169,7 @@ function AddItemDocument() {
           times,
           update_ty: "A",
         });
-          setConnection(""),
+        setConnection(""),
           setEquipment(""),
           setItemType(""),
           setAdvanceRecover(""),
@@ -190,12 +190,11 @@ function AddItemDocument() {
         alert("Failed to save agent.", err.message);
       }
     }
-    navigator("/document")
+    navigator("/document");
   };
- async function fetchModel(){
-     const models=await axios.get("/api/nfrlist");
-     console.log(models)
-   
+  async function fetchModel() {
+    const models = await axios.get("/api/nfrlist");
+    models;
   }
   useEffect(() => {
     if (!promotionType) return;
@@ -207,7 +206,7 @@ function AddItemDocument() {
         const latestValidRate = rateList.find(
           (item) => item.promotion == promotionType
         );
-        // console.log(latestValidRate)
+        // (latestValidRate)
         if (latestValidRate) {
           setFinalAmount(latestValidRate.rate);
           setTotalAmount(latestValidRate.rate);
@@ -227,7 +226,7 @@ function AddItemDocument() {
       }
     };
     fetchdata();
-    fetchModel()
+    fetchModel();
   }, [promotionType]);
 
   useEffect(() => {
@@ -237,8 +236,8 @@ function AddItemDocument() {
     setCylQty(0);
     setPrQty(0);
     setPaddingA(0);
-    setCylDeposit(0)
-    setPrDeposit(0)
+    setCylDeposit(0);
+    setPrDeposit(0);
     if (itemType == "TV") {
       setCylDeposit(2200);
       setPrDeposit(250);

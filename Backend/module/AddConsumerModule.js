@@ -19,6 +19,7 @@ const ConsumerSchema = new mongoose.Schema(
         amount:Number,
         emptyBalance:Number,
         times:String,
+        update_ty:String,
     date: {
       type: Date,
       default: Date.now,  

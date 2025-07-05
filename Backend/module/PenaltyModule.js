@@ -5,6 +5,7 @@ const PenaltySchema = new mongoose.Schema(
          employeeName:String,
         amount:Number,
         remarks:String,
+        update_ty:String,
   },
   {
     collection: "penalty",

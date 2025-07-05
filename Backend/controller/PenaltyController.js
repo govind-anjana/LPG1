@@ -4,7 +4,7 @@ export const AddPenalty = async (req, res) => {
   try {
     const newadd = new PenaltyModel(data);
     const saveUser = await newadd.save();
-    console.log(saveUser);
+    saveUser;
     res.status(201).json({ message: "Penalty added", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
@@ -31,4 +31,10 @@ export const deletePenalty = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+export const UpdatePanalty = async (req, res) => {
+  const updated = await PenaltyModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.json(updated);
 };

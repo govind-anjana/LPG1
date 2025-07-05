@@ -99,10 +99,8 @@ function AddConsumer() {
     const valid = confirm("Delete Consumer Delivery");
     if (valid) {
       try {
-        const res = await axios.delete(
-          `/api/deleteconsumer/${id}`
-        );
-        console.log(res);
+        const res = await axios.delete(`/api/deleteconsumer/${id}`);
+        res;
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -136,7 +134,7 @@ function AddConsumer() {
         alert("Data Submit", res.data.message);
         fetchEmployees();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => err);
     setAmount(""),
       setConsumerType(""),
       setConsumerName(""),
@@ -183,7 +181,7 @@ function AddConsumer() {
   //      try {
   //        const rateList = [...data].reverse();
 
-  //        console.log("Full Rate List:", rateList);
+  //        ("Full Rate List:", rateList);
 
   //        const latestValidRate = rateList.find(
   //          (item) => item.equipment === equipmentName2 && item.validTo >= today
@@ -235,7 +233,7 @@ function AddConsumer() {
     setAmount(netTotal);
 
     setDiscount2(discount2);
-    // console.log(discount2)
+    // (discount2)
     setEmptyRefill2(refill2);
     setAmount2(netTotal2);
 
@@ -266,7 +264,7 @@ function AddConsumer() {
   //   const currentRate = Number(updatedRows[index].currentRate);
   //   const refill = Number(updatedRows[index].refill);
   //   const discountRate = Number(updatedRows[index].discountRate);
-  //     // console.log(refillRows.equipmentName2[0])
+  //     // (refillRows.equipmentName2[0])
   //   const total = refill * currentRate;
   //   const discount = refill * discountRate;
   //   const netAmount = total - discount;
@@ -649,7 +647,6 @@ function AddConsumer() {
                     <td>{item.amount}</td>
                     <td>{item.date.split("T")[0]}</td>
                     <td>
-                      
                       <div className="divbtn  ">
                         <FaEdit className="me-2" onClick={Edithandle} />
                         <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
@@ -665,11 +662,7 @@ function AddConsumer() {
                         No data available in table
                       </span>
                       <br />
-                      <img
-                        src="xyz.jpg"
-                        alt="No data"
-                        className="my-4"
-                      />
+                      <img src="xyz.jpg" alt="No data" className="my-4" />
                       <br />
                       <span className="text-success">
                         Add new record or search with different criteria.

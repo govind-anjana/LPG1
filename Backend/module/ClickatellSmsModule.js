@@ -6,6 +6,7 @@ const ClickSchema = new mongoose.Schema(
       password:String,
       apiid: String,
       status: String,
+      // update_ty:String,
       date: {
       type: Date,
       default: Date.now,

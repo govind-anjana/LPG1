@@ -46,19 +46,16 @@ import Expenses_report from "./Component/Report/Expenses_report";
 
 function App() {
   const [showMenu, setShowMenu] = useState(true);
-  console.log(showMenu)
+  showMenu;
   return (
     <>
       <BrowserRouter>
         <Header />
-        <input
-          type="checkbox" id="checkbox"
-        
-        />
+        <input type="checkbox" id="checkbox" />
         <div className="row p-0 m-0">
-            <div className="navbarpage active col-2 py-1">
-              <Navbar />
-            </div>
+          <div className="navbarpage active col-2 py-1">
+            <Navbar />
+          </div>
           <div
             className={`apps  ${
               showMenu ? "col-10" : "col-12"
@@ -96,7 +93,7 @@ function App() {
               <Route path="/reports/Sales" element={<Sales_report />} />
               <Route path="/reports/Salary" element={<Salary_report />} />
               <Route path="/reports/Document" element={<Document_report />} />
-              <Route path="/reports/expenses" element={<Expenses_report/>} />
+              <Route path="/reports/expenses" element={<Expenses_report />} />
               <Route path="/reports/nfr" element={<Nfr_reports />} />
               <Route
                 path="/reports/Otpreport"

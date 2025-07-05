@@ -44,9 +44,7 @@ function AddCash() {
     const valid = confirm("Delete Cash Delivery");
     if (valid) {
       try {
-        const res = await axios.delete(
-          `/api/deletecash/${id}`
-        );
+        const res = await axios.delete(`/api/deletecash/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -69,7 +67,7 @@ function AddCash() {
         alert("Data Submit", res.data.message);
         fetchEmployees();
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err.message);
   }
   return (
     <div className="addcash allworking boxdesign">
@@ -199,7 +197,7 @@ function AddCash() {
                 {cashList.length > 0 ? (
                   cashList.map((item, index) => (
                     <tr key={index}>
-                      <td>{(item.date).split("T")[0]}</td>
+                      <td>{item.date.split("T")[0]}</td>
                       <td>{item.totalAmount}</td>
                       <td>
                         <div className="divbtn fs-5 ">

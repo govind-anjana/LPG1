@@ -3,8 +3,8 @@ export const AgentEmployee = async (req, res) => {
   try {
     const data = req.body;
     const newAgent = new AgentModel(data);
-    const saveUser= await newAgent.save();
-    console.log(saveUser);
+    const saveUser = await newAgent.save();
+    saveUser;
     res.status(201).json({ message: "Agent Employee added", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
@@ -33,7 +33,9 @@ export const deleteAgent = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-export const AgentUpdate= async (req, res) => {
-  const updated = await AgentModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+export const AgentUpdate = async (req, res) => {
+  const updated = await AgentModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
   res.json(updated);
-}
+};

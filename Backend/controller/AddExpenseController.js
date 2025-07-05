@@ -5,7 +5,7 @@ export const AddExpense = async (req, res) => {
   try {
     const newadd = new AddExpenseModel(data);
     const saveUser = await newadd.save();
-    console.log(saveUser);
+    saveUser;
     res.status(201).json({ message: "Employee added", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
@@ -41,6 +41,3 @@ export const UpdateAddExpense = async (req, res) => {
   );
   res.json(updated);
 };
-
-
-

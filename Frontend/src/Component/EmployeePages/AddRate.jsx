@@ -73,7 +73,7 @@ function AddRate() {
         validTo,
         dates: times,
       });
-      console.log(res);
+      res;
     } catch (err) {
       alert("Failed to save agent.");
     }

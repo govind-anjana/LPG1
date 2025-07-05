@@ -16,6 +16,8 @@ const AddKgSchema = new mongoose.Schema(
       oldAmountBalance:Number,
       remainingAmountBalance:Number,
       remarks:String,
+      update_ty:String,
+      times:String,
     date: {
       type: Date,
       default: Date.now,  

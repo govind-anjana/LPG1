@@ -23,58 +23,36 @@ function AddEmployee() {
   const times = new Date().toLocaleTimeString();
   const location = useLocation();
   const editId = location.state?.id;
-   
-useEffect(() => {
+
+  useEffect(() => {
     if (editId) {
       axios.get(`/api/employee/${editId}`).then((res) => {
-      const result= res.data;
-      setAadhar(result.aadhar),
-      setAddress(result.address),
-      setAddress2(result.address2),
-      setAddress3(result.address3),
-      setAdvance(result.advance),
-      setCity(result.city),
-      setDeposit(result.deposit),
-      setDiscount(result.discount),
-      setDistrict(result.district),
-      setLicence(result.licence),
-      setMobile(result.mobile),
-      setName(result.name),
-      setSalaryAmount(result.salaryAmount),
-      setSalaryType(result.salaryType),
-      setState(result.state),
-      setUserType(result.userType),
-      setVchNo(result.vchNo);
+        const result = res.data;
+        setAadhar(result.aadhar),
+          setAddress(result.address),
+          setAddress2(result.address2),
+          setAddress3(result.address3),
+          setAdvance(result.advance),
+          setCity(result.city),
+          setDeposit(result.deposit),
+          setDiscount(result.discount),
+          setDistrict(result.district),
+          setLicence(result.licence),
+          setMobile(result.mobile),
+          setName(result.name),
+          setSalaryAmount(result.salaryAmount),
+          setSalaryType(result.salaryType),
+          setState(result.state),
+          setUserType(result.userType),
+          setVchNo(result.vchNo);
       });
     }
   }, []);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-     if (editId) {
-      await axios.put(`/api/employee/${editId}`,{ userType,
-        name,
-        mobile,
-        salaryType,
-        salaryAmount,
-        address,
-        address2,
-        address3,
-        city,
-        district,
-        state,
-        aadhar,
-        licence,
-        vchNo,
-        advance,
-        deposit,
-        discount,
-       update_ty:"U"
-      } );
-      alert("Updated Successfully");
-    } else {
-    axios
-      .post("/api/addEmployee", {
+    if (editId) {
+      await axios.put(`/api/employee/${editId}`, {
         userType,
         name,
         mobile,
@@ -92,13 +70,36 @@ useEffect(() => {
         advance,
         deposit,
         discount,
-        update_ty:"A",
-        times
-      })
-      .then((res) => alert(res.data.message))
-      .catch((err) => console.log(err));
+        update_ty: "U",
+      });
+      alert("Updated Successfully");
+    } else {
+      axios
+        .post("/api/addEmployee", {
+          userType,
+          name,
+          mobile,
+          salaryType,
+          salaryAmount,
+          address,
+          address2,
+          address3,
+          city,
+          district,
+          state,
+          aadhar,
+          licence,
+          vchNo,
+          advance,
+          deposit,
+          discount,
+          update_ty: "A",
+          times,
+        })
+        .then((res) => alert(res.data.message))
+        .catch((err) => err);
     }
-      setAadhar(""),
+    setAadhar(""),
       setAddress(""),
       setAddress2(""),
       setAddress3(""),
@@ -115,13 +116,14 @@ useEffect(() => {
       setState(""),
       setUserType(""),
       setVchNo("");
-    
   };
   return (
     <div className="addEmployee boxdesign">
       <span className="fs-4 fw-semibold">Employee</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
-        <span className="fs-6 fw-semibold ">{editId ? "Update" : "Add"} Employee</span>
+        <span className="fs-6 fw-semibold ">
+          {editId ? "Update" : "Add"} Employee
+        </span>
         <form className="row mt-3" onSubmit={handleSubmit}>
           <div className="col-md-3 mb-3">
             <label className="form-label">User Type</label>
@@ -165,7 +167,6 @@ useEffect(() => {
               name="salaryType"
               value={salaryType}
               onChange={(e) => setSalaryType(e.target.value)}
-             
             >
               <option>Select</option>
               <option value="Day Wise">Day Wise</option>
@@ -180,8 +181,8 @@ useEffect(() => {
               name="salaryAmount"
               value={salaryAmount}
               onChange={(e) => setSalaryAmount(e.target.value)}
-               placeholder="Enter Your Salary"
-               required
+              placeholder="Enter Your Salary"
+              required
             />
           </div>
 
@@ -197,13 +198,13 @@ useEffect(() => {
           </div>
           <div className="col-md-3 mb-3">
             <label className="form-label">Address 2</label>
-          
+
             <input
               type="text"
               name="address2"
               value={address2}
               onChange={(e) => setAddress2(e.target.value)}
-               placeholder="Enter Your Address"
+              placeholder="Enter Your Address"
             />
           </div>
           <div className="col-md-3 mb-3">
@@ -213,7 +214,7 @@ useEffect(() => {
               name="address3"
               value={address3}
               onChange={(e) => setAddress3(e.target.value)}
-               placeholder="Enter Your Address"
+              placeholder="Enter Your Address"
             />
           </div>
 
@@ -224,8 +225,8 @@ useEffect(() => {
               name="city"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-               placeholder="Enter Your City"
-               required
+              placeholder="Enter Your City"
+              required
             />
           </div>
 
@@ -236,8 +237,8 @@ useEffect(() => {
               name="district"
               value={district}
               onChange={(e) => setDistrict(e.target.value)}
-               placeholder="Enter Your District"
-               required
+              placeholder="Enter Your District"
+              required
             />
           </div>
 
@@ -248,7 +249,7 @@ useEffect(() => {
               name="state"
               value={state}
               onChange={(e) => setState(e.target.value)}
-               placeholder="Enter Your State"
+              placeholder="Enter Your State"
             />
           </div>
 
@@ -259,7 +260,7 @@ useEffect(() => {
               name="aadhar"
               value={aadhar}
               onChange={(e) => setAadhar(e.target.value)}
-               placeholder="************"
+              placeholder="************"
               required
             />
           </div>
@@ -271,8 +272,7 @@ useEffect(() => {
               name="licence"
               value={licence}
               onChange={(e) => setLicence(e.target.value)}
-               placeholder="*********"
-
+              placeholder="*********"
             />
           </div>
 
@@ -283,7 +283,7 @@ useEffect(() => {
               name="vchNo"
               value={vchNo}
               onChange={(e) => setVchNo(e.target.value)}
-               placeholder="**********"
+              placeholder="**********"
             />
           </div>
 
@@ -294,7 +294,6 @@ useEffect(() => {
               name="advance"
               value={advance}
               onChange={(e) => setAdvance(e.target.value)}
-             
             />
           </div>
 
@@ -304,7 +303,7 @@ useEffect(() => {
               type="number"
               name="deposit"
               value={deposit}
-              onChange={(e) => setDeposit(e.target.value)}  
+              onChange={(e) => setDeposit(e.target.value)}
             />
           </div>
 
@@ -315,7 +314,6 @@ useEffect(() => {
               name="discount"
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
-              
             />
           </div>
 

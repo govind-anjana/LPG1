@@ -41,10 +41,8 @@ function ExpenseHead() {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(
-          `/api/deleteexpensehead/${id}`
-        );
-        console.log(res);
+        const res = await axios.delete(`/api/deleteexpensehead/${id}`);
+        res;
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -54,15 +52,12 @@ function ExpenseHead() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (id) {
-      const res = await axios.put(
-        `/api/updateexpenses/${id}`,
-        {
-          expenseType,
-          expenseH,
-          description,
-          update_ty: "U",
-        }
-      );
+      const res = await axios.put(`/api/updateexpenses/${id}`, {
+        expenseType,
+        expenseH,
+        description,
+        update_ty: "U",
+      });
       alert("Data Update");
       fetchEmployees();
     } else {
@@ -77,7 +72,7 @@ function ExpenseHead() {
           alert("Data Submit", res.data.message);
           fetchEmployees();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => err);
     }
     setexpenseH(""), setDescription(""), setExpenseType("");
   }

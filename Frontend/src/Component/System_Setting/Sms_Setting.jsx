@@ -74,7 +74,7 @@ function Sms_Setting() {
     await axios
       .post("http://localhost:4001/clickatellsms", formData1)
       .then((res) => alert(res.data.message))
-      .catch((err) => console.log(err));
+      .catch((err) => err);
 
     alert(formData1.agentName);
     setformData1({

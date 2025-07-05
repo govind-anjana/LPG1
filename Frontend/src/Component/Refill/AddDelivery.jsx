@@ -5,7 +5,7 @@ import DataContext from "../../Context/DataContext";
 import { useContext } from "react";
 
 function AddDelivery() {
-  const {data}=useContext(DataContext)
+  const { data } = useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
   const today = news.toISOString().split("T")[0];
@@ -130,7 +130,7 @@ function AddDelivery() {
       try {
         const rateList = [...data].reverse();
 
-        console.log("Full Rate List:", rateList);
+        "Full Rate List:", rateList;
 
         const latestValidRate = rateList.find(
           (item) => item.equipment == equipment && item.validTo >= today
@@ -190,15 +190,14 @@ function AddDelivery() {
     setRefill(values);
     setTotalCyl(values);
   }
-  function handleRemaining(e){
-    const res=e.target.value;
-    if(res<=totalCylinder){
-     setRemainingCylinder(res)
+  function handleRemaining(e) {
+    const res = e.target.value;
+    if (res <= totalCylinder) {
+      setRemainingCylinder(res);
+    } else {
+      setRemainingCylinder(0);
+      alert("Remaining Cyl is more then total cyl!");
     }
-    else {
-      setRemainingCylinder(0)
-      alert("Remaining Cyl is more then total cyl!")
-      }
   }
   function handleRemoveBtn() {
     setCylinder1(0);
@@ -307,7 +306,7 @@ function AddDelivery() {
                 <input
                   type="number"
                   name="newConnection"
-                  value={newConnection && '0'}
+                  value={newConnection && "0"}
                   onChange={(e) => setNewConnection(e.target.value)}
                 />
               </div>
@@ -327,7 +326,7 @@ function AddDelivery() {
                 <input
                   type="number"
                   name="remainingCylinder"
-               value={remainingCylinder}
+                  value={remainingCylinder}
                   onChange={handleRemaining}
                 />
               </div>

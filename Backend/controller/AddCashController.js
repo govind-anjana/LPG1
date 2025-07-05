@@ -4,7 +4,7 @@ export const AddCash = async (req, res) => {
   try {
     const newadd = new CashModel(data);
     const saveUser = await newadd.save();
-        console.log(saveUser)
+    saveUser;
     res.status(201).json({ message: "Add Cash", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
@@ -25,10 +25,16 @@ export const deleteCash = async (req, res) => {
     if (!result) {
       return res.status(404).json({ message: "Consumer entry not found" });
     }
-    const updatedList = await CashModel.find(); 
+    const updatedList = await CashModel.find();
     res.json(updatedList);
   } catch (err) {
     console.error("Delete error:", err);
     res.status(500).json({ error: err.message });
   }
+};
+export const UpdateCash = async (req, res) => {
+  const updated = await CashModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.json(updated);
 };

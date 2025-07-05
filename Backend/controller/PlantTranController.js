@@ -4,7 +4,7 @@ export const PlantTran = async (req, res) => {
   try {
     const newadd = new PlantModel(data);
     const saveUser = await newadd.save();
-    console.log(saveUser);
+    saveUser;
     res.status(201).json({ message: "Penalty added", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
@@ -31,4 +31,11 @@ export const deletePlant = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+
+export const UpdatePlant = async (req, res) => {
+  const updated = await PlantModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.json(updated);
 };

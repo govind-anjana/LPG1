@@ -77,6 +77,7 @@ function App() {
               <Route path="/Delivery" element={<AddDelivery />} />
               <Route path="/DeliveryList" element={<DeliveryList/>}/>
               <Route path="/kgRefill" element={<AddKgRefill />} />
+              <Route path="/kgRefill/:id" element={<AddKgRefill />} />
               <Route path="/KgRefill/bulk" element={<AddConsumer />} />
               <Route path="/document/document" element={<AddDocument />} />
               <Route path="/document/document/:id" element={<AddDocument />} />
@@ -95,8 +96,10 @@ function App() {
               <Route path="/bulkDocument/:id" element={<BulkDocuments />} />
               <Route path="/bulkDocumentList" element={<BulkDocumentList />} />
               <Route path="/depositCyl" element={<DepositCyl />} />
+              <Route path="/depositCyl/:id" element={<DepositCyl />} />
               <Route path="/depositCylList" element={<DepositCyllist />} />
               <Route path="/panalty" element={<AddPenalty />} />
+              <Route path="/panalty/id" element={<AddPenalty />} />
               <Route path="/cash" element={<AddCash />} />
               <Route path="/reports/Main" element={<Main_report />} />
               <Route path="/reports/Delivert" element={<Delivery_report />} />

@@ -4,9 +4,9 @@ export const AddRateEmployee = async (req, res) => {
   try {
     const data = req.body;
     const newadd = new AddModel(data);
-    const saveUser= await newadd.save();
-    console.log(saveUser);
-    res.status(201).json({ message: "Employee added"});
+    const saveUser = await newadd.save();
+    saveUser;
+    res.status(201).json({ message: "Employee added" });
   } catch (err) {
     console.error(" Save error:", err.message);
     res.status(500).json({ message: "Failed to save", error: err.message });
@@ -32,4 +32,10 @@ export const deleteRate = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+export const UpdateRate = async (req, res) => {
+  const updated = await AddModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.json(updated);
 };

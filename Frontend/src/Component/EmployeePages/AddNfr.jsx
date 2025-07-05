@@ -15,7 +15,7 @@ function AddNfr() {
   const [vendorName, setVendorName] = useState([]);
 
   const navigate = useNavigate();
-  const { id } = useParams(); 
+  const { id } = useParams();
   const location = useLocation();
   const editData = location.state?.empData;
 
@@ -64,13 +64,13 @@ function AddNfr() {
     const fetchapi = async () => {
       const res = await axios.get("/api/consumerlist");
       setVendorName(res.data);
-      console.log(res.data)
+      res.data;
     };
     fetchapi();
   }, []);
   useEffect(() => {
     if (id && editData) {
-      console.log(editData)
+      editData;
       setItemGroup(editData.itemGroup);
       setModelName(editData.modelName);
       setNfrRate(editData.nfrRate);

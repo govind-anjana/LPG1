@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddKgRefill() {
   const news = new Date();
+  const times = news.toLocaleTimeString();
   const today = news.toISOString().split("T")[0];
   const [consumerName, setConsumerName] = useState("");
   const [equipment, setEquipment] = useState("");
@@ -23,6 +25,10 @@ function AddKgRefill() {
   const [remarks, setRemarks] = useState("");
   const [KgRefill_List, setKgRefill_List] = useState([]);
   const [consumer, setConsumer] = useState([]);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
+  const editData = location.state?.empData;
 
   const Equipment_name = [
     "19 KG Filled Cyl CM",
@@ -87,7 +93,24 @@ function AddKgRefill() {
   useEffect(() => {
     fetchEmployees();
     fetchapi();
-  }, [equipment]);
+    if (id && editData) {
+      console.log(editData);
+      setConsumerName(editData.consumerName),
+        setCurrentRate(editData.currentRate),
+        setDeliveryMan(editData.deliveryMan),
+        setDiscountRate(editData.discountRate),
+        setEmptyBalance(editData.emptyBalance),
+        setEmptyRefill(editData.emptyRefill),
+        setEquipment(editData.equipment),
+        setRemainingAmountBalance(editData.remainingAmountBalance),
+        setOldAmountBalance(editData.oldAmountBalance),
+        setRemarks(editData.remarks),
+        setRefill(editData.refill),
+        setDiscount(editData.discount),
+        setPaymentReceived(editData.paymentReceived),
+        setTotalAmount(editData.totalAmount);
+    }
+  }, [equipment, id, editData]);
   useEffect(() => {
     const totals = currentRate * refill;
     const dis = refill * discountRate;
@@ -99,17 +122,15 @@ function AddKgRefill() {
     setTotalAmount(Totals1);
     setRemainingAmountBalance(netTotal);
   }, [refill, discountRate, paymentReceived]);
-  function Edithandle() {
-    alert();
+  function Edithandle(id, data) {
+    navigate(`/kgrefill/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const valid = confirm("Delete kg Refill Delivery");
     if (valid) {
       try {
-        const res = await axios.delete(
-          `/api/deletekgrefill/${id}`
-        );
-        // console.log(res);
+        const res = await axios.delete(`/api/deletekgrefill/${id}`);
+
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -118,9 +139,8 @@ function AddKgRefill() {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-
-    await axios
-      .post("/api/addkgrefill", {
+    if (id) {
+      await axios.put(`/api/updatekgrefill/${id}`, {
         consumerName,
         equipment,
         deliveryMan,
@@ -135,12 +155,36 @@ function AddKgRefill() {
         oldAmountBalance,
         remainingAmountBalance,
         remarks,
-      })
-      .then((res) => {
-        alert("Data Submit", res.data.message);
-        fetchEmployees();
-      })
-      .catch((err) => console.log(err));
+        update_ty: "U",
+      });
+      alert("Update Data");
+      fetchEmployees();
+    } else {
+      await axios
+        .post("/api/addkgrefill", {
+          consumerName,
+          equipment,
+          deliveryMan,
+          currentRate,
+          refill,
+          discountRate,
+          discount,
+          emptyRefill,
+          paymentReceived,
+          totalAmount,
+          emptyBalance,
+          oldAmountBalance,
+          remainingAmountBalance,
+          remarks,
+          update_ty: "A",
+          times,
+        })
+        .then((res) => {
+          alert("Data Submit", res.data.message);
+          fetchEmployees();
+        })
+        .catch((err) => err);
+    }
     setConsumerName(""),
       setCurrentRate(""),
       setDeliveryMan(""),
@@ -219,7 +263,7 @@ function AddKgRefill() {
                 type="number"
                 name="currentRate"
                 value={currentRate}
-                 disabled
+                disabled
               />
             </div>
 
@@ -369,9 +413,27 @@ function AddKgRefill() {
                     <td>{item.totalAmount}</td>
                     <td>{item.date.split("T")[0]}</td>
                     <td>
-                      <div className="divbtn ">
-                        <FaEdit className="me-2" onClick={Edithandle} />
-                        <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
+                      <div className="divbtn">
+                        {item.update_ty == "A" ? (
+                          <span>
+                            <FaEdit
+                              onClick={() => Edithandle(item._id, item)}
+                              title="Edit"
+                            />
+                            <FaDeleteLeft
+                              onClick={() => Deletehandle(item._id)}
+                              title="Delete"
+                              className="ms-3"
+                            />
+                          </span>
+                        ) : (
+                          <span
+                            style={{ cursor: "not-allowed", color: "silver" }}
+                          >
+                            <FaEdit />
+                            <FaDeleteLeft className="ms-3" />
+                          </span>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -393,9 +455,13 @@ function AddKgRefill() {
                   </td>
                 </tr>
               )}
+              <tr>
+                <td colSpan={10}>
+                  <span className="text-muted small">{`Records : 1 to ${KgRefill_List.length} to  ${KgRefill_List.length}`}</span>
+                </td>
+              </tr>
             </tbody>
           </table>
-              <span className="text-muted small">{`Records : 1 to ${KgRefill_List.length} to  ${KgRefill_List.length}`}</span>
         </div>
       </div>
     </div>

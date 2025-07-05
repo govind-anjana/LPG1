@@ -3,14 +3,20 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddPenalty() {
+  const times = new Date().toLocaleTimeString();
   const [employeeName, setEmployeeName] = useState("");
   const [amount, setAmount] = useState("");
   const [remarks, setRemarks] = useState("");
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
+  const editData = location.state?.empdata;
   const [penaltyList, setPenaltyList] = useState([]);
- 
+
   const delivery_Man_Name = [
     "Mahendra Singh",
     "Shubham Mali",
@@ -39,13 +45,20 @@ function AddPenalty() {
       console.error(" Error fetching employee list:", err.message);
     }
   };
-
+  useEffect(() => {
+    if (id && editData) {
+      console.log(editData);
+      setAmount(editData.amount);
+      setEmployeeName(editData.employeeName);
+      setRemarks(editData.remarks);
+    }
+  }, [id, editData]);
   useEffect(() => {
     fetchEmployees();
   }, []);
 
-  function Edithandle() {
-    alert();
+  function Edithandle(id, data) {
+    navigate(`panalty/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const valid = confirm("Are you sure you want to delete this item?");
@@ -60,19 +73,31 @@ function AddPenalty() {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-
-    await axios
-      .post("/api/addpenalty", {
+    if (id) {
+      await axios.put(`/api/updatepenalty/${id}`, {
         employeeName,
         amount,
         remarks,
-      })
-      .then((res) => {
-        alert("Data Submit", res.data.message);
-        fetchEmployees();
-      })
-      .catch((err) => console.log(err));
-      setAmount(""),setEmployeeName(""),setRemarks("")
+        update_ty: "U",
+      });
+      console.log("Update Data");
+    } else {
+      await axios
+        .post("/api/addpenalty", {
+          employeeName,
+          amount,
+          remarks,
+          times,
+          update_ty: "A",
+        })
+        .then((res) => {
+          alert("Data Submit", res.data.message);
+          fetchEmployees();
+        })
+
+        .catch((err) => err);
+    }
+    setAmount(""), setEmployeeName(""), setRemarks("");
   }
 
   return (
@@ -165,13 +190,29 @@ function AddPenalty() {
                     <tr key={index}>
                       <td>{item.employeeName}</td>
                       <td>{item.amount}</td>
-                      <td>{(item.createdAt).split("T")[0]}</td>
+                      <td>{item.createdAt.split("T")[0]}</td>
                       <td>
-                        <div className="divbtn fs-5 ">
-                          <FaEdit className="me-2" onClick={Edithandle} />
-                          <FaDeleteLeft
-                            onClick={() => Deletehandle(item._id)}
-                          />
+                        <div className="divbtn">
+                          {item.update_ty == "A" ? (
+                            <span>
+                              <FaEdit
+                                onClick={() => Edithandle(item._id, item)}
+                                title="Edit"
+                              />
+                              <FaDeleteLeft
+                                onClick={() => Deletehandle(item._id)}
+                                title="Delete"
+                                className="ms-3"
+                              />
+                            </span>
+                          ) : (
+                            <span
+                              style={{ cursor: "not-allowed", color: "silver" }}
+                            >
+                              <FaEdit />
+                              <FaDeleteLeft className="ms-3" />
+                            </span>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -184,11 +225,7 @@ function AddPenalty() {
                         No data available in table
                       </span>
                       <br />
-                      <img
-                        src="https://placeholder.com"
-                        alt="No data"
-                        className="my-4"
-                      />
+                      <img src="xyz.jpg" alt="No data" className="my-4" />
                       <br />
                       <span className="text-success">
                         Add new record or search with different criteria.
@@ -197,6 +234,11 @@ function AddPenalty() {
                   </td>
                 </tr>
               )}
+              <tr>
+                <td colSpan={4}>
+                  <span className=" text-muted small">{`Records : 1 to ${penaltyList.length} to  ${penaltyList.length}`}</span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

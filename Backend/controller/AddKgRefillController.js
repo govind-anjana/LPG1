@@ -4,7 +4,7 @@ export const AddKgrefill = async (req, res) => {
   try {
     const newadd = new AddKgModel(data);
     const saveUser = await newadd.save();
-        console.log(saveUser)
+    saveUser;
     res.status(201).json({ message: "Add Kg Refill", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
@@ -26,10 +26,17 @@ export const deletekgrefill = async (req, res) => {
       return res.status(404).json({ message: "Refill entry not found" });
     }
 
-    const updatedList = await AddKgModel.find(); 
+    const updatedList = await AddKgModel.find();
     res.json(updatedList);
   } catch (err) {
     console.error("Delete error:", err);
     res.status(500).json({ error: err.message });
   }
+};
+
+export const UpdateKg = async (req, res) => {
+  const updated = await AddKgModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.json(updated);
 };

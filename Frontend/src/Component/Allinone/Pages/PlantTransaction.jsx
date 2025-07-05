@@ -2,14 +2,14 @@ import axios from "axios";
 import React, { useState } from "react";
 
 function PlantTransaction() {
-  const date=new Date().toISOString().split("T")[0];
+  const date = new Date().toISOString().split("T")[0];
   const [ReDate, setReDate] = useState(date);
   const [selectedEquipment, setSelectedEquipment] = useState("");
   const [qty, setQty] = useState("");
   const [emptyQty, setEmptyQty] = useState("");
   const [remarks, setRemarks] = useState("");
   const [invoice, setInvoice] = useState("");
-      
+
   const Equipment_name = [
     "14.2 KG Filled Cyl Domestic",
     "5 KG Filled Cyl Domestic",
@@ -24,19 +24,24 @@ function PlantTransaction() {
     e.preventDefault();
     await axios
       .post("/api/planttransaction", {
-       ReDate,
-      selectedEquipment,
-      qty,
-      emptyQty,
-      remarks,
-      invoice,
+        ReDate,
+        selectedEquipment,
+        qty,
+        emptyQty,
+        remarks,
+        invoice,
       })
       .then((res) => {
         alert("Data Submit", res.data.message);
       })
-      .catch((err) => console.log(err));
-    
-     setEmptyQty(""),setInvoice(""),setQty(""),setReDate(""),setRemarks(""),setSelectedEquipment("")
+      .catch((err) => err);
+
+    setEmptyQty(""),
+      setInvoice(""),
+      setQty(""),
+      setReDate(""),
+      setRemarks(""),
+      setSelectedEquipment("");
   }
 
   return (

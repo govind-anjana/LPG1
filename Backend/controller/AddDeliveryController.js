@@ -4,8 +4,10 @@ export const AddDelivery = async (req, res) => {
   try {
     const newadd = new AddDeliveryModel(data);
     const saveUser = await newadd.save();
-    console.log(saveUser);
-    res.status(201).json({ message: "Add Delivery Successfully", data: saveUser });
+    saveUser;
+    res
+      .status(201)
+      .json({ message: "Add Delivery Successfully", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
     res.status(500).json({ message: "Failed to save", error: err.message });
@@ -31,4 +33,10 @@ export const deleteDelivery = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+export const UpdateDelivery = async (req, res) => {
+  const updated = await AddDeliveryModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.json(updated);
 };

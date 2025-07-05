@@ -17,7 +17,7 @@ function EmployeeList() {
       try {
         const res = await axios.get("/api/employeeList");
         setEmployees(res.data);
-        // console.log(res.data);
+        // (res.data);
       } catch (err) {
         console.error(" Error fetching employee list:", err.message);
       }
@@ -126,7 +126,9 @@ function EmployeeList() {
                 </tr>
               )}
               <tr>
-                <td colSpan={9}><span className="text-muted small">{`Records : 1 to ${employees.length} to  ${employees.length}`}</span></td>
+                <td colSpan={9}>
+                  <span className="text-muted small">{`Records : 1 to ${employees.length} to  ${employees.length}`}</span>
+                </td>
               </tr>
             </tbody>
           </table>

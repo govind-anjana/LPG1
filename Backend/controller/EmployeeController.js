@@ -4,7 +4,7 @@ export const AddEmployees = async (req, res) => {
   try {
     const newadd = new AddEmployee(data);
     const saveUser = await newadd.save();
-    console.log(saveUser);
+    saveUser;
     res.status(201).json({ message: "Employee added", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
@@ -32,11 +32,13 @@ export const deleteemployee = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-export const employeeId=async (req, res) => {
+export const employeeId = async (req, res) => {
   const emp = await AddEmployee.findById(req.params.id);
   res.json(emp);
 };
-export const employeeUpdate= async (req, res) => {
-  const updated = await AddEmployee.findByIdAndUpdate(req.params.id, req.body, { new: true });
+export const employeeUpdate = async (req, res) => {
+  const updated = await AddEmployee.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
   res.json(updated);
-}
+};

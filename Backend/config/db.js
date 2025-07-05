@@ -1,9 +1,13 @@
-import mongoose from 'mongoose'
-import dotenv from 'dotenv'
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
-dotenv.config()
+const connectedData = () => {
+  mongoose.connect(
+    "mongodb+srv://govindanjana2004:RwdUc5ttwPHlEJwm@test.2tgtdvc.mongodb.net/lpgdb?retryWrites=true&w=majority&appName=test"
+  )
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
+};
 
-const connectedData=()=>{
-    mongoose.connect(process.env.MONGO_URL).then(()=>console.log("Connection Successfully")).catch((err)=>console.log(err))
-}
-export default connectedData
+export default connectedData;

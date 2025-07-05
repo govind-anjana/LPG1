@@ -13,6 +13,7 @@ const AddBulkSchema = new mongoose.Schema(
     svDiscount: Number,
     update_ty: String,
     times: String,
+    update_ty:String,
     date: {
       type: Date,
       default: Date.now,

@@ -8,6 +8,7 @@ const DepositSchema = new mongoose.Schema(
     equipment:String,
     depositCyl:String,
     remarks:String,
+    update_ty:String,
     date: {
       type: Date,
       default: Date.now,

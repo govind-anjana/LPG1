@@ -17,7 +17,8 @@ const AddDeliverySchema = new mongoose.Schema(
     onlineExtraAmount: Number,
     totalAmount: Number,
     paidAmount: Number,
-    times:String,
+    times: String,
+    update_ty: String,
     date: {
       type: Date,
       default: Date.now,

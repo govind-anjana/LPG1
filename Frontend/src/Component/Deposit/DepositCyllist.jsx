@@ -4,12 +4,13 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function DepositCyllist() {
   const [Deposit_List, setDeposit_List] = useState([]);
+  const navigate = useNavigate();
 
-   const fetchEmployees = async () => {
+  const fetchEmployees = async () => {
     try {
       const res = await axios.get("/api/depositlist");
       setDeposit_List(res.data);
@@ -21,8 +22,8 @@ function DepositCyllist() {
     fetchEmployees();
   }, []);
 
-  function Edithandle() {
-    alert();
+  function Edithandle(id, data) {
+    navigate(`/depositCyl/${id}`, { state: { empData: data } });
   }
 
   async function Deletehandle(id) {
@@ -49,8 +50,6 @@ function DepositCyllist() {
             className="me-2"
             type="text"
             placeholder="Search..."
-           
-            
             style={{ maxWidth: "180px" }}
           />
           <div>
@@ -84,10 +83,28 @@ function DepositCyllist() {
                     <td> {item.equipment}</td>
                     <td> {item.depositCyl}</td>
                     <td>
-                      <div className="divbtn fs-5 ">
-                        <FaEdit className="me-2" onClick={Edithandle} />
-                        <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
-                      </div>{" "}
+                      <div className="divbtn">
+                        {item.update_ty == "A" ? (
+                          <span>
+                            <FaEdit
+                              onClick={() => Edithandle(item._id, item)}
+                              title="Edit"
+                            />
+                            <FaDeleteLeft
+                              onClick={() => Deletehandle(item._id)}
+                              title="Delete"
+                              className="ms-3"
+                            />
+                          </span>
+                        ) : (
+                          <span
+                            style={{ cursor: "not-allowed", color: "silver" }}
+                          >
+                            <FaEdit />
+                            <FaDeleteLeft className="ms-3" />
+                          </span>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -112,6 +129,11 @@ function DepositCyllist() {
                   </td>
                 </tr>
               )}
+               <tr>
+             <td colSpan={7}>
+                <span className=" text-muted small">{`Records : 1 to ${Deposit_List.length} to  ${Deposit_List.length}`}</span>
+                </td>
+             </tr>
             </tbody>
           </table>
         </div>

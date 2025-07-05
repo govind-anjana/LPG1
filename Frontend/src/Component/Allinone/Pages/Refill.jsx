@@ -136,7 +136,7 @@ function DocumentForm() {
         const res = await axios.get("/api/addratelist");
         const rateList = [...res.data].reverse();
 
-        console.log("Full Rate List:", rateList);
+        "Full Rate List:", rateList;
 
         const latestValidRate = rateList.find(
           (item) => item.equipment == equipment && item.validTo >= today

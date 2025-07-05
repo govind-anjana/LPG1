@@ -8,7 +8,7 @@ function Kgrefill() {
   const [currentRate, setCurrentRate] = useState("");
   const [refill, setRefill] = useState("");
   const [discountRate, setDiscountRate] = useState("");
-  const [discount,setDiscount] = useState("0");
+  const [discount, setDiscount] = useState("0");
   const [emptyRefill, setEmptyRefill] = useState("");
   const [paymentReceived, setPaymentReceived] = useState("0");
   const [totalAmount, setTotalAmount] = useState("0");
@@ -16,7 +16,7 @@ function Kgrefill() {
   const [oldAmountBalance, setOldAmountBalance] = useState("0");
   const [remainingAmountBalance, setRemainingAmountBalance] = useState("");
   const [remarks, setRemarks] = useState("");
-  
+
   const Equipment_name = [
     "19 KG Filled Cyl CM",
     "5 KG Filled Cyl CM FTL POS",
@@ -68,8 +68,21 @@ function Kgrefill() {
         alert("Data Submit", res.data.message);
         fetchEmployees();
       })
-      .catch((err) => console.log(err));
-        setConsumerName(""),setCurrentRate(""),setDeliveryMan(""),setDiscountRate(""),setEmptyBalance(""),setEmptyRefill(""),setEquipment(""),setRemainingAmountBalance(""),setOldAmountBalance(""),setRemarks(""),setRefill(""),setDiscount(""),setPaymentReceived(""),setTotalAmount("")
+      .catch((err) => err);
+    setConsumerName(""),
+      setCurrentRate(""),
+      setDeliveryMan(""),
+      setDiscountRate(""),
+      setEmptyBalance(""),
+      setEmptyRefill(""),
+      setEquipment(""),
+      setRemainingAmountBalance(""),
+      setOldAmountBalance(""),
+      setRemarks(""),
+      setRefill(""),
+      setDiscount(""),
+      setPaymentReceived(""),
+      setTotalAmount("");
   }
 
   return (

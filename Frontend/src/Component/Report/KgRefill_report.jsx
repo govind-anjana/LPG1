@@ -6,7 +6,7 @@ function KgRefill_report() {
   const today = new Date().toISOString().split("T")[0];
   const [show, setShow] = useState(false);
   const [deliveryData, setDeliveryData] = useState([]);
-  const [namelist,setNameList]=useState([])
+  const [namelist, setNameList] = useState([]);
   const [formData, setFormData] = useState({
     dateFrom: today,
     dateTo: today,
@@ -20,7 +20,7 @@ function KgRefill_report() {
       [name]: value,
     }));
   };
- useEffect(() => {
+  useEffect(() => {
     const fetchNames = async () => {
       try {
         const results = await axios.get("/api/kgrefilllist");
@@ -36,14 +36,16 @@ function KgRefill_report() {
     try {
       const res = await axios.get("/api/kgrefilllist");
       const result = res.data;
-      
+
       const filtered = result.filter(
         (item) =>
-          (!formData.consumer || (item.consumerName).toLowerCase() == (formData.consumer).toLowerCase() ) &&
-          (item.date.split("T")[0]) >= formData.dateFrom &&
+          (!formData.consumer ||
+            item.consumerName.toLowerCase() ==
+              formData.consumer.toLowerCase()) &&
+          item.date.split("T")[0] >= formData.dateFrom &&
           item.date.split("T")[0] <= formData.dateTo
       );
-        // console.log(filtered);
+      // (filtered);
 
       setDeliveryData(filtered);
       setShow(true);
@@ -51,7 +53,6 @@ function KgRefill_report() {
       console.error("Error fetching data:", error);
       alert("Failed to fetch delivery data.");
     }
-    
   };
 
   return (
@@ -94,8 +95,10 @@ function KgRefill_report() {
                 onChange={handleChange}
               >
                 <option value="">Select</option>
-                {namelist.map((item,index)=>(
-                  <option key={index} value={item.consumerName}>{item.consumerName}</option>
+                {namelist.map((item, index) => (
+                  <option key={index} value={item.consumerName}>
+                    {item.consumerName}
+                  </option>
                 ))}
               </select>
             </div>
@@ -109,34 +112,38 @@ function KgRefill_report() {
           </div>
         </form>
         {show && (
-
-  <div className="mt-4">
-    <h6 className="text-center">Report List</h6>
-    <table className="table table-bordered table-sm">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Consumer Name</th>
-          <th>Delivery Man Name</th>
-          <th>Quantity</th> 
-        </tr>
-      </thead>
-      <tbody>
-         {deliveryData.length == 0 ? (
-                  <tr><th colSpan="3" className="text-center text-danger" >No records found</th></tr>
-                ) : (deliveryData.map((item, index) => (
-          <tr key={index}>
-            <td>{item.date.split("T")[0]}</td>
-            <td>{item.consumerName}</td>
-            <td>{item.deliveryMan}</td>
-            <td>{item.refill}</td>
-          </tr>
-        ))
+          <div className="mt-4">
+            <h6 className="text-center">Report List</h6>
+            <table className="table table-bordered table-sm">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Consumer Name</th>
+                  <th>Delivery Man Name</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {deliveryData.length == 0 ? (
+                  <tr>
+                    <th colSpan="3" className="text-center text-danger">
+                      No records found
+                    </th>
+                  </tr>
+                ) : (
+                  deliveryData.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.date.split("T")[0]}</td>
+                      <td>{item.consumerName}</td>
+                      <td>{item.deliveryMan}</td>
+                      <td>{item.refill}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
-      </tbody>
-    </table>
-  </div>
-)}
       </div>
     </div>
   );

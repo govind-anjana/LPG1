@@ -15,26 +15,24 @@ function Equipment() {
         const res = await axios.get("/api/equipment");
         setEmployees(res.data);
       } catch (err) {
-        console.log(err);
+        err;
       }
     };
     fetchdata();
   }, []);
-  // console.log(employees)
+  // (employees)
   // const filteredEmployees = employees.filter((emp) =>
   //   emp.name.toLowerCase().includes(search.toLowerCase())
   // );
 
-  function Edithandle(id,emp) {
-    navigate(`/equipment/${id}`,{ state: { empData: emp } });
+  function Edithandle(id, emp) {
+    navigate(`/equipment/${id}`, { state: { empData: emp } });
   }
   async function Deletehandle(id) {
     const confirmDelete = window.confirm("Are you sure you want to delete?");
     if (!confirmDelete) return;
     try {
-      const res = await axios.delete(
-        `/api/deleteemployee/${id}`
-      );
+      const res = await axios.delete(`/api/deleteemployee/${id}`);
       setEmployees(res.data);
     } catch (err) {
       console.error("Error deleting employee:", err.message);
@@ -85,7 +83,10 @@ function Equipment() {
                       <div className="divbtn">
                         {emp.update_flag === "A" ? (
                           <span>
-                            <FaEdit onClick={()=>Edithandle(emp._id,emp)} title="Edit" />
+                            <FaEdit
+                              onClick={() => Edithandle(emp._id, emp)}
+                              title="Edit"
+                            />
                             <FaDeleteLeft
                               onClick={() => Deletehandle(emp._id)}
                               title="Delete"
@@ -121,8 +122,10 @@ function Equipment() {
                   </td>
                 </tr>
               )}
-                <tr>
-                <td colSpan={7}><span className="text-muted small">{`Records : 1 to ${employees.length} to  ${employees.length}`}</span></td>
+              <tr>
+                <td colSpan={7}>
+                  <span className="text-muted small">{`Records : 1 to ${employees.length} to  ${employees.length}`}</span>
+                </td>
               </tr>
             </tbody>
           </table>
