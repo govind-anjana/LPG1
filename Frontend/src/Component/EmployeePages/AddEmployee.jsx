@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Allinone/Pages/Refill.css";
-import axios from "axios";
+import axios from "../AxiosConfig";
 import { useLocation, useNavigate } from "react-router-dom";
 function AddEmployee() {
   const [userType, setUserType] = useState("");
@@ -26,7 +26,7 @@ function AddEmployee() {
 
   useEffect(() => {
     if (editId) {
-      axios.get(`/api/employee/${editId}`).then((res) => {
+      axios.get(`/employee/${editId}`).then((res) => {
         const result = res.data;
         setAadhar(result.aadhar),
           setAddress(result.address),
@@ -52,7 +52,7 @@ function AddEmployee() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editId) {
-      await axios.put(`/api/employee/${editId}`, {
+      await axios.put(`/employee/${editId}`, {
         userType,
         name,
         mobile,
@@ -75,7 +75,7 @@ function AddEmployee() {
       alert("Updated Successfully");
     } else {
       axios
-        .post("/api/addEmployee", {
+        .post("/addEmployee", {
           userType,
           name,
           mobile,

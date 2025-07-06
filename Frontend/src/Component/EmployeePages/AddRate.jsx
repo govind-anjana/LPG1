@@ -1,10 +1,11 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddRate() {
   const today = new Date();
-  const times = today.toLocaleTimeString();
+  const dates = today.toLocaleTimeString();
   const news = today.toISOString().split("T")[0];
   const [equipment, setEquipment] = useState("");
   const [totalRsp, setTotalRsp] = useState(0);
@@ -13,6 +14,10 @@ function AddRate() {
   const [basePrice, setBasePrice] = useState(0);
   const [validFrom, setValidFrom] = useState(news);
   const [validTo, setValidTo] = useState(news);
+  const { id } = useParams();
+  const location = useLocation();
+  const editData = location.state?.empData;
+  const navigate = useNavigate();
 
   const Equipment_name = [
     "14.2 KG Filled Cyl Domestic",
@@ -55,15 +60,25 @@ function AddRate() {
       setBasePrice(base);
     }
   }, [sgst, cgst, totalRsp]);
-
+  useEffect(() => {
+    if (id && editData) {
+      setBasePrice(editData.basePrice);
+      setCgst(editData.cgst);
+      setEquipment(editData.equipment);
+      setSgst(editData.sgst);
+      setTotalRsp(editData.totalRsp);
+      setValidFrom(editData.validFrom);
+      setValidTo(editData.validTo);
+    }
+  }, [id, editData]);
   function handleTotal(e) {
     const values = e.target.value;
     setTotalRsp(values);
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("/api/addrate", {
+    if (id) {
+      await axios.put(`/updaterate/${id}`, {
         equipment,
         totalRsp,
         sgst,
@@ -71,11 +86,26 @@ function AddRate() {
         basePrice,
         validFrom,
         validTo,
-        dates: times,
+        update_ty: "U",
       });
-      res;
-    } catch (err) {
-      alert("Failed to save agent.");
+      navigate("/rate");
+    } else {
+      try {
+        await axios.post("/addrate", {
+          equipment,
+          totalRsp,
+          sgst,
+          cgst,
+          basePrice,
+          validFrom,
+          validTo,
+          dates,
+          update_ty: "A",
+        });
+        navigate("/rate");
+      } catch (err) {
+        alert("Failed to save agent.");
+      }
     }
     setBasePrice(0),
       setCgst(0),

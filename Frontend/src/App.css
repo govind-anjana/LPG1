@@ -30,10 +30,15 @@
   margin-bottom:15px;;
 /* box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px; */
 }
-#sidebarToggle{
+.applabel{
+  color:white;
+  font-size: 30px;
   position: absolute;
-  top:15px;
-  left:60px;
+  top:-5px;
+  left:20px;
+  display: none;
+}
+#sidebarToggle{
   display:none;
 }
  
@@ -63,10 +68,9 @@
    .apps{
     height:99vh;
 }
-#sidebarToggle
-{
-  display: block;
-}
+  .applabel{
+    display: block;
+  }
 .sidebar {
   position: absolute;
   opacity: 0.79;

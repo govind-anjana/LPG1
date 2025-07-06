@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../AxiosConfig";
 import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
@@ -32,7 +32,7 @@ function Equipment() {
     const confirmDelete = window.confirm("Are you sure you want to delete?");
     if (!confirmDelete) return;
     try {
-      const res = await axios.delete(`/api/deleteemployee/${id}`);
+      const res = await axios.delete(`/deleteemployee/${id}`);
       setEmployees(res.data);
     } catch (err) {
       console.error("Error deleting employee:", err.message);

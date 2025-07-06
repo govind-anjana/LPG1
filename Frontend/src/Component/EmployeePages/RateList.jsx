@@ -1,17 +1,17 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import moment from "moment-timezone";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 function RateList() {
   const [Rate_list, setRate_list] = useState([]);
+  const navigate=useNavigate()
   const fetchRateList = async () => {
     try {
-      const res = await axios.get("/api/addratelist");
+      const res = await axios.get("/addratelist");
       setRate_list(res.data);
-      // (res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
     }
@@ -19,14 +19,14 @@ function RateList() {
   useEffect(() => {
     fetchRateList();
   }, []);
-  function Edithandle() {
-    alert();
+  function Edithandle(id,data) {
+        navigate(`/rate/rate/${id}`,{state:{empData:data}})
   }
   async function Deletehandle(id) {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(`/api/deleterate/${id}`);
+        await axios.delete(`/deleterate/${id}`);
         fetchRateList();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -54,7 +54,6 @@ function RateList() {
             </Link>
           </div>
         </div>
-
         <div className="table-responsive">
           <table
             className="table table-striped text-capitalize"
@@ -94,9 +93,20 @@ function RateList() {
                         .format("DD-MM-YYYY")}
                     </td>
                     <td>
-                      <div className="divbtn ">
-                        <FaEdit className="me-2" onClick={Edithandle} />
-                        <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
+                      <div className="divbtn">
+                       
+                          <span>
+                            <FaEdit
+                              onClick={() => Edithandle(item._id, item)}
+                              title="Edit"
+                            />
+                            <FaDeleteLeft
+                              onClick={() => Deletehandle(item._id)}
+                              title="Delete"
+                              className="ms-3"
+                            />
+                          </span>
+                       
                       </div>
                     </td>
                   </tr>
@@ -118,11 +128,13 @@ function RateList() {
                   </td>
                 </tr>
               )}
+              <tr>
+                <td colSpan={9}>
+                  <span className=" text-muted small">{`Records : 1 to ${Rate_list.length} to  ${Rate_list.length}`}</span>
+                </td>
+              </tr>
             </tbody>
           </table>
-          <div className="text-muted small">
-            Records: 1 to {Rate_list.length} of {Rate_list.length}
-          </div>
         </div>
       </div>
     </div>

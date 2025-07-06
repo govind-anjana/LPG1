@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../AxiosConfig";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ function PromotionRateList() {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/promotionlist");
+      const res = await axios.get("/promotionlist");
       setPromotion_list(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -28,7 +28,7 @@ function PromotionRateList() {
     if (!confirmDelete) return;
     {
       try {
-        const res = await axios.delete(`/api/deletepro/${id}`);
+         await axios.delete(`/deletepro/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);

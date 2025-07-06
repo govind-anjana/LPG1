@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -24,7 +24,7 @@ function AddPromotionRate() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(id){
-          const res=await axios.put(`/api/promtionupdate/${id}`,{
+          const res=await axios.put(`/promtionupdate/${id}`,{
           promotion,
           rate,
           qty,
@@ -37,7 +37,7 @@ function AddPromotionRate() {
     else {
 
       try {
-        const res = await axios.post("/api/addpromotion", {
+        const res = await axios.post("/addpromotion", {
           promotion,
           rate,
           qty,

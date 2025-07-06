@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -15,7 +15,7 @@ function EditEquipment() {
   const handleSubmit = (e) => {
     e.preventDefault();  
     axios
-      .put(`/api/equipment/${id}`, {
+      .put(`/equipment/${id}`, {
         op_stock: strock,
         update_flag: up, 
       })

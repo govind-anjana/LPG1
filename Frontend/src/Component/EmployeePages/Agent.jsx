@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
@@ -29,7 +29,7 @@ function Agent() {
   };
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/masterlist");
+      const res = await axios.get("/masterlist");
       setAgentList(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -44,7 +44,7 @@ function Agent() {
     );
     if (!confirmDelete) return;
     try {
-      const res = await axios.delete(`/api/deleteagent/${id}`);
+      const res = await axios.delete(`/deleteagent/${id}`);
       res.data;
       fetchEmployees();
     } catch (err) {
@@ -64,13 +64,13 @@ function Agent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (id) {
-      const res = await axios.put(`/api/master/${id}`, formData);
+      const res = await axios.put(`/master/${id}`, formData);
       alert("Update Data");
       fetchEmployees();
       res;
     } else {
       try {
-        const res = await axios.post("/api/master", formData);
+        const res = await axios.post("/master", formData);
         alert(res.data.message);
         fetchEmployees();
       } catch (err) {

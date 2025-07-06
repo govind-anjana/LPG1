@@ -45,36 +45,55 @@ import DepositCyllist from "./Component/Deposit/DepositCyllist";
 import Main_report from "./Component/Report/Main_report";
 import DataProvider from "./Context/DataProvider";
 import EditEquipment from "./Component/EmployeePages/EditEquipment";
+import { useState } from "react";
+import { IoMenu, IoClose } from "react-icons/io5";
 function App() {
+  const [isChecked, setIsChecked] = useState(true);
+
+  const handleChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
   return (
     <DataProvider>
       <BrowserRouter>
         <Header />
-        <input type="checkbox" id="sidebarToggle" defaultChecked />
+        <label htmlFor="sidebarToggle" className="applabel">
+          {isChecked ? <IoClose /> : <IoMenu />}
+        </label>
+        <input
+          type="checkbox"
+          id="sidebarToggle"
+          onChange={handleChange}
+          defaultChecked
+        />
         <div className="d-flex maindiv">
           <div className="sidebar">
-            <Navbar htmlFor="sidebarToggle"/>
+            <Navbar htmlFor="sidebarToggle" />
           </div>
-          <div className="main-content flex-grow-1 mx-2 px-3 py-2">
+          <div className="main-content flex-grow-1 mx-md-2 px-md-3 p-2">
             <Routes>
               <Route path="/*" element={<UserLog />} />
               <Route path="/employee" element={<AddEmployee />} />
               <Route path="/employee_list" element={<EmployeeList />} />
               <Route path="/equipment" element={<Equipment />} />
-             <Route path="/equipment/:id" element={<EditEquipment />} />
+              <Route path="/equipment/:id" element={<EditEquipment />} />
               <Route path="/agent" element={<Agent />} />
               <Route path="/agent/:id" element={<Agent />} />
 
               <Route path="/promotion/rate" element={<AddPromotionRate />} />
-              <Route path="/promotion/rate/:id" element={<AddPromotionRate />} />
+              <Route
+                path="/promotion/rate/:id"
+                element={<AddPromotionRate />}
+              />
               <Route path="/promation" element={<PromotionRateList />} />
               <Route path="/rate/rate" element={<AddRate />} />
+              <Route path="/rate/rate/:id" element={<AddRate />} />
               <Route path="/rate" element={<RateList />} />
               <Route path="/nfr/nfr" element={<AddNfr />} />
               <Route path="/nfr/nfr/:id" element={<AddNfr />} />
               <Route path="/nfr" element={<NfrList />} />
               <Route path="/Delivery" element={<AddDelivery />} />
-              <Route path="/DeliveryList" element={<DeliveryList/>}/>
+              <Route path="/DeliveryList" element={<DeliveryList />} />
               <Route path="/kgRefill" element={<AddKgRefill />} />
               <Route path="/kgRefill/:id" element={<AddKgRefill />} />
               <Route path="/KgRefill/bulk" element={<AddConsumer />} />
@@ -87,7 +106,6 @@ function App() {
               <Route path="/expenses/expenses" element={<Addexpense />} />
               <Route path="/expenses/expenses/:id" element={<Addexpense />} />
 
-              
               <Route path="/expensehead" element={<ExpenseHead />} />
               <Route path="/expensehead/:id" element={<ExpenseHead />} />
 
