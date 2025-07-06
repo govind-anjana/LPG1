@@ -2,12 +2,12 @@ import React from "react";
 import { NavLink, Routes, Route, Navigate } from "react-router-dom";
 
 import RefillForm from "./Pages/Refill";
-import SalesPage from "./Pages/SalesPage";
 import DocumentForm from "./Pages/Document";
 import SummaryPage from "./Pages/SummaryPage";
 import PlantTransaction from "./Pages/PlantTransaction";
 import Kgrefill from "./Pages/Kgrefill";
-import StockPage from "./Pages/StockPage"; // ✅ Renamed for clarity
+import StockPage from "./Pages/StockPage";
+import SalePage from "./Pages/SalePage";
 
 function UserLog() {
   return (
@@ -114,7 +114,7 @@ function UserLog() {
             <Route path="/" element={<Navigate to="/refill" />} />
             <Route path="/refill" element={<RefillForm />} />
             <Route path="/documents" element={<DocumentForm />} />
-            <Route path="/sale" element={<SalesPage />} />
+            <Route path="/sale" element={<SalePage/>}/>
             <Route path="/summary" element={<SummaryPage />} />
             <Route path="/stock" element={<StockPage />} />
             <Route path="/plant-transaction" element={<PlantTransaction />} />

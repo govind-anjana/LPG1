@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../AxiosConfig";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 function AddNfr() {

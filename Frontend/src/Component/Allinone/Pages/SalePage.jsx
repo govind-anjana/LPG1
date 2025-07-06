@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-function Salespage() {
+function SalePage() {
   const [conType, setConType] = useState("");
   const [rate, setRate] = useState("");
   const [qty,setQty]=useState("");
@@ -131,4 +131,4 @@ function Salespage() {
   );
 }
 
-export default Salespage;
+export default SalePage;
