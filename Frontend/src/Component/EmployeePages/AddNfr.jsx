@@ -23,7 +23,7 @@ function AddNfr() {
     e.preventDefault();
     try {
       if (id) {
-        await axios.put(`/api/updatenfr/${id}`, {
+        await axios.put(`/updatenfr/${id}`, {
           itemGroup,
           vendorNames,
           modelName,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../AxiosConfig";
 import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
@@ -10,10 +10,10 @@ function NfrList() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await axios.get("/api/nfrlist");
+        const res = await axios.get("/nfrlist");
         setNft_list(res.data);
       } catch (err) {
-        console.error(" Error fetching employee list:", err.message);
+        console.error("Error fetching employee list:", err.message);
       }
     };
     fetchEmployees();
@@ -28,7 +28,7 @@ function NfrList() {
     );
     if (!confirmDelete) return;
     try {
-      const res = await axios.delete(`/api/deletenfr/${id}`);
+      const res = await axios.delete(`/deletenfr/${id}`);
       setNft_list(res.data);
     } catch (err) {
       console.error("Error deleting employee:", err.message);
