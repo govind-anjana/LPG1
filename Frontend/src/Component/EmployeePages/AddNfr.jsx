@@ -35,7 +35,7 @@ function AddNfr() {
         });
         alert("NFR updated successfully!");
       } else {
-        const res = await axios.post("/api/addnfr", {
+        const res = await axios.post("/addnfr", {
           itemGroup,
           vendorNames,
           modelName,
@@ -110,6 +110,8 @@ function AddNfr() {
               required
             >
               <option value="">Select</option>
+              <option value="govind">Govind</option>
+              <option value="hariom">Hariom</option>
               {vendorName.map((item, idx) => (
                 <option key={idx} value={item.deliveryMan}>
                   {item.deliveryMan}
