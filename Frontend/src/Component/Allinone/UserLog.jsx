@@ -1,34 +1,47 @@
 import React from "react";
-import { NavLink, Routes, Route } from "react-router-dom";
+import { NavLink, Routes, Route, Navigate } from "react-router-dom";
+
 import RefillForm from "./Pages/Refill";
 import SalesPage from "./Pages/SalesPage";
 import DocumentForm from "./Pages/Document";
-import SummaryPage from "./Pages/SummaryPage";  
-import StockPage from "./Pages/StockPage";     
+import SummaryPage from "./Pages/SummaryPage";
 import PlantTransaction from "./Pages/PlantTransaction";
 import Kgrefill from "./Pages/Kgrefill";
+import StockPage from "./Pages/StockPage"; // ✅ Renamed for clarity
 
 function UserLog() {
   return (
-    <div className="bg-white boxdesign ">
+    <div className="bg-white boxdesign">
       <h5 className="mb-3">All In One</h5>
-      <div className="p-0 ">
-        <ul className="userdiv list-inline rounded-3" style={{fontWeight:'500',fontSize:"15px",backgroundColor:'black',border:'2px solid black'}}>
-          <li className="list-inline-item ">
+      <div className="p-0">
+        <ul
+          className="userdiv list-inline rounded-3"
+          style={{
+            fontWeight: "500",
+            fontSize: "15px",
+            backgroundColor: "black",
+            border: "2px solid black",
+          }}
+        >
+          <li className="list-inline-item">
             <NavLink
-              to="/"
+              to="/refill"
               className={({ isActive }) =>
-                `text-decoration-none px-3 py-2 rounded  ${isActive ? " bg-white border-3 text-black" : " text-white"}`
+                `text-decoration-none px-3 py-2 rounded ${
+                  isActive ? "bg-white border-3 text-black" : "text-white"
+                }`
               }
             >
               Refill
             </NavLink>
           </li>
-          <li className="list-inline-item ">
+          <li className="list-inline-item">
             <NavLink
-              to="/Documents"
-               className={({ isActive }) =>
-                `text-decoration-none px-3 py-2 rounded  ${isActive ? "bg-white border-3 text-black" : " text-white"}`
+              to="/documents"
+              className={({ isActive }) =>
+                `text-decoration-none px-3 py-2 rounded ${
+                  isActive ? "bg-white border-3 text-black" : "text-white"
+                }`
               }
             >
               Document
@@ -36,9 +49,11 @@ function UserLog() {
           </li>
           <li className="list-inline-item py-2">
             <NavLink
-              to="/Sale"
-               className={({ isActive }) =>
-                `text-decoration-none  px-3 py-2 rounded   ${isActive ? "bg-white border-3 text-black" : "text-white"}`
+              to="/sale"
+              className={({ isActive }) =>
+                `text-decoration-none px-3 py-2 rounded ${
+                  isActive ? "bg-white border-3 text-black" : "text-white"
+                }`
               }
             >
               Sales
@@ -47,28 +62,34 @@ function UserLog() {
           <li className="list-inline-item">
             <NavLink
               to="/summary"
-               className={({ isActive }) =>
-                `text-decoration-none px-3 py-2 rounded   ${isActive ? "bg-white border-3 text-black" : "text-white"}`
+              className={({ isActive }) =>
+                `text-decoration-none px-3 py-2 rounded ${
+                  isActive ? "bg-white border-3 text-black" : "text-white"
+                }`
               }
             >
               Summary
             </NavLink>
           </li>
-          <li className="list-inline-item ">
+          <li className="list-inline-item">
             <NavLink
               to="/stock"
-               className={({ isActive }) =>
-                `text-decoration-none  px-3 py-2 rounded   ${isActive ? "bg-white border-3 text-black" : "text-white"}`
+              className={({ isActive }) =>
+                `text-decoration-none px-3 py-2 rounded ${
+                  isActive ? "bg-white border-3 text-black" : "text-white"
+                }`
               }
             >
               Stock
             </NavLink>
           </li>
-          <li className="list-inline-item ">
+          <li className="list-inline-item">
             <NavLink
               to="/plant-transaction"
               className={({ isActive }) =>
-                `text-decoration-none px-3 py-2 rounded ${isActive ? "bg-white border-3 text-black" : "text-white"}`
+                `text-decoration-none px-3 py-2 rounded ${
+                  isActive ? "bg-white border-3 text-black" : "text-white"
+                }`
               }
             >
               Plant Transaction
@@ -78,7 +99,9 @@ function UserLog() {
             <NavLink
               to="/kgrefill19"
               className={({ isActive }) =>
-                `text-decoration-none  px-3 py-2 rounded  ${isActive ? "bg-white border-3 text-black" : "text-white"}`
+                `text-decoration-none px-3 py-2 rounded ${
+                  isActive ? "bg-white border-3 text-black" : "text-white"
+                }`
               }
             >
               19 Kg Refill
@@ -86,17 +109,18 @@ function UserLog() {
           </li>
         </ul>
 
-      <div className="bg-light userlog">
-        <Routes>
-          <Route path="/" element={<RefillForm />} />
-          <Route path="/Documents" element={<DocumentForm />} />
-          <Route path="/Sale" element={<SalesPage />} />
-          <Route path="/summary" element={<SummaryPage />} />
-          <Route path="/stock" element={<StockPage />} />
-          <Route path="/plant-transaction" element={<PlantTransaction/>} />
-          <Route path="/kgrefill19" element={<Kgrefill/>} />
-        </Routes>
-      </div>
+        <div className="bg-light userlog">
+          <Routes>
+            <Route path="/" element={<Navigate to="/refill" />} />
+            <Route path="/refill" element={<RefillForm />} />
+            <Route path="/documents" element={<DocumentForm />} />
+            <Route path="/sale" element={<SalesPage />} />
+            <Route path="/summary" element={<SummaryPage />} />
+            <Route path="/stock" element={<StockPage />} />
+            <Route path="/plant-transaction" element={<PlantTransaction />} />
+            <Route path="/kgrefill19" element={<Kgrefill />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );

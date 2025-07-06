@@ -3,9 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const connectedData = () => {
-  mongoose.connect(
-    "mongodb+srv://govindanjana2004:RwdUc5ttwPHlEJwm@test.2tgtdvc.mongodb.net/lpgdb?retryWrites=true&w=majority&appName=test"
-  )
+  mongoose.connect(process.env.MONGO_URL_ATLAS)
   .then(() => console.log("✅ MongoDB connected successfully"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 };

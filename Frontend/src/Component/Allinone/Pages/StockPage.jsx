@@ -5,7 +5,7 @@ import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import axios from "axios";
 
-function StockPage() {
+function StockPage1() {
   const [current_stock, setCurrent_Stock] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -88,4 +88,4 @@ function StockPage() {
   );
 }
 
-export default StockPage;
+export default StockPage1;

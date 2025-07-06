@@ -21,7 +21,6 @@ import AddDocument from "./Component/DocumentFile/AddDocument";
 import DocumentList from "./Component/DocumentFile/DocumentList";
 import Sales from "./Component/Sales/Sales";
 import SalesList from "./Component/Sales/SalesList";
-import ExpenseList from "./Component/Expense/ExpenseList";
 import Addexpense from "./Component/Expense/Addexpense";
 import ExpenseHead from "./Component/Expense/ExpenseHead";
 import BulkDocuments from "./Component/BulkDocument/BulkDocuments";

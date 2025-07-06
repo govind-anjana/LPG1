@@ -4,11 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-  "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-  "dev:backend": "nodemon backend/index.js",
-  "dev:frontend": "npm start --prefix Frontend",
-  "build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
-  "start": "nodemon backend/index.js"
+  "start": "nodemon index.js"
 },
   "keywords": [],
   "author": "",
