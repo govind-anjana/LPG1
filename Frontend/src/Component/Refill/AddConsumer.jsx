@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "../Allinone/Pages/Refill.css";
-import axios from "axios";
+import axios from "../AxiosConfig";
 import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { useContext } from "react";
 import DataContext from "../../Context/DataContext";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 function AddConsumer() {
   const { data } = useContext(DataContext);
   const news = new Date();
@@ -19,7 +20,7 @@ function AddConsumer() {
   const [totalAmount, setTotalAmount] = useState("0");
   const [remarks, setRemarks] = useState(0);
   const [paymentReceived, setPaymentReceived] = useState("0");
-  const [equipmentName, setEquipmentName] = useState("");
+  const [equipmentNam, setEquipmentName] = useState("");
   const [currentRate, setCurrentRate] = useState(0);
   const [refill, setRefill] = useState(0);
   const [discountRate, setDiscountRate] = useState(0);
@@ -29,6 +30,10 @@ function AddConsumer() {
   const [emptyBalance, setEmptyBalance] = useState("0");
   const [AddConsumer_List, setAddConsumer_List] = useState([]);
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
+  const editData = location.state?.empData;
   // const [refillRows, setRefillRows] = useState([
   //   {
   //     equipmentName: "",
@@ -82,24 +87,44 @@ function AddConsumer() {
   ];
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/consumerlist");
+      const res = await axios.get("/consumerlist");
       setAddConsumer_List(res.data);
+      // console.log(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
     }
   };
   useEffect(() => {
     fetchEmployees();
-  }, []);
+    if (id && editData) {
+      // console.log(editData)
+      setAmount(editData.amount),
+        setConsumerType(editData.consumreType),
+        setConsumerName(editData.consumerName),
+        setCurrentRate(editData.currentRate),
+        setDeliveryMan(editData.deliveryMan),
+        setDiscount(editData.discount),
+        setDiscountRate(editData.discountRate),
+        setEmptyBalance(editData.emptyBalance),
+        setEmptyRefill(editData.emptyRefill),
+        setEquipmentName(editData.equipmentNam),
+        setMobile(editData.mobile),
+        setOldAmount(editData.oldAmount),
+        setPaymentReceived(editData.paymentReceived),
+        setRefill(editData.refill),
+        setRemarks(editData.remarks),
+        setTotalAmount(editData.totalAmount);
+    }
+  }, [id, editData]);
 
-  function Edithandle() {
-    alert();
+  function Edithandle(id, data) {
+    navigate(`/kgRefill/bulk/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const valid = confirm("Delete Consumer Delivery");
     if (valid) {
       try {
-        const res = await axios.delete(`/api/deleteconsumer/${id}`);
+        const res = await axios.delete(`/deleteconsumer/${id}`);
         res;
         fetchEmployees();
       } catch (err) {
@@ -109,8 +134,8 @@ function AddConsumer() {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios
-      .post("/api/addconsumer", {
+    if (id) {
+      await axios.put(`/updateconsumer/${id}`, {
         consumreType,
         consumerName,
         mobile,
@@ -119,7 +144,7 @@ function AddConsumer() {
         totalAmount,
         remarks,
         paymentReceived,
-        equipmentName,
+        equipmentNam,
         currentRate,
         refill,
         discountRate,
@@ -127,14 +152,38 @@ function AddConsumer() {
         emptyRefill,
         amount,
         emptyBalance,
-        times,
-        update_ty: "A",
-      })
-      .then((res) => {
-        alert("Data Submit", res.data.message);
-        fetchEmployees();
-      })
-      .catch((err) => err);
+        update_ty: "U",
+      });
+      alert("Update Data");
+      fetchEmployees();
+    } else {
+      await axios
+        .post("/addconsumer", {
+          consumreType,
+          consumerName,
+          mobile,
+          deliveryMan,
+          oldAmount,
+          totalAmount,
+          remarks,
+          paymentReceived,
+          equipmentNam,
+          currentRate,
+          refill,
+          discountRate,
+          discount,
+          emptyRefill,
+          amount,
+          emptyBalance,
+          times,
+          update_ty: "A",
+        })
+        .then((res) => {
+          alert("Data Submit", res.data.message);
+          fetchEmployees();
+        })
+        .catch((err) => err);
+    }
     setAmount(""),
       setConsumerType(""),
       setConsumerName(""),
@@ -154,13 +203,13 @@ function AddConsumer() {
   };
 
   useEffect(() => {
-    if (!equipmentName) return;
+    if (!equipmentNam) return;
     const fetchPrice = async () => {
       try {
         const rateList = [...data].reverse();
 
         const latestValidRate = rateList.find(
-          (item) => item.equipment == equipmentName && item.validTo >= today
+          (item) => item.equipment == equipmentNam && item.validTo >= today
         );
 
         if (latestValidRate) {
@@ -174,7 +223,7 @@ function AddConsumer() {
       }
     };
     fetchPrice();
-  }, [equipmentName]);
+  }, [equipmentNam]);
   //   useEffect(() => {
   //    if (!equipmentName2) return;
   //    const fetchPrice = async () => {
@@ -372,11 +421,11 @@ function AddConsumer() {
           <div className="form-group col-md-3 col-sm-4">
             <label>Equipment Name</label>
             <select
-              value={equipmentName}
+              value={equipmentNam}
               onChange={(e) => setEquipmentName(e.target.value)}
               required
             >
-              <option>Select</option>
+              <option value="">Select</option>
               {Equipment_name.map((name, idx) => (
                 <option key={idx} value={name}>
                   {name}
@@ -647,9 +696,27 @@ function AddConsumer() {
                     <td>{item.amount}</td>
                     <td>{item.date.split("T")[0]}</td>
                     <td>
-                      <div className="divbtn  ">
-                        <FaEdit className="me-2" onClick={Edithandle} />
-                        <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
+                      <div className="divbtn">
+                        {item.update_ty == "A" ? (
+                          <span>
+                            <FaEdit
+                              onClick={() => Edithandle(item._id, item)}
+                              title="Edit"
+                            />
+                            <FaDeleteLeft
+                              onClick={() => Deletehandle(item._id)}
+                              title="Delete"
+                              className="ms-3"
+                            />
+                          </span>
+                        ) : (
+                          <span
+                            style={{ cursor: "not-allowed", color: "silver" }}
+                          >
+                            <FaEdit />
+                            <FaDeleteLeft className="ms-3" />
+                          </span>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -671,6 +738,11 @@ function AddConsumer() {
                   </td>
                 </tr>
               )}
+               <tr>
+             <td colSpan={11}>
+                <span className="text-muted small">{`Records : 1 to ${AddConsumer_List.length} to  ${AddConsumer_List.length}`}</span>
+                </td>
+             </tr>
             </tbody>
           </table>
         </div>

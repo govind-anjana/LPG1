@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -29,7 +29,7 @@ function Sales() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(id){
-      const res=await axios.put(`/api/updatesale/${id}`,{ conType,
+      const res=await axios.put(`/updatesale/${id}`,{ conType,
         model,
         rate,
         qty,
@@ -41,7 +41,7 @@ function Sales() {
     }
     else {
     try {
-      const res = await axios.post("/api/addsale", {
+      const res = await axios.post("/addsale", {
         conType,
         model,
         rate,

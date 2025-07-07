@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -24,7 +24,7 @@ function BulkDocuments() {
     e.preventDefault();
     if (id) {
       try {
-        const res = await axios.put(`/api/updatebulk/${id}`, {
+        const res = await axios.put(`/updatebulk/${id}`, {
           agentName,
           promotionType,
           documentSubmit,
@@ -43,7 +43,7 @@ function BulkDocuments() {
       }
     } else {
       try {
-        const res = await axios.post("/api/addbulkdoc", {
+        const res = await axios.post("/addbulkdoc", {
           agentName,
           promotionType,
           documentSubmit,
@@ -56,7 +56,7 @@ function BulkDocuments() {
           update_ty: "A",
           times,
         });
-        alert(res.data.message);
+        navigate("/bulkDocumentList");
       } catch (err) {
         alert("Failed to save agent.", err.message);
       }
@@ -81,9 +81,9 @@ function BulkDocuments() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await axios.get("/api/masterlist");
+        const res = await axios.get("/masterlist");
         setAgentList(res.data);
-        // (res.data);
+       
       } catch (err) {
         console.error(" Error fetching employee list:", err.message);
       }

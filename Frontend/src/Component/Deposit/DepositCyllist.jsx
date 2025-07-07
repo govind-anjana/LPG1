@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -12,7 +12,7 @@ function DepositCyllist() {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/depositlist");
+      const res = await axios.get("/depositlist");
       setDeposit_List(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -27,11 +27,11 @@ function DepositCyllist() {
   }
 
   async function Deletehandle(id) {
-    const valid = confirm("Delete Delivery");
+    const valid = confirm("Are you sure you want to delete this record?");
     if (valid) {
       try {
         const res = await axios.delete(
-          `http://localhost:4001/deletedeposit/${id}`
+          `/deletedeposit/${id}`
         );
         fetchEmployees();
       } catch (err) {

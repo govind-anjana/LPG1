@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -7,10 +7,10 @@ import { FaEdit } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 function SalesList() {
   const [Sales_List, setSales_list] = useState([]);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/salelist");
+      const res = await axios.get("/salelist");
       setSales_list(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -20,15 +20,15 @@ function SalesList() {
     fetchEmployees();
   }, []);
 
-  function Edithandle(id,data) {
-      navigate(`/sales/sales/${id}`,{state:{empData:data}})
+  function Edithandle(id, data) {
+    navigate(`/sales/sales/${id}`, { state: { empData: data } });
   }
 
   async function Deletehandle(id) {
     const valid = confirm("Delete Delivery");
     if (valid) {
       try {
-        const res = await axios.delete(`/api/deletesale/${id}`);
+        const res = await axios.delete(`/deletesale/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);

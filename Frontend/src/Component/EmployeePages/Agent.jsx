@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-
 function Agent() {
   const [agentList, setAgentList] = useState([]);
   const navigate = useNavigate();
@@ -17,7 +16,6 @@ function Agent() {
     address: "",
     promotionName: "",
     discount: "",
-    update_ty: "A",
   });
 
   const handleChange = (e) => {
@@ -53,6 +51,7 @@ function Agent() {
   }
   useEffect(() => {
     fetchEmployees();
+
     setFormData({
       agentName: "",
       mobile: "",
@@ -62,15 +61,23 @@ function Agent() {
     });
   }, []);
   const handleSubmit = async (e) => {
+    const dataToSend = {
+      ...formData,
+      update_ty: id ? "U":"A",
+    };
     e.preventDefault();
     if (id) {
-      const res = await axios.put(`/master/${id}`, formData);
+      try{
+      await axios.put(`/masters/${id}`, dataToSend);
       alert("Update Data");
       fetchEmployees();
-      res;
+      }
+      catch(err){
+        alert(err)
+      }
     } else {
       try {
-        const res = await axios.post("/master", formData);
+        const res = await axios.post("/master", dataToSend);
         alert(res.data.message);
         fetchEmployees();
       } catch (err) {
@@ -109,12 +116,12 @@ function Agent() {
       <span className="fs-4 fw-semibold">Add Agent</span>
       <div className="d-flex mt-3 gap-3 flex-wrap">
         <div
-          className="flex-fill settion p-3 bg-light rounded-2 border-top border-warning border-3 shadow-sm"
+          className="flex-fill settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm"
           style={{ width: "250px" }}
         >
           <form onSubmit={handleSubmit}>
             <div className="row agentname">
-              <div className="col-6 mb-3">
+              <div className="col-sm-6 mb-3">
                 <label className="form-label">Agent Name</label>
                 <input
                   type="text"
@@ -124,8 +131,7 @@ function Agent() {
                   onChange={handleChange}
                 />
               </div>
-
-              <div className="col-6 mb-3">
+              <div className="col-sm-6 mb-3">
                 <label className="form-label">Mobile</label>
                 <input
                   type="number"
@@ -136,7 +142,7 @@ function Agent() {
                 />
               </div>
 
-              <div className="col-6 mb-3">
+              <div className="col-sm-6 mb-3">
                 <label className="form-label">Address</label>
                 <input
                   type="text"
@@ -147,12 +153,13 @@ function Agent() {
                 />
               </div>
 
-              <div className="col-6 mb-3">
+              <div className="col-sm-6 mb-3">
                 <label className="form-label">Promotion Name</label>
                 <select
                   name="promotionName"
                   value={formData.promotionName}
                   onChange={handleChange}
+                  required
                 >
                   <option value="">Select Promotion Type</option>
                   {promotion_type.map((type, index) => (
@@ -163,7 +170,7 @@ function Agent() {
                 </select>
               </div>
 
-              <div className="col-6 mb-3">
+              <div className="col-sm-6 mb-3">
                 <label className="form-label">Discount (₹)</label>
                 <input
                   type="number"

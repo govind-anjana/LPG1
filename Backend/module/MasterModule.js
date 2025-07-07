@@ -15,5 +15,5 @@ const AgentSchema = new mongoose.Schema(
   }
 );
 
-const AgentModel = mongoose.model("Agent", AgentSchema);
+const AgentModel = mongoose.model("Agents", AgentSchema);
 export default AgentModel;

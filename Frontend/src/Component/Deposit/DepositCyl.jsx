@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function ExpenseHead() {
   const [userType, setUserType] = useState("");
@@ -10,6 +10,7 @@ function ExpenseHead() {
   const [equipment, setEquipment] = useState("");
   const [depositCyl, setDepositCyl] = useState("");
   const [remarks, setRemarks] = useState("");
+  const navigate=useNavigate()
   const {id}=useParams()
   const location=useLocation()
   const editData=location.state?.empData;
@@ -57,7 +58,7 @@ function ExpenseHead() {
   async function handleSubmit(e) {
     e.preventDefault();
     if(id){
-      await axios.put(`/api/updatedeposit${id}`,{ userType,
+      await axios.put(`/updatedeposit/${id}`,{ userType,
         equipmentType,
         employeeName,
         equipment,
@@ -65,9 +66,11 @@ function ExpenseHead() {
         remarks,
         update_ty:"U"})
         alert("Update Data")
+        navigate("/depositCylList")
     }
+    else {
     try {
-      const res = await axios.post("/api/adddeposit", {
+      const res = await axios.post("/adddeposit", {
         userType,
         equipmentType,
         employeeName,
@@ -78,9 +81,17 @@ function ExpenseHead() {
       });
 
       alert(res.data.message);
+        navigate("/depositCylList")
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
+    setDepositCyl("")
+    setEmployeeName("")
+    setEquipment("")
+    setEquipmentType("")
+    setRemarks("")
+    setUserType("")
+  }
   }
   return (
     <div className="allworking boxdesign">
@@ -131,6 +142,7 @@ function ExpenseHead() {
                   type="radio"
                   name="equipmentType"
                   value="Filled"
+                  checked={equipmentType === "Filled"}
                   onChange={(e) => setEquipmentType(e.target.value)}
                 />
                 &nbsp; Empty
@@ -138,6 +150,7 @@ function ExpenseHead() {
                   type="radio"
                   name="equipmentType"
                   value="Empty"
+                  checked={equipmentType === "Empty"}
                   onChange={(e) => setEquipmentType(e.target.value)}
                 />
               </div>

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
@@ -59,9 +59,9 @@ function AddKgRefill() {
   ];
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/kgrefilllist");
+      const res = await axios.get("/kgrefilllist");
       setKgRefill_List(res.data);
-      const res1 = await axios.get("/api/consumerlist");
+      const res1 = await axios.get("/consumerlist");
       setConsumer(res1.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -72,7 +72,7 @@ function AddKgRefill() {
 
     const fetchPrice = async () => {
       try {
-        const res = await axios.get("/api/addratelist");
+        const res = await axios.get("/addratelist");
         const rateList = [...res.data].reverse();
 
         const latestValidRate = rateList.find(
@@ -129,7 +129,7 @@ function AddKgRefill() {
     const valid = confirm("Delete kg Refill Delivery");
     if (valid) {
       try {
-        const res = await axios.delete(`/api/deletekgrefill/${id}`);
+       await axios.delete(`/deletekgrefill/${id}`);
 
         fetchEmployees();
       } catch (err) {
@@ -140,7 +140,7 @@ function AddKgRefill() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (id) {
-      await axios.put(`/api/updatekgrefill/${id}`, {
+      await axios.put(`/updatekgrefill/${id}`, {
         consumerName,
         equipment,
         deliveryMan,
@@ -161,7 +161,7 @@ function AddKgRefill() {
       fetchEmployees();
     } else {
       await axios
-        .post("/api/addkgrefill", {
+        .post("/addkgrefill", {
           consumerName,
           equipment,
           deliveryMan,

@@ -93,10 +93,13 @@ function App() {
               <Route path="/nfr/nfr/:id" element={<AddNfr />} />
               <Route path="/nfr" element={<NfrList />} />
               <Route path="/Delivery" element={<AddDelivery />} />
+              <Route path="/Delivery/:id" element={<AddDelivery />} />
               <Route path="/DeliveryList" element={<DeliveryList />} />
               <Route path="/kgRefill" element={<AddKgRefill />} />
               <Route path="/kgRefill/:id" element={<AddKgRefill />} />
               <Route path="/KgRefill/bulk" element={<AddConsumer />} />
+              <Route path="/KgRefill/bulk" element={<AddConsumer />} />
+              <Route path="/KgRefill/bulk/:id" element={<AddConsumer />} />
               <Route path="/document/document" element={<AddDocument />} />
               <Route path="/document/document/:id" element={<AddDocument />} />
               <Route path="/document" element={<DocumentList />} />
@@ -116,7 +119,7 @@ function App() {
               <Route path="/depositCyl/:id" element={<DepositCyl />} />
               <Route path="/depositCylList" element={<DepositCyllist />} />
               <Route path="/panalty" element={<AddPenalty />} />
-              <Route path="/panalty/id" element={<AddPenalty />} />
+              <Route path="/panalty/:id" element={<AddPenalty />} />
               <Route path="/cash" element={<AddCash />} />
               <Route path="/reports/Main" element={<Main_report />} />
               <Route path="/reports/Delivert" element={<Delivery_report />} />

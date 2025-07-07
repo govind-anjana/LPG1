@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
@@ -14,7 +14,7 @@ function AddPenalty() {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-  const editData = location.state?.empdata;
+  const editData = location.state?.empData;
   const [penaltyList, setPenaltyList] = useState([]);
 
   const delivery_Man_Name = [
@@ -39,7 +39,7 @@ function AddPenalty() {
   ];
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/penaltylist");
+      const res = await axios.get("/penaltylist");
       setPenaltyList(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -58,13 +58,13 @@ function AddPenalty() {
   }, []);
 
   function Edithandle(id, data) {
-    navigate(`panalty/${id}`, { state: { empData: data } });
+    navigate(`/panalty/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(`/api/deletepenalty/${id}`);
+        const res = await axios.delete(`/deletepenalty/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -74,16 +74,17 @@ function AddPenalty() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (id) {
-      await axios.put(`/api/updatepenalty/${id}`, {
+      await axios.put(`/updatepenalty/${id}`, {
         employeeName,
         amount,
         remarks,
         update_ty: "U",
       });
-      console.log("Update Data");
+      alert("Update Data");
+      fetchEmployees();
     } else {
       await axios
-        .post("/api/addpenalty", {
+        .post("/addpenalty", {
           employeeName,
           amount,
           remarks,
@@ -99,15 +100,15 @@ function AddPenalty() {
     }
     setAmount(""), setEmployeeName(""), setRemarks("");
   }
-
   return (
-    <div className="allworking boxdesign">
+    <div className="expensehead allworking boxdesign">
       <span className="fs-4 fw-semibold">Penalty</span>
-      <div className="my-3 settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm">
+       <div className="d-md-flex mt-1 gap-4 flex-wrap">
+      <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm">
         <span className="fs-5 fw-semibold">Add Penalty</span>
         <form onSubmit={handleSubmit}>
           <div className="row mt-2">
-            <div className="col-md-4">
+            <div className="mb-2">
               <label>Employee Name</label>
               <select
                 name="employeeName"
@@ -124,7 +125,7 @@ function AddPenalty() {
               </select>
             </div>
 
-            <div className="col-md-4">
+            <div className="mb-2">
               <label className="form-label">Amount</label>
               <input
                 type="number"
@@ -135,7 +136,7 @@ function AddPenalty() {
               />
             </div>
 
-            <div className="col-md-4">
+            <div className="mb-2">
               <label className="form-label">Remarks</label>
               <input
                 type="text"
@@ -154,7 +155,7 @@ function AddPenalty() {
         </form>
       </div>
 
-      <div className="settion flex-fill my-3 p-3 bg-light rounded-2  border-warning border-3 shadow-sm">
+      <div className="settion flex-fill p-3 bg-light rounded-2  border-warning border-3 shadow-sm">
         <span className="fs-5 fw-semibold">Penalty List</span>
         <div className="mt-3 d-flex justify-content-between align-items-center">
           <input
@@ -241,6 +242,7 @@ function AddPenalty() {
               </tr>
             </tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>

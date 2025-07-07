@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
@@ -25,7 +25,7 @@ function AddCash() {
     a10 * 10;
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/cashlist");
+      const res = await axios.get("/cashlist");
       setCashList(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -44,7 +44,7 @@ function AddCash() {
     const valid = confirm("Delete Cash Delivery");
     if (valid) {
       try {
-        const res = await axios.delete(`/api/deletecash/${id}`);
+        const res = await axios.delete(`/deletecash/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -60,7 +60,7 @@ function AddCash() {
     }
 
     await axios
-      .post("/api/addcash", {
+      .post("/addcash", {
         totalAmount,
       })
       .then((res) => {

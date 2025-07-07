@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
@@ -17,7 +17,7 @@ function ExpenseHead() {
   const editData = location.state?.empData;
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/expenseheadlist");
+      const res = await axios.get("/expenseheadlist");
       setExpense_List(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -41,7 +41,7 @@ function ExpenseHead() {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(`/api/deleteexpensehead/${id}`);
+        const res = await axios.delete(`/deleteexpensehead/${id}`);
         res;
         fetchEmployees();
       } catch (err) {
@@ -52,7 +52,7 @@ function ExpenseHead() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (id) {
-      const res = await axios.put(`/api/updateexpenses/${id}`, {
+      const res = await axios.put(`/updateexpenses/${id}`, {
         expenseType,
         expenseH,
         description,
@@ -62,7 +62,7 @@ function ExpenseHead() {
       fetchEmployees();
     } else {
       await axios
-        .post("/api/addexpensehead", {
+        .post("/addexpensehead", {
           expenseType,
           expenseH,
           description,
@@ -80,7 +80,7 @@ function ExpenseHead() {
   return (
     <div className="expensehead allworking boxdesign">
       <span className="fs-4 fw-semibold">Expenses</span>
-      <div className="d-md-flex mt-3 gap-4 flex-wrap">
+      <div className="d-md-flex mt-1 gap-4 flex-wrap ">
         <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm">
           <span className="fs-6 fw-semibold">Add Expense Head </span>
           <br />
@@ -194,7 +194,7 @@ function ExpenseHead() {
                         </span>
                         <br />
                         <img
-                          src="https://placeholder.com"
+                          src="xyz.jpg"
                           alt="No data"
                           className="my-4"
                         />
@@ -206,6 +206,11 @@ function ExpenseHead() {
                     </td>
                   </tr>
                 )}
+                <tr>
+                <td colSpan={4}>
+                  <span className=" text-muted small">{`Records : 1 to ${ExpenseHead_List.length} to  ${ExpenseHead_List.length}`}</span>
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -111,7 +111,7 @@ function AddItemDocument() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (id) {
-      const res1 = await axios.put(`/api/updatedocument/${id}`, {
+      const res1 = await axios.put(`/updatedocument/${id}`, {
         connection,
         equipment,
         itemType,
@@ -141,7 +141,7 @@ function AddItemDocument() {
       alert("update Document");
     } else {
       try {
-        const res = await axios.post("/api/adddocument", {
+        const res = await axios.post("/adddocument", {
           connection,
           equipment,
           itemType,
@@ -193,14 +193,14 @@ function AddItemDocument() {
     navigator("/document");
   };
   async function fetchModel() {
-    const models = await axios.get("/api/nfrlist");
+    const models = await axios.get("/nfrlist");
     models;
   }
   useEffect(() => {
     if (!promotionType) return;
     const fetchdata = async () => {
       try {
-        const res = await axios.get("/api/promotionlist");
+        const res = await axios.get("/promotionlist");
         const rateList = [...res.data].reverse();
 
         const latestValidRate = rateList.find(
@@ -332,7 +332,9 @@ function AddItemDocument() {
               <div className="col-md-2">
                 <label className="form-label">Consumer No</label>
                 <input
-                  type="number"
+                  type="text"
+                  pattern="[0-9]{10}"
+                  maxLength="10"
                   name="consumerNo"
                   value={consumerNo}
                   onChange={(e) => setConsumerNo(e.target.value)}

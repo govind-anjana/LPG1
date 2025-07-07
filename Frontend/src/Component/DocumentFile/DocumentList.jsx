@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -11,7 +11,7 @@ function DocumentList() {
   const [document_List, setDocument_list] = useState([]);
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/documentlist");
+      const res = await axios.get("/documentlist");
       setDocument_list(res.data);
       res.data;
     } catch (err) {
@@ -30,7 +30,7 @@ function DocumentList() {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(`/api/deletedocument/${id}`);
+        const res = await axios.delete(`/deletedocument/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);

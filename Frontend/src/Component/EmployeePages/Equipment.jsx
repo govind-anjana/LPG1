@@ -12,7 +12,7 @@ function Equipment() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get("/api/equipment");
+        const res = await axios.get("/equipment");
         setEmployees(res.data);
       } catch (err) {
         err;
@@ -51,7 +51,7 @@ function Equipment() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <div>2</div>
+          <div></div>
         </div>
         <div className="table-responsive px-2 pb-2">
           <table

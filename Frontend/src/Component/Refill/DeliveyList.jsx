@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../AxiosConfig";
 import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function DeliveryList() {
   const [delivery_list, setDelivery_list] = useState([]);
+  const navigate=useNavigate()
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await axios.get("/api/deliverylist");
+        const res = await axios.get("/deliverylist");
         setDelivery_list(res.data);
         
       } catch (err) {
@@ -20,15 +21,15 @@ function DeliveryList() {
     fetchEmployees();
   }, []);
 
-  function Edithandle(id) {
-    alert(id);
+  function Edithandle(id,data) {
+   navigate(`/Delivery/${id}`,{state:{empData:data}})
   }
   async function Deletehandle(id) {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
         const res = await axios.delete(
-          `/api/deletedelivery/${id}`
+          `/deletedelivery/${id}`
         );
         setDelivery_list(res.data);
       } catch (err) {
@@ -96,7 +97,7 @@ function DeliveryList() {
                       <div className="divbtn">
                         <FaEdit
                           className="me-2"
-                          onClick={() => Edithandle(item._id)}
+                          onClick={() => Edithandle(item._id,item)}
                         />
                         <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
                       </div>
@@ -120,8 +121,13 @@ function DeliveryList() {
                   </td>
                 </tr>
               )}
+              <tr>
+                <td colSpan={11}>
+                  <span className=" text-end text-muted small">{`Records : 1 to ${delivery_list.length} to  ${delivery_list.length}`}</span>
+                </td>
+              </tr>
             </tbody>
-          <span className=" text-end text-muted small">{`Records : 1 to ${delivery_list.length} to  ${delivery_list.length}`}</span>
+           
           </table>
         </div>
       </div>

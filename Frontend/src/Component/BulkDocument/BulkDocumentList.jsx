@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -8,10 +8,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 function BulkDocumentList() {
   const [bulkDocumentList, setBulkDocumentList] = useState([]);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/bulkdoclist");
+      const res = await axios.get("/bulkdoclist");
       setBulkDocumentList(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -21,17 +21,15 @@ function BulkDocumentList() {
     fetchEmployees();
   }, []);
 
-  function Edithandle(id,data) {
-            navigate(`/bulkDocument/${id}`,{state:{empData:data}})
+  function Edithandle(id, data) {
+    navigate(`/bulkDocument/${id}`, { state: { empData: data } });
   }
 
   async function Deletehandle(id) {
     const valid = confirm("Delete Record");
     if (valid) {
       try {
-        const res = await axios.delete(
-          `/api/deletebulkdoc/${id}`
-        );
+        const res = await axios.delete(`/deletebulkdoc/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -91,16 +89,34 @@ function BulkDocumentList() {
                     <td>{item.amountDeposit}</td>
                     <td>{item.svDiscount}</td>
                     <td>
-                      <div className="divbtn ">
-                        <FaEdit className="me-2" onClick={()=>Edithandle(item._id,item)} />
-                        <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
+                      <div className="divbtn">
+                        {item.update_ty == "A" ? (
+                          <span>
+                            <FaEdit
+                              onClick={() => Edithandle(item._id, item)}
+                              title="Edit"
+                            />
+                            <FaDeleteLeft
+                              onClick={() => Deletehandle(item._id)}
+                              title="Delete"
+                              className="ms-3"
+                            />
+                          </span>
+                        ) : (
+                          <span
+                            style={{ cursor: "not-allowed", color: "silver" }}
+                          >
+                            <FaEdit />
+                            <FaDeleteLeft className="ms-3" />
+                          </span>
+                        )}
                       </div>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="9" className="text-center">
+                  <td colSpan="10" className="text-center">
                     <div className="text-center py-3">
                       <span className="text-warning">
                         No data available in table
@@ -115,6 +131,11 @@ function BulkDocumentList() {
                   </td>
                 </tr>
               )}
+              <tr>
+                <td colSpan={10}>
+                  <span className=" text-muted small">{`Records : 1 to ${bulkDocumentList.length} to  ${bulkDocumentList.length}`}</span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

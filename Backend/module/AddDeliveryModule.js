@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const AddDeliverySchema = new mongoose.Schema(
   {
     validTo: String,
-    currentRate: String,
+    currentRate: Number,
     dmanID: String,
     equipment: String,
     totalCylinder: Number,

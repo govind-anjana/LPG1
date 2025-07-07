@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
@@ -20,7 +20,7 @@ function AddExpense() {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/expenselist");
+      const res = await axios.get("/expenselist");
       setExpense_list(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
@@ -36,7 +36,7 @@ function AddExpense() {
     }
     const fetchapi = async () => {
       try {
-        const res = await axios.get("/api/expenseheadlist");
+        const res = await axios.get("/expenseheadlist");
         setExpenseName(res.data);
         // alert(res.data)
       } catch (err) {
@@ -50,7 +50,7 @@ function AddExpense() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (id) {
-      const res = await axios.put(`/api/updateexpense/${id}`, {
+      const res = await axios.put(`/updateexpense/${id}`, {
         userType,
         names,
         expenseHead,
@@ -60,17 +60,17 @@ function AddExpense() {
         times,
       });
       alert("Data Update");
-       fetchEmployees()
+      fetchEmployees();
     } else {
       try {
-        const res = await axios.post("/api/addexpense", {
+        const res = await axios.post("/addexpense", {
           userType,
           names,
           expenseHead,
           amount,
           description,
           times,
-          update_ty:"A"
+          update_ty: "A",
         });
         alert(res.data.message);
         fetchEmployees();
@@ -78,7 +78,7 @@ function AddExpense() {
         alert("Failed to save agent.", err.message);
       }
     }
-      setAmount(""),
+    setAmount(""),
       setDescription(""),
       setExpenseHead(""),
       setName(""),
@@ -91,9 +91,7 @@ function AddExpense() {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(
-          `/api/deleteexpense/${id}`
-        );
+        const res = await axios.delete(`/deleteexpense/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -103,8 +101,8 @@ function AddExpense() {
   return (
     <div className="expensehead allworking boxdesign">
       <span className="fs-4 fw-semibold">Expenses</span>
-      <div className="d-md-flex mt-1 gap-4 flex-wrap">
-        <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm">
+      <div className="d-md-flex mt-1 gap-4 flex-wrap ">
+        <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm ">
           <span className="fs-6 fw-semibold">Add Expenses</span>
           <form onSubmit={handleSubmit}>
             <div className="box-body row mt-1">
@@ -143,6 +141,7 @@ function AddExpense() {
                   name="ehead"
                   value={expenseHead}
                   onChange={(e) => setExpenseHead(e.target.value)}
+                  required
                 >
                   <option value="">Select</option>
                   {expenseName.map((item, index) => (
@@ -164,7 +163,6 @@ function AddExpense() {
                   required
                 />
               </div>
-
               <div className="form-group mb-2">
                 <label htmlFor="desc">Description</label>
                 <br />
@@ -184,8 +182,7 @@ function AddExpense() {
             </div>
           </form>
         </div>
-
-        <div className="flex-fill settion p-2 bg-light rounded-2 border-warning border-3 shadow-sm h-auto">
+        <div className="flex-fill settion p-2 bg-light rounded-2 border-warning border-3 shadow-sm">
           <span className="fs-6 fw-semibold px-2">Expense List</span>
           <br />
           <div className="mt-3 px-2 d-flex justify-content-between align-items-center">
@@ -233,17 +230,13 @@ function AddExpense() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={9} className="text-center align-middle">
+                    <td colSpan={6} className="text-center align-middle">
                       <div className="text-center py-3">
                         <span className="text-warning">
                           No data available in table
                         </span>
                         <br />
-                        <img
-                          src="https://placeholder.com"
-                          alt="No data"
-                          className="my-4"
-                        />
+                        <img src="xzj.jpg" alt="No data" className="my-4" />
                         <br />
                         <span className="text-success">
                           Add new record or search with different criteria.
@@ -252,6 +245,11 @@ function AddExpense() {
                     </td>
                   </tr>
                 )}
+                <tr>
+                  <td colSpan={6}>
+                    <span className=" text-muted small">{`Records : 1 to ${Expense_List.length} to  ${Expense_List.length}`}</span>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

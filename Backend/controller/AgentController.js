@@ -4,7 +4,6 @@ export const AgentEmployee = async (req, res) => {
     const data = req.body;
     const newAgent = new AgentModel(data);
     const saveUser = await newAgent.save();
-    saveUser;
     res.status(201).json({ message: "Agent Employee added", data: saveUser });
   } catch (err) {
     console.error(" Save error:", err.message);
