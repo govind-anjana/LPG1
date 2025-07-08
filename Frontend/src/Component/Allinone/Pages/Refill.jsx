@@ -1,22 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import DataContext from "../../../Context/DataContext";
 
 function DocumentForm() {
+  const { data, date } = useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
-  const today = news.toISOString().split("T")[0];
+  const today = date.toLocaleDateString("en-CA");
   const [validTo, setValidTo] = useState(today);
-  const [currentRate, setCurrentRate] = useState("");
+  const [currentRate, setCurrentRate] = useState(0);
   const [dmanID, setDmanID] = useState("");
   const [equipment, setEquipment] = useState("");
-  const [totalCylinder, setTotalCyl] = useState("0");
-  const [refill, setRefill] = useState("0");
+  const [totalCylinder, setTotalCyl] = useState(0);
+  const [refill, setRefill] = useState(0);
   const [newConnection, setNewConnection] = useState("0");
-  const [remainingAmount, setRemainingAmount] = useState("0");
-  const [remainingCylinder, setRemainingCylinder] = useState("0");
+  const [remainingAmount, setRemainingAmount] = useState(0);
+  const [remainingCylinder, setRemainingCylinder] = useState(0);
   const [paymentType, setPaymentType] = useState("");
-  const [cylinderQty, setCylinderQty] = useState("0");
-  const [onlinePayments, setOnlinePayments] = useState("0");
+  const [cylinderQty, setCylinderQty] = useState(0);
+  const [onlinePayments, setOnlinePayments] = useState(0);
   const [onlineExtraAmount, setOnlineExtraAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState("0");
   const [paidAmount, setPaidAmount] = useState(0);
@@ -24,15 +27,20 @@ function DocumentForm() {
   const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
 
-  const [cylinder1, setCylinder1] = useState("0");
-  const [cylpayment1, setCylpayment1] = useState("0");
-  const [onlineEx1, setOnlineEx1] = useState("0");
-  const [cylinder2, setCylinder2] = useState("0");
-  const [cylpayment2, setCylpayment2] = useState("0");
-  const [onlineEx2, setOnlineEx2] = useState("0");
-  const [cylinder3, setCylinder3] = useState("0");
-  const [cylpayment3, setCylpayment3] = useState("0");
-  const [onlineEx3, setOnlineEx3] = useState("0");
+  const [paymentType1, setPaymentType1] = useState("");
+  const [cylinder1, setCylinder1] = useState(0);
+  const [cylpayment1, setCylpayment1] = useState(0);
+  const [onlineEx1, setOnlineEx1] = useState(0);
+
+  const [paymentType2, setPaymentType2] = useState("");
+  const [cylinder2, setCylinder2] = useState(0);
+  const [cylpayment2, setCylpayment2] = useState(0);
+  const [onlineEx2, setOnlineEx2] = useState(0);
+  const [paymentType3, setPaymentType3] = useState("");
+  const [cylinder3, setCylinder3] = useState(0);
+  const [cylpayment3, setCylpayment3] = useState(0);
+  const [onlineEx3, setOnlineEx3] = useState(0);
+
   const delivery_Man_Name = [
     "Mahendra Singh",
     "Shubham Mali",
@@ -66,8 +74,9 @@ function DocumentForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await axios.post("http://localhost:4001/addDelivery", {
+      const res = await axios.post("/addDelivery", {
         validTo,
         currentRate,
         dmanID,
@@ -84,6 +93,7 @@ function DocumentForm() {
         totalAmount,
         paidAmount,
         times,
+        update_ty: "A",
       });
       alert(res.data.message);
     } catch (err) {
@@ -102,18 +112,10 @@ function DocumentForm() {
       setOnlinePayments(""),
       setOnlineExtraAmount(""),
       setTotalAmount(""),
-      setPaidAmount("");
-    setCylinder1(0);
+      setPaidAmount();
+    setCylinder1("");
     setCylpayment1(0);
-    setOnlineEx1(0);
-    setCylinder2(0);
-    setCylpayment2(0);
-    setOnlineEx2(0);
-    setCylinder3(0);
-    setCylpayment3(0);
-    setOnlineEx3(0);
   };
-
   function handleAddMore() {
     setShow1(true);
     if (show == true) {
@@ -128,29 +130,27 @@ function DocumentForm() {
     const selected = e.target.value;
     setEquipment(selected);
   }
+  const fetchPrice = async () => {
+    try {
+      const rateList = [...data].reverse();
+
+      const latestValidRate = rateList.find(
+        (item) => item.equipment == equipment && item.validTo >= today
+      );
+      if (latestValidRate) {
+        setCurrentRate(latestValidRate.totalRsp);
+      } else {
+        setCurrentRate(0);
+        setRefill(0);
+        setCylinderQty(0);
+        alert("Please Add Equipment Rate.");
+      }
+    } catch (err) {
+      console.error("Error fetching rate list:", err.message);
+    }
+  };
   useEffect(() => {
     if (!equipment) return;
-
-    const fetchPrice = async () => {
-      try {
-        const res = await axios.get("/api/addratelist");
-        const rateList = [...res.data].reverse();
-
-        "Full Rate List:", rateList;
-
-        const latestValidRate = rateList.find(
-          (item) => item.equipment == equipment && item.validTo >= today
-        );
-        if (latestValidRate) {
-          setCurrentRate(latestValidRate.totalRsp);
-        } else {
-          setCurrentRate("");
-          alert("Please Add Equipment Rate.");
-        }
-      } catch (err) {
-        console.error("Error fetching rate list:", err.message);
-      }
-    };
     fetchPrice();
   }, [equipment]);
 
@@ -170,8 +170,7 @@ function DocumentForm() {
     const afterCyl2 = afterEx1 - cyl2Amount;
     const afterEx2 = afterCyl2 - Number(onlineEx2);
     const afterCyl3 = afterEx2 - cyl3Amount;
-    const finalPaid = afterCyl3 - Number(onlineEx3);
-
+    const finalPaid = Number(afterCyl3) - Number(onlineEx3);
     setTotalAmount(totals);
     setOnlinePayments(onlineCylAmount);
     setCylpayment1(cyl1Amount);
@@ -179,6 +178,7 @@ function DocumentForm() {
     setCylpayment3(cyl3Amount);
     setPaidAmount(finalPaid);
   }, [
+    currentRate,
     refill,
     cylinderQty,
     remainingAmount,
@@ -191,6 +191,7 @@ function DocumentForm() {
     cylinder3,
     onlineEx3,
   ]);
+
   function handleRefill(e) {
     const values = e.target.value;
     setRefill(values);
@@ -215,7 +216,6 @@ function DocumentForm() {
     setCylinder2(0);
     setCylpayment2(0);
     setOnlineEx2(0);
-
     setShow2(false);
   }
   function handleRemoveBtn3() {
@@ -224,7 +224,6 @@ function DocumentForm() {
     setOnlineEx3(0);
     setShow3(false);
   }
-
   return (
     <div className="refill settion p-3 rounded-3  border-warning border-3">
       <span className="fs-5 fw-semibold">Refill</span>
@@ -236,6 +235,8 @@ function DocumentForm() {
               type="date"
               name="validTo"
               value={validTo}
+              className="custom-date-input"
+              onFocus={(e) => e.target.showPicker && e.target.showPicker()}
               onChange={(e) => setValidTo(e.target.value)}
             />
           </div>
@@ -243,11 +244,12 @@ function DocumentForm() {
           <div className="form-group col-md-3">
             <label>Current Rate</label>
             <input
-              type="text"
+              type="number"
               name="currentRate"
               value={currentRate}
               className="form-control"
               disabled
+              required
             />
           </div>
 
@@ -303,6 +305,7 @@ function DocumentForm() {
               name="refill"
               value={refill}
               onChange={handleRefill}
+              required
             />
           </div>
 
@@ -339,8 +342,12 @@ function DocumentForm() {
             <div>
               <div className="form-group row">
                 <div className="form-group col-md-3">
-                  <label>Payment Type </label>
-                  <select name="paymentType1">
+                  <label>Payment Type 1 </label>
+                  <select
+                    name="paymentType1"
+                    value={paymentType1}
+                    onChange={(e) => setPaymentType1(e.target.value)}
+                  >
                     <option value="">Select</option>
                     <option value="online">Online</option>
                     <option value="PayTm">PayTM</option>
@@ -362,7 +369,7 @@ function DocumentForm() {
                 </div>
 
                 <div className="form-group col-md-2">
-                  <label>Cyl Payment Amount</label>
+                  <label>Cyl Payment Amount </label>
                   <input
                     type="number"
                     name="cylpayment1"
@@ -398,7 +405,11 @@ function DocumentForm() {
               <div className="form-group row">
                 <div className="form-group col-md-3">
                   <label>Payment Type </label>
-                  <select name="paymentType1">
+                  <select
+                    name="paymentType2"
+                    value={paymentType2}
+                    onChange={(e) => setPaymentType2(e.target.value)}
+                  >
                     <option value="">Select</option>
                     <option value="online">Online</option>
                     <option value="PayTm">PayTM</option>
@@ -418,7 +429,6 @@ function DocumentForm() {
                     onChange={(e) => setCylinder2(e.target.value)}
                   />
                 </div>
-
                 <div className="form-group col-md-2">
                   <label>Cyl Payment Amount</label>
                   <input
@@ -456,7 +466,11 @@ function DocumentForm() {
               <div className="form-group row">
                 <div className="form-group col-md-3">
                   <label>Payment Type 3</label>
-                  <select name="paymentType1">
+                  <select
+                    name="paymentType3"
+                    value={paymentType3}
+                    onChange={(e) => setPaymentType3(e.target.value)}
+                  >
                     <option value="">Select</option>
                     <option value="online">Online</option>
                     <option value="PayTm">PayTM</option>
@@ -580,8 +594,8 @@ function DocumentForm() {
             <input
               type="number"
               name="paidAmount"
-              value={paidAmount}
-              readOnly
+              value={paidAmount || ""}
+              disabled
             />
           </div>
         </div>

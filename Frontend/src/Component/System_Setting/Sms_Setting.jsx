@@ -5,7 +5,7 @@ import twilio from "../Images/twilio.png";
 import textlocal from "../Images/textlocal.png";
 import smscountry from "../Images/sms-country.jpg";
 import custom from "../Images/custom-sms.png";
-import axios from "axios";
+import axios from "../AxiosConfig";
 function Sms_Setting() {
   const [visibleDiv, setVisibleDiv] = useState("sms1");
   const [formData1, setformData1] = useState({
@@ -72,7 +72,7 @@ function Sms_Setting() {
   const handelSubmit1 = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:4001/clickatellsms", formData1)
+      .post("/clickatellsms", formData1)
       .then((res) => alert(res.data.message))
       .catch((err) => err);
 

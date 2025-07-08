@@ -23,9 +23,9 @@ function UserLog() {
             border: "2px solid black",
           }}
         >
-          <li className="list-inline-item">
+          <li className="list-inline-item py-2">
             <NavLink
-              to="/refill"
+              to="/app/refill"
               className={({ isActive }) =>
                 `text-decoration-none px-3 py-2 rounded ${
                   isActive ? "bg-white border-3 text-black" : "text-white"
@@ -35,9 +35,9 @@ function UserLog() {
               Refill
             </NavLink>
           </li>
-          <li className="list-inline-item">
+          <li className="list-inline-item p-2">
             <NavLink
-              to="/documents"
+              to="/app/documents"
               className={({ isActive }) =>
                 `text-decoration-none px-3 py-2 rounded ${
                   isActive ? "bg-white border-3 text-black" : "text-white"
@@ -47,9 +47,9 @@ function UserLog() {
               Document
             </NavLink>
           </li>
-          <li className="list-inline-item py-2">
+          <li className="list-inline-item p-2">
             <NavLink
-              to="/sale"
+              to="/app/sale"
               className={({ isActive }) =>
                 `text-decoration-none px-3 py-2 rounded ${
                   isActive ? "bg-white border-3 text-black" : "text-white"
@@ -59,9 +59,9 @@ function UserLog() {
               Sales
             </NavLink>
           </li>
-          <li className="list-inline-item">
+          <li className="list-inline-item p-2">
             <NavLink
-              to="/summary"
+              to="/app/summary"
               className={({ isActive }) =>
                 `text-decoration-none px-3 py-2 rounded ${
                   isActive ? "bg-white border-3 text-black" : "text-white"
@@ -71,9 +71,9 @@ function UserLog() {
               Summary
             </NavLink>
           </li>
-          <li className="list-inline-item">
+          <li className="list-inline-item p-2">
             <NavLink
-              to="/stock"
+              to="/app/stock"
               className={({ isActive }) =>
                 `text-decoration-none px-3 py-2 rounded ${
                   isActive ? "bg-white border-3 text-black" : "text-white"
@@ -83,9 +83,9 @@ function UserLog() {
               Stock
             </NavLink>
           </li>
-          <li className="list-inline-item">
+          <li className="list-inline-item p-2">
             <NavLink
-              to="/plant-transaction"
+              to="/app/plant-transaction"
               className={({ isActive }) =>
                 `text-decoration-none px-3 py-2 rounded ${
                   isActive ? "bg-white border-3 text-black" : "text-white"
@@ -95,9 +95,9 @@ function UserLog() {
               Plant Transaction
             </NavLink>
           </li>
-          <li className="list-inline-item">
+          <li className="list-inline-item p-2">
             <NavLink
-              to="/kgrefill19"
+              to="/app/kgrefill19"
               className={({ isActive }) =>
                 `text-decoration-none px-3 py-2 rounded ${
                   isActive ? "bg-white border-3 text-black" : "text-white"
@@ -109,9 +109,10 @@ function UserLog() {
           </li>
         </ul>
 
-        <div className="bg-light userlog">
+        <div className="bg-light userlog ">
+        
           <Routes>
-            <Route path="/" element={<Navigate to="/refill" />} />
+            <Route path="/" element={<Navigate to="/app/refill" />} />
             <Route path="/refill" element={<RefillForm />} />
             <Route path="/documents" element={<DocumentForm />} />
             <Route path="/sale" element={<SalePage/>}/>

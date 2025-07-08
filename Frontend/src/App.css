@@ -2,6 +2,10 @@
     padding: 0%;
     margin: 0%;
 }
+.custom-date-input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  pointer-events: none;
+}
 .divbtn
 {
   cursor:pointer;

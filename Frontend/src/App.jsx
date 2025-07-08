@@ -47,6 +47,7 @@ import DataProvider from "./Context/DataProvider";
 import EditEquipment from "./Component/EmployeePages/EditEquipment";
 import { useState } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
+import Allstock from "./Component/AllStock/Allstock";
 function App() {
   const [isChecked, setIsChecked] = useState(true);
 
@@ -55,7 +56,6 @@ function App() {
   };
   return (
     <DataProvider>
-      <BrowserRouter>
         <Header />
         <label htmlFor="sidebarToggle" className="applabel">
           {isChecked ? <IoClose /> : <IoMenu />}
@@ -72,8 +72,10 @@ function App() {
           </div>
           <div className="main-content flex-grow-1 mx-md-2 px-md-3 p-2">
             <Routes>
+              {/* <Route path="/" element={} */}
               <Route path="/*" element={<UserLog />} />
               <Route path="/employee" element={<AddEmployee />} />
+              <Route path="/getall_stock_details" element={<Allstock/>} />
               <Route path="/employee_list" element={<EmployeeList />} />
               <Route path="/equipment" element={<Equipment />} />
               <Route path="/equipment/:id" element={<EditEquipment />} />
@@ -140,7 +142,7 @@ function App() {
             </Routes>
           </div>
         </div>
-      </BrowserRouter>
+     
     </DataProvider>
   );
 }

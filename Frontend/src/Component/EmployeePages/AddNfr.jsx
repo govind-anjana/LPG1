@@ -62,7 +62,7 @@ function AddNfr() {
   };
   useEffect(() => {
     const fetchapi = async () => {
-      const res = await axios.get("/api/consumerlist");
+      const res = await axios.get("/consumerlist");
       setVendorName(res.data);
       res.data;
     };

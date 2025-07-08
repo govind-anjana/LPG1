@@ -6,10 +6,10 @@ import { useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 function AddDelivery() {
-  const { data } = useContext(DataContext);
+  const { data,date } = useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
-  const today = news.toISOString().split("T")[0];
+  const today =date.toLocaleDateString("en-CA");
   const [validTo, setValidTo] = useState(today);
   const [currentRate, setCurrentRate] = useState(0);
   const [dmanID, setDmanID] = useState("");
@@ -157,8 +157,6 @@ function AddDelivery() {
     try {
       const rateList = [...data].reverse();
 
-    
-
       const latestValidRate = rateList.find(
         (item) => item.equipment == equipment && item.validTo >= today
       );
@@ -283,6 +281,8 @@ function AddDelivery() {
                   type="date"
                   name="validTo"
                   value={validTo}
+                   className="custom-date-input"
+                    onFocus={(e) => e.target.showPicker && e.target.showPicker()}
                   onChange={(e) => setValidTo(e.target.value)}
                 />
               </div>

@@ -3,14 +3,14 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
-import axios from "axios";
+import axios from "../../AxiosConfig";
 
 function StockPage1() {
   const [current_stock, setCurrent_Stock] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("/api/currntstock");
+        const res = await axios.get("/currntstock");
         setCurrent_Stock(res.data);
       } catch (err) {
         alert(err.message);
