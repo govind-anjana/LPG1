@@ -2,7 +2,7 @@ import axios from "../AxiosConfig";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaRegCreditCard } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -41,7 +41,7 @@ function DepositCyllist() {
   }
   return (
     <div className="allworking boxdesign">
-      <span className="fs-4 fw-semibold">Deposit Cyl</span>
+      <span className="fs-4 fw-semibold"><FaRegCreditCard /> Deposit Cyl</span>
 
       <div className="settion mt-3 p-3 bg-light rounded-2 border-warning border-3 shadow-sm">
         <span className="fs-5 fw-semibold">Deposit Cyl List</span>

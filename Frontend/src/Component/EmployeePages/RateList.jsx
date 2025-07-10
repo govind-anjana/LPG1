@@ -3,7 +3,7 @@ import moment from "moment-timezone";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaDeleteLeft } from "react-icons/fa6";
+import { FaBook, FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 function RateList() {
   const [Rate_list, setRate_list] = useState([]);
@@ -35,7 +35,7 @@ function RateList() {
   }
   return (
     <div className="ratelist boxdesign">
-      <span className="fs-4 fw-semibold">Rate</span>
+      <span className="fs-4 fw-semibold"><FaBook/> Rate</span>
       <div className=" settion mt-3 p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-2">Rate List</span>
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../AxiosConfig";
-import { FaDeleteLeft } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
+import { FaDeleteLeft,FaBook } from "react-icons/fa6";
+import {  FaEdit } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 function PromotionRateList() {
   const [promotion_list, setPromotion_list] = useState([]);
@@ -37,7 +37,7 @@ function PromotionRateList() {
   }
   return (
     <div className="promotionrate allworking boxdesign">
-      <span className="fs-4 fw-semibold">Promotion Rate</span>
+      <span className="fs-4 fw-semibold"><FaBook/> Promotion Rate</span>
       <div className=" settion mt-3 p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-2">Promotion Rate List</span>
         <div className="mt-3 px-2 d-flex flex-wrap justify-content-between align-items-center mb-2">

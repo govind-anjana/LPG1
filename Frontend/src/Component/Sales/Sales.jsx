@@ -1,6 +1,7 @@
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import {FaIdCard} from 'react-icons/fa'
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function Sales() {
@@ -75,7 +76,7 @@ function Sales() {
   }, [id, editData]);
   return (
     <div className="allworking boxdesign">
-      <span className="fs-5 fw-semibold">Sales</span>
+      <span className="fs-4 fw-semibold"><FaIdCard /> Sales</span>
       <div className="settion mt-2 p-3  bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold">Sales</span>
         <form onSubmit={handleSubmit}>

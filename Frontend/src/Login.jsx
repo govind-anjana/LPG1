@@ -8,12 +8,14 @@ function Login() {
   const [user, setuser] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [current,setCurrent]=useState([])
   const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
-      const fetchDate = ()=>{
-        // const res= await axios.get("")
-        // console.log(res)
+      const fetchDate =async ()=>{
+          const res = await axios.get("/admin");
+     
+      setCurrent(res.data[0]);
         const saveduser = localStorage.getItem("rememberuser");
         const savedPassword = localStorage.getItem("rememberPassword");
         if (saveduser && savedPassword) {
@@ -34,10 +36,9 @@ function Login() {
   const handleLogin = () => {
     if (!validate()) return;
 
-    if (user === "govind@123" && password === "1234") {
+    if (user === current.user && password === current.password) {
       localStorage.setItem("isLoggedIn", true);
       setLoginError("");
-
       // if (remember) {
       //   localStorage.setItem('rememberuser', user);
       //   localStorage.setItem('rememberPassword', password);

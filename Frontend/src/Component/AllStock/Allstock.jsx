@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import DataContext from "../../Context/DataContext";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineStock } from "react-icons/ai";
+import { FaRegCreditCard } from "react-icons/fa";
 import axios from "../AxiosConfig";
-
+import { IoMdExit } from "react-icons/io";
 function Allstock() {
   const [Allstock_list, setAllstock_list] = useState([]);
   const { addOneDay, date, formatDate } = useContext(DataContext);
+
   const navigate = useNavigate();
   function handleEndOfDate() {
-    localStorage.removeItem("isLoggedIn");
-    navigate("/");
-    addOneDay();
+    const valid=confirm("EOD Process Completed Successfully!");
+    if(valid){
+      localStorage.removeItem("isLoggedIn");
+      navigate("/");
+      addOneDay();
+    }
   }
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +46,7 @@ function Allstock() {
   };
   return (
     <div className="allworking  boxdesign">
-      <span className="fs-4 fw-semibold">All Stock</span>
+      <span className="fs-4 fw-semibold"><AiOutlineStock /></span>
       <div className="mt-3 settion p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-2">All Stock List</span>
         <div className="mt-2 px-2  d-flex flex-wrap justify-content-md-between justify-content-center align-items-center mb-2">
@@ -96,7 +102,7 @@ function Allstock() {
         </div>
       </div>
       <button className="btn btn-sm btn-dark px-3" onClick={handleEndOfDate}>
-        Do EOD
+        DO EOD  <IoMdExit />
       </button>
     </div>
   );

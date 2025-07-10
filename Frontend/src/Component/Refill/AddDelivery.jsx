@@ -2,6 +2,7 @@ import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import DataContext from "../../Context/DataContext";
+import { TbTruckDelivery } from "react-icons/tb";
 import { useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -273,7 +274,7 @@ function AddDelivery() {
   return (
     <>
       <div className="allworking boxdesign">
-        <span className="fs-5 fw-semibold">Add Delivery</span>
+        <span className="fs-5 fw-semibold"><TbTruckDelivery /> Add Delivery</span>
         <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
           <span className="fs-5 fw-semibold">Refill</span>
           <form onSubmit={handleSubmit}>

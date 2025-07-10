@@ -3,7 +3,7 @@ import "../Allinone/Pages/Refill.css";
 import axios from "../AxiosConfig";
 import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaIdCard } from "react-icons/fa";
 import { useContext } from "react";
 import DataContext from "../../Context/DataContext";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -89,7 +89,7 @@ function AddConsumer() {
     try {
       const res = await axios.get("/consumerlist");
       setAddConsumer_List(res.data);
-      // console.log(res.data);
+      
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
     }
@@ -97,7 +97,6 @@ function AddConsumer() {
   useEffect(() => {
     fetchEmployees();
     if (id && editData) {
-      // console.log(editData)
       setAmount(editData.amount),
         setConsumerType(editData.consumreType),
         setConsumerName(editData.consumerName),
@@ -329,7 +328,7 @@ function AddConsumer() {
   // },[handleRowChange])
   return (
     <div className="addconsumer allworking boxdesign">
-      <span className="fs-5 fw-semibold">Add Consumer</span>
+      <span className="fs-4 fw-semibold mb-2"><FaIdCard /> Add Consumer</span>
       <form onSubmit={handleSubmit}>
         <div className="m-2 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm row">
           <div className="form-group col-md-3 ">

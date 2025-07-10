@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Allinone/Pages/Refill.css";
+import { FaBook } from "react-icons/fa6";
 import axios from "../AxiosConfig";
 import { useLocation, useNavigate } from "react-router-dom";
 function AddEmployee() {
@@ -119,7 +120,7 @@ function AddEmployee() {
   };
   return (
     <div className="addEmployee boxdesign">
-      <span className="fs-4 fw-semibold">Employee</span>
+      <span className="fs-4 fw-semibold"><FaBook /> Employee</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold ">
           {editId ? "Update" : "Add"} Employee

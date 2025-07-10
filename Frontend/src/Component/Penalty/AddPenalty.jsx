@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { MdCurrencyRupee } from "react-icons/md";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddPenalty() {
@@ -102,7 +103,7 @@ function AddPenalty() {
   }
   return (
     <div className="expensehead allworking boxdesign">
-      <span className="fs-4 fw-semibold">Penalty</span>
+      <span className="fs-4 fw-semibold"><MdCurrencyRupee/> Penalty</span>
        <div className="d-md-flex mt-1 gap-4 flex-wrap">
       <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm">
         <span className="fs-5 fw-semibold">Add Penalty</span>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "../AxiosConfig";
 import { useEffect } from "react";
-import { FaDeleteLeft } from "react-icons/fa6";
+import { FaDeleteLeft ,FaBook} from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 function EmployeeList() {
@@ -38,7 +38,7 @@ function EmployeeList() {
   }
   return (
     <div className="EmployeeList boxdesign">
-      <span className="fs-4 fw-semibold">Employee</span>
+      <span className="fs-4 fw-semibold"><FaBook/> Employee</span>
       <div className="mt-3 settion p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-2">Employee List</span>
         <div className="mt-3 px-2 d-flex justify-content-between align-items-center flex-wrap mb-2">

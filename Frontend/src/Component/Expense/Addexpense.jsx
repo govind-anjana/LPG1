@@ -1,6 +1,6 @@
 import axios from "../AxiosConfig";
 import React, { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit,FaRegCreditCard  } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -100,7 +100,7 @@ function AddExpense() {
   }
   return (
     <div className="expensehead allworking boxdesign">
-      <span className="fs-4 fw-semibold">Expenses</span>
+      <span className="fs-4 fw-semibold"> <FaRegCreditCard /> Expenses</span>
       <div className="d-md-flex mt-1 gap-4 flex-wrap ">
         <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm ">
           <span className="fs-6 fw-semibold">Add Expenses</span>

@@ -1,6 +1,7 @@
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import {FaBook} from 'react-icons/fa6'
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddItemDocument() {
@@ -254,8 +255,8 @@ function AddItemDocument() {
 
   return (
     <div className="allworking boxdesign">
-      <span className="fs-5 fw-semibold">Document</span>
-      <div className="settion mt-2 p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
+      <span className="fs-4 fw-semibold"><FaBook/>Document</span>
+      <div className="settion mt-2 p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-1">Add Document</span>
         <form className="row mt-3" onSubmit={handleSubmit}>
           <div className="col-md-3">

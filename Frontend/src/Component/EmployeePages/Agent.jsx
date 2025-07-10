@@ -1,8 +1,8 @@
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { FaEdit } from "react-icons/fa";
-import { FaDeleteLeft } from "react-icons/fa6";
+import { FaEdit} from "react-icons/fa";
+import { FaDeleteLeft,FaBook } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 function Agent() {
   const [agentList, setAgentList] = useState([]);
@@ -113,7 +113,7 @@ function Agent() {
   }, [id, editData]);
   return (
     <div className="allworking boxdesign">
-      <span className="fs-4 fw-semibold">Add Agent</span>
+      <span className="fs-4 fw-semibold"><FaBook/> Add Agent</span>
       <div className="d-flex mt-3 gap-3 flex-wrap">
         <div
           className="flex-fill settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm"

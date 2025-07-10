@@ -2,7 +2,7 @@ import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaIdCard } from "react-icons/fa";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddKgRefill() {
@@ -203,7 +203,7 @@ function AddKgRefill() {
 
   return (
     <div className="addkgrefill allworking  boxdesign">
-      <span className="fs-5 fw-semibold">Add 19 KG Refill</span>
+      <span className="fs-5 fw-semibold"><FaIdCard /> Add 19 KG Refill</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold ">Add 19 KG Refill</span>
         <form onSubmit={handleSubmit}>

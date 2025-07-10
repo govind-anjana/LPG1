@@ -1,4 +1,5 @@
 import axios from "../AxiosConfig";
+import { FaBook } from "react-icons/fa6";
 import React, { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -28,7 +29,7 @@ function EditEquipment() {
 
   return (
     <div className="allworking boxdesign">
-      <span className="fs-4 fw-semibold">Edit Equipment</span>
+      <span className="fs-4 fw-semibold"><FaBook/>Edit Equipment</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-1">Equipment</span>
         <form className="row mt-3" onSubmit={handleSubmit}>

@@ -1,6 +1,7 @@
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import {FaRegCreditCard } from 'react-icons/fa'
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function BulkDocuments() {

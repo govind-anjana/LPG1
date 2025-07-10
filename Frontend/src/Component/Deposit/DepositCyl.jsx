@@ -1,6 +1,7 @@
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { FaRegCreditCard } from "react-icons/fa";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function ExpenseHead() {
@@ -95,7 +96,7 @@ function ExpenseHead() {
   }
   return (
     <div className="allworking boxdesign">
-      <span className="fs-4 fw-semibold">Deposit Cyl</span>
+      <span className="fs-4 fw-semibold"><FaRegCreditCard /> Deposit Cyl</span>
      
         <div className="settion mt-3 p-3 bg-light rounded-2 border-warning border-3 shadow-sm">
           <span className="fs-5  fw-semibold">Add Deposit Cyl</span>

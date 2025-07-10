@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "../AxiosConfig";
 import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { TbTruckDelivery } from "react-icons/tb";
 import { FaEdit } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -36,7 +37,7 @@ function DeliveryList() {
   }
   return (
     <div className="allworking boxdesign">
-      <span className="fs-4 fw-semibold">Delivery </span>
+      <span className="fs-4 fw-semibold"><TbTruckDelivery/> Delivery </span>
       <div className="settion mt-3 p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-2">Delivery List</span>
 

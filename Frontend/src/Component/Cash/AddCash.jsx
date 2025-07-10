@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { MdCurrencyRupee } from "react-icons/md";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddCash() {
   const times = new Date().toLocaleTimeString();
   const [search, setSearch] = useState("");
   const [a2000, setA2000] = useState("0");
-  const [a500, setA500] = useState(0);
+  const [a500, setA500] = useState("0");
   const [a200, setA200] = useState(0);
   const [a100, setA100] = useState(0);
   const [a50, setA50] = useState(0);
@@ -44,6 +45,13 @@ function AddCash() {
   useEffect(() => {
     if (id && editData) {
       setTotalAmount(editData.totalAmount);
+      setA2000(editData.a2000);
+      setA500(editData.a500);
+      setA200(editData.a200);
+      setA100(editData.a100);
+      setA50(editData.a50);
+      setA10(editData.a10);
+      setA20(editData.a20);
     }
     fetchEmployees();
   }, [id, editData]);
@@ -107,7 +115,7 @@ function AddCash() {
   }
   return (
     <div className="addcash allworking boxdesign">
-      <span className="fs-4 fw-semibold">Cash Entry</span>
+      <span className="fs-4 fw-semibold"><MdCurrencyRupee/> Cash Entry</span>
       <div className="d-md-flex mt-2 gap-4 flex-wrap">
         <div className="headdiv px-2 settion py-2 bg-light rounded-2  border-warning border-3 shadow-sm">
           <span className="fs-6 fw-semibold ">Add Cash</span>
@@ -243,14 +251,27 @@ function AddCash() {
                       <td>{item.date.split("T")[0]}</td>
                       <td>{item.totalAmount}</td>
                       <td>
-                        <div className="divbtn fs-5 ">
-                          <FaEdit
-                            className="me-2"
-                            onClick={() => Edithandle(item._id, item)}
-                          />
-                          <FaDeleteLeft
-                            onClick={() => Deletehandle(item._id)}
-                          />
+                        <div className="divbtn">
+                          {item.update_ty == "A" ? (
+                            <span>
+                              <FaEdit
+                                onClick={() => Edithandle(item._id, item)}
+                                title="Edit"
+                              />
+                              <FaDeleteLeft
+                                onClick={() => Deletehandle(item._id)}
+                                title="Delete"
+                                className="ms-3"
+                              />
+                            </span>
+                          ) : (
+                            <span
+                              style={{ cursor: "not-allowed", color: "silver" }}
+                            >
+                              <FaEdit />
+                              <FaDeleteLeft className="ms-3" />
+                            </span>
+                          )}
                         </div>
                       </td>
                     </tr>

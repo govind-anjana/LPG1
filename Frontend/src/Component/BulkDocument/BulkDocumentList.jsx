@@ -2,7 +2,7 @@ import axios from "../AxiosConfig";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit,FaRegCreditCard  } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -38,7 +38,7 @@ function BulkDocumentList() {
   }
   return (
     <div className="allworking boxdesign">
-      <span className="fs-5 fw-semibold">Bulk Document</span>
+      <span className="fs-5 fw-semibold"><FaRegCreditCard /> Bulk Document</span>
       <div className="settion mt-3 p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-2">Bulk Document List</span>
 

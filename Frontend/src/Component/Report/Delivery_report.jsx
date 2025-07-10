@@ -1,3 +1,4 @@
+import { AiOutlineLineChart } from "react-icons/ai";
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
 
@@ -66,7 +67,7 @@ function Delivery_report() {
 
   return (
     <div className="allworking boxdesign">
-      <span className="fs-4 fw-semibold">Reports</span>
+      <span className="fs-4 fw-semibold"><AiOutlineLineChart /> Reports</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold">Delivery Report</span>
 

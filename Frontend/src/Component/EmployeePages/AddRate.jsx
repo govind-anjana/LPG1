@@ -1,6 +1,7 @@
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { FaBook } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddRate() {
@@ -116,7 +117,7 @@ function AddRate() {
   };
   return (
     <div className="addpromotion allworking boxdesign">
-      <span className="fs-4 fw-semibold">Add Rate</span>
+      <span className="fs-4 fw-semibold"><FaBook/> Add Rate</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-1">Equipment</span>
         <form className="row mt-3" onSubmit={handleSubmit}>

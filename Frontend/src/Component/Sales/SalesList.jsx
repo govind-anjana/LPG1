@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaIdCard } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 function SalesList() {
   const [Sales_List, setSales_list] = useState([]);
@@ -37,7 +37,7 @@ function SalesList() {
   }
   return (
     <div className="allworking  boxdesign">
-      <span className="fs-4 fw-semibold">Sales</span>
+      <span className="fs-4 fw-semibold"><FaIdCard/> Sales</span>
       <div className="mt-3 settion p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-2">Sales List</span>
         <div className="my-2 px-2 d-flex flex-wrap justify-content-md-between justify-content-center align-items-center ">
