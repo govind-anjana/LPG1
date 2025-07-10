@@ -111,10 +111,16 @@ import {
   EquipmentId,
   EquipmentUpdate,
 } from "../controller/EquipmentListController.js";
-import { CurrentStock } from "../controller/CurrentStockController.js";
+import { CurrentStock, deleteStock, UpdateStock } from "../controller/CurrentStockController.js";
+import { UpdateUser, Useradmin } from "../controller/AdminUserController.js";
 const router = express.Router();
 
 router.get("/currntstock", CurrentStock);
+router.delete("/deletestock/:id",deleteStock)
+router.put("/updatestock/:id",UpdateStock)
+
+router.get("/admin",Useradmin)
+router.put("/updateuser/:id",UpdateUser)
 
 router.post("/addEmployee", AddEmployees);
 router.get("/employeeList", employeeList);

@@ -66,7 +66,7 @@ function ExpenseHead() {
         remarks,
         update_ty:"U"})
         alert("Update Data")
-        navigate("/depositCylList")
+        navigate("/app/depositCylList")
     }
     else {
     try {
@@ -81,7 +81,7 @@ function ExpenseHead() {
       });
 
       alert(res.data.message);
-        navigate("/depositCylList")
+        navigate("/app/depositCylList")
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }

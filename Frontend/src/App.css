@@ -34,6 +34,18 @@
   margin-bottom:15px;;
 /* box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px; */
 }
+.dropdown-item:hover {
+  background-color: #e0e0e0 !important; 
+  color: #000 !important;
+ 
+}
+
+.dropdown-menu{
+
+  
+  border-radius: 10px;;
+  box-shadow: 0px 2px 10px black;
+}
 .applabel{
   color:white;
   font-size: 30px;

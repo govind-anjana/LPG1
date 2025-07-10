@@ -1,17 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import DataContext from "../../Context/DataContext";
 import { useNavigate } from "react-router-dom";
+import axios from "../AxiosConfig";
 
 function Allstock() {
   const [Allstock_list, setAllstock_list] = useState([]);
-  const { addOneDay } = useContext(DataContext);
-  const navigate=useNavigate()
-  function handleEndOfDate() {  
-      localStorage.removeItem("isLoggedIn");
-      navigate("/");
-      addOneDay();
+  const { addOneDay, date, formatDate } = useContext(DataContext);
+  const navigate = useNavigate();
+  function handleEndOfDate() {
+    localStorage.removeItem("isLoggedIn");
+    navigate("/");
+    addOneDay();
   }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("/currntstock");
+        setAllstock_list(res.data);
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+    fetchData();
+  }, []);
+  const equipmentName = {
+    1: "14.2 KG Filled Cyl Domestic",
+    2: "14.2 KG Empty Cyl Domestic",
+    4: "5 KG Filled Cyl Domestic",
+    5: "5 KG Empty Cyl Domestic",
+    7: "19 KG Filled Cyl CM",
+    8: "19 KG Empty Cyl CM",
+    10: "5 KG Filled Cyl FTL POS",
+    11: "5 KG Empty Cyl FTL POS",
+    13: "10 KG Filled Cyl Composite",
+    14: "10 KG Empty Cyl Composite",
+    15: "47.5 KG Filled Cyl",
+    16: "47.5 KG Empty Cyl",
+  };
   return (
     <div className="allworking  boxdesign">
       <span className="fs-4 fw-semibold">All Stock</span>
@@ -38,10 +64,9 @@ function Allstock() {
               {Allstock_list.length > 0 ? (
                 Allstock_list.map((item, index) => (
                   <tr key={index}>
-                    <td>{item.date?.split("T")[0]}</td>
-                    <td>{item.connection}</td>
-                    <td>{item.itemType}</td>
-                    <td>{item.deliveryMan}</td>
+                    <td>{formatDate()}</td>
+                    <td>{equipmentName[item.eqID]}</td>
+                    <td>{item.op_Stock}</td>
                   </tr>
                 ))
               ) : (

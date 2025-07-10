@@ -7,13 +7,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 function DeliveryList() {
   const [delivery_list, setDelivery_list] = useState([]);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
         const res = await axios.get("/deliverylist");
         setDelivery_list(res.data);
-        
       } catch (err) {
         console.error(" Error fetching employee list:", err.message);
       }
@@ -21,16 +20,14 @@ function DeliveryList() {
     fetchEmployees();
   }, []);
 
-  function Edithandle(id,data) {
-   navigate(`/Delivery/${id}`,{state:{empData:data}})
+  function Edithandle(id, data) {
+    navigate(`/app/Delivery/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(
-          `/deletedelivery/${id}`
-        );
+        const res = await axios.delete(`/deletedelivery/${id}`);
         setDelivery_list(res.data);
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -50,7 +47,7 @@ function DeliveryList() {
             style={{ maxWidth: "180px" }}
           />
           <div>
-            <Link to="/Delivery">
+            <Link to="/app/Delivery">
               <button className="btn btn-dark btn-sm px-3 m-2">
                 Add Delivery
               </button>
@@ -90,16 +87,33 @@ function DeliveryList() {
                     <td>{item.paidAmount}</td>
                     <td>{item.remainingAmount}</td>
                     <td>
-                      {item.totalAmount - item.paidAmount - item.remainingAmount}
+                      {item.totalAmount -
+                        item.paidAmount -
+                        item.remainingAmount}
                     </td>
                     <td>{item.totalAmount}</td>
                     <td>
                       <div className="divbtn">
-                        <FaEdit
-                          className="me-2"
-                          onClick={() => Edithandle(item._id,item)}
-                        />
-                        <FaDeleteLeft onClick={() => Deletehandle(item._id)} />
+                        {item.update_ty == "A" ? (
+                          <span>
+                            <FaEdit
+                              onClick={() => Edithandle(item._id, item)}
+                              title="Edit"
+                            />
+                            <FaDeleteLeft
+                              onClick={() => Deletehandle(item._id)}
+                              title="Delete"
+                              className="ms-3"
+                            />
+                          </span>
+                        ) : (
+                          <span
+                            style={{ cursor: "not-allowed", color: "silver" }}
+                          >
+                            <FaEdit />
+                            <FaDeleteLeft className="ms-3" />
+                          </span>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -127,7 +141,6 @@ function DeliveryList() {
                 </td>
               </tr>
             </tbody>
-           
           </table>
         </div>
       </div>

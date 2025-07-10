@@ -26,7 +26,7 @@ function EmployeeList() {
     fetchEmployees();
   }, []);
   function Edithandle(id) {
-    navigate("/employee", { state: { id: id } });
+    navigate("/app/employee", { state: { id: id } });
   }
   async function Deletehandle(id) {
     try {
@@ -49,7 +49,7 @@ function EmployeeList() {
             onChange={(e) => setSearch(e.target.value)}
           />
           <div>
-            <Link to="/employee">
+            <Link to="/app/employee">
               <button className="btn btn-dark btn-sm px-3">Add Employee</button>
             </Link>
           </div>

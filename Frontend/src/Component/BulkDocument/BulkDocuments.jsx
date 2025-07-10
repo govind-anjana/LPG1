@@ -37,7 +37,7 @@ function BulkDocuments() {
           update_ty: "U",
         });
         alert("Update Data");
-        navigate("/bulkDocumentList");
+        navigate("/app/bulkDocumentList");
       } catch (err) {
         alert("Failed to save agent.", err.message);
       }
@@ -56,7 +56,7 @@ function BulkDocuments() {
           update_ty: "A",
           times,
         });
-        navigate("/bulkDocumentList");
+        navigate("/app/bulkDocumentList");
       } catch (err) {
         alert("Failed to save agent.", err.message);
       }

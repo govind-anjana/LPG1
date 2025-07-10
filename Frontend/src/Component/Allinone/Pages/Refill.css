@@ -4,10 +4,10 @@
     margin:9px 0px 3px 0px;
     text-transform: capitalize;
 }
-.refill input,select, .document input,.sales input ,.transaction input,.kgrefill input  ,.addEmployee input, .agent .agentname input ,.allworking input[type="text"] , .allworking input[type="number"] ,textarea,.allworking input[type="date"]{
+.refill input,select, .document input,.sales input ,.transaction input,.kgrefill input  ,.addEmployee input, .agent .agentname input ,.allworking input[type="text"] , .allworking input[type="number"] ,textarea,.allworking input[type="date"] ,.allworking input[type="password"]{
     width:97%; 
     padding:2px 9px;
-    font-size: 13px;
+    font-size: 14px;
     outline:none ;
     border:1px solid silver;
 }

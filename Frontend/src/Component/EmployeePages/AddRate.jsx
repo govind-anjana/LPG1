@@ -88,7 +88,7 @@ function AddRate() {
         validTo,
         update_ty: "U",
       });
-      navigate("/rate");
+      navigate("/app/rate");
     } else {
       try {
         await axios.post("/addrate", {
@@ -102,7 +102,7 @@ function AddRate() {
           dates,
           update_ty: "A",
         });
-        navigate("/rate");
+        navigate("/app/rate");
       } catch (err) {
         alert("Failed to save agent.");
       }

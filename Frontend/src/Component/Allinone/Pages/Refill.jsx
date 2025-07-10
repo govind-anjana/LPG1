@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../AxiosConfig";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import DataContext from "../../../Context/DataContext";

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 
 function Nft_report() {
@@ -23,7 +23,7 @@ function Nft_report() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get("/api/nfrlist");
+      const res = await axios.get("/nfrlist");
       const result = res.data;
 
       const filtered = result.filter(
@@ -37,7 +37,7 @@ function Nft_report() {
       setShow(true);
     } catch (error) {
       console.error("Error fetching data:", error);
-      alert("Failed to fetch delivery data.");
+      alert("Failed to fetch NFT data.");
     }
   };
 

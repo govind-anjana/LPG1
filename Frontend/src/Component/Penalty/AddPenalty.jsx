@@ -58,7 +58,7 @@ function AddPenalty() {
   }, []);
 
   function Edithandle(id, data) {
-    navigate(`/panalty/${id}`, { state: { empData: data } });
+    navigate(`/app/panalty/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const valid = confirm("Are you sure you want to delete this item?");

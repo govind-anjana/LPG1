@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 
 function Expenses_report() {
@@ -25,7 +25,7 @@ function Expenses_report() {
   const handleSubmit =async (e) => {
     e.preventDefault();
      try {
-      const res = await axios.get("/api/expenselist");
+      const res = await axios.get("/expenselist");
       const result = res.data;
 
      const filtered = result.filter((item) =>

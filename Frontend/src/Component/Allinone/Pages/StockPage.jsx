@@ -39,7 +39,7 @@ function StockPage1() {
     <div className="mt-3 settion p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
       <div className="mt-3 px-2 d-flex justify-content-between align-items-center flex-wrap mb-2">
         <input type="text" placeholder="Search by name..." />
-        <div>2</div>
+        <div></div>
       </div>
       <div className="table-responsive px-2 pb-2">
         <table
@@ -52,7 +52,7 @@ function StockPage1() {
               <th>Equipment Code</th>
               <th>Equipment Name</th>
               <th>Current Stock</th>
-              <th>Action</th>
+              {/* <th>Action</th> */}
             </tr>
           </thead>
           <tbody>
@@ -63,15 +63,15 @@ function StockPage1() {
                   <td>{equiCode[emp.eqID]}</td>
                   <td>{equipmentName[emp.eqID]}</td>
                   <td>{emp.cls_Stock}</td>
-                  <td>
+                  {/* <td>
                     <div className="divbtn ">
                       <FaEdit
                         className="me-2"
                         onClick={() => Edithandle(emp._id)}
                       />
                       <FaDeleteLeft onClick={() => Deletehandle(emp._id)} />
-                    </div>
-                  </td>
+                    </div> */}
+                  {/* </td> */}
                 </tr>
               ))
             ) : (

@@ -19,7 +19,7 @@ function PromotionRateList() {
     fetchEmployees();
   }, []);
   function Edithandle(id, data) {
-    navigate(`/promotion/rate/${id}`, { state: { empData: data } });
+    navigate(`/app/promotion/rate/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const confirmDelete = window.confirm(
@@ -47,7 +47,7 @@ function PromotionRateList() {
             style={{ maxWidth: "180px" }}
           />
           <div>
-            <Link to="/promotion/rate">
+            <Link to="/app/promotion/rate">
               <button className="btn btn-dark btn-sm px-3">Add Rate</button>
             </Link>
           </div>

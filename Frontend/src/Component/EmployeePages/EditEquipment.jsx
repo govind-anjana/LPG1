@@ -20,7 +20,7 @@ function EditEquipment() {
         update_flag: up, 
       })
       .then((res) =>{ alert("User updated successfully!")
-      navigate("/equipment")
+      navigate("/app/equipment")
       }
   )
       .catch((err) => alert("Error updating user"));

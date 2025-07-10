@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 import { useEffect } from "react";
 
@@ -23,7 +23,7 @@ function KgRefill_report() {
   useEffect(() => {
     const fetchNames = async () => {
       try {
-        const results = await axios.get("/api/kgrefilllist");
+        const results = await axios.get("/kgrefilllist");
         setNameList(results.data);
       } catch (err) {
         console.error("Failed to load consumer list", err);
@@ -34,7 +34,7 @@ function KgRefill_report() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get("/api/kgrefilllist");
+      const res = await axios.get("/kgrefilllist");
       const result = res.data;
 
       const filtered = result.filter(

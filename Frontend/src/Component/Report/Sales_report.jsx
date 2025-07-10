@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 
 function Sales_report() {
@@ -34,7 +34,7 @@ function Sales_report() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get("/api/salelist");
+      const res = await axios.get("/salelist");
       const result = res.data;
 
       const filtered = result.filter(

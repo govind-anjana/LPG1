@@ -10,6 +10,7 @@ function AddDelivery() {
   const news = new Date();
   const times = news.toLocaleTimeString();
   const today =date.toLocaleDateString("en-CA");
+  const todayNew=news.toISOString().split("T")[0]
   const [validTo, setValidTo] = useState(today);
   const [currentRate, setCurrentRate] = useState(0);
   const [dmanID, setDmanID] = useState("");
@@ -98,6 +99,7 @@ function AddDelivery() {
       })
       alert("update data")
     }
+    else{
     try {
       const res = await axios.post("/addDelivery", {
         validTo,
@@ -122,6 +124,7 @@ function AddDelivery() {
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
+  }
     setCurrentRate(""),
       setDmanID(""),
       setEquipment(""),

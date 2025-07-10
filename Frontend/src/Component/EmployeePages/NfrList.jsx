@@ -20,7 +20,7 @@ function NfrList() {
   }, []);
 
   function Edithandle(id, emp) {
-    navigate(`/nfr/nfr/${id}`, { state: { empData: emp } });
+    navigate(`/app/nfr/nfr/${id}`, { state: { empData: emp } });
   }
   async function Deletehandle(id) {
     const confirmDelete = window.confirm(
@@ -47,7 +47,7 @@ function NfrList() {
             style={{ maxWidth: "180px" }}
           />
           <div>
-            <Link to="/nfr/nfr">
+            <Link to="/app/nfr/nfr">
               <button className="btn btn-dark btn-sm px-3 m-2">Add NFR</button>
             </Link>
           </div>

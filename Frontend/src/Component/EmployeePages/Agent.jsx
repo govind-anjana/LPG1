@@ -34,7 +34,7 @@ function Agent() {
     }
   };
   function Edithandle(id, data) {
-    navigate(`/agent/${id}`, { state: { empData: data } });
+    navigate(`/app/agent/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const confirmDelete = window.confirm(

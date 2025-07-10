@@ -1,9 +1,13 @@
-import axios from "axios";
+import axios from "../../AxiosConfig";
 import React, { useState } from "react";
+import { useContext } from "react";
+import DataContext from "../../../Context/DataContext";
 
 function PlantTransaction() {
-  const date = new Date().toISOString().split("T")[0];
-  const [ReDate, setReDate] = useState(date);
+    const {date} = useContext(DataContext)
+    const today = date.toLocaleDateString("en-CA");
+  // const dates = new Date().toISOString().split("T")[0];
+  const [ReDate, setReDate] = useState(today);
   const [selectedEquipment, setSelectedEquipment] = useState("");
   const [qty, setQty] = useState("");
   const [emptyQty, setEmptyQty] = useState("");
@@ -23,7 +27,7 @@ function PlantTransaction() {
   async function handleSubmit(e) {
     e.preventDefault();
     await axios
-      .post("/api/planttransaction", {
+      .post("/planttransaction", {
         ReDate,
         selectedEquipment,
         qty,
@@ -57,6 +61,7 @@ function PlantTransaction() {
               onChange={(e) => setReDate(e.target.value)}
               id="receivedDate"
               name="receivedDate"
+              readOnly
             />
           </div>
           <div className="form-group col-md-4">

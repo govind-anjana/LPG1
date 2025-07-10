@@ -33,7 +33,7 @@ function AddNfr() {
           remarks,
           update_ty: "U",
         });
-        alert("NFR updated successfully!");
+  
       } else {
         const res = await axios.post("/addnfr", {
           itemGroup,
@@ -46,7 +46,7 @@ function AddNfr() {
           times,
           update_ty: "A",
         });
-        alert(res.data.message);
+        // alert(res.data.message);
       }
     } catch (err) {
       alert("Failed to save agent.", err.message);
@@ -58,7 +58,7 @@ function AddNfr() {
     setOpeningStock("");
     setRemarks("");
     setVendorNames("");
-    navigate("/nfr");
+    navigate("/app/nfr");
   };
   useEffect(() => {
     const fetchapi = async () => {

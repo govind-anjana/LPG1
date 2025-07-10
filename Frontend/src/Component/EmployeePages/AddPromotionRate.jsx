@@ -32,7 +32,7 @@ function AddPromotionRate() {
           update_ty:'U'
           })
           alert("update Data")
-          navigate("/promation")
+          navigate("/app/promation")
     }
     else {
 
@@ -46,6 +46,7 @@ function AddPromotionRate() {
           update_ty:'A'
         });
         alert(res.data.message);
+        navigate("/app/promation")
       } catch (err) {
         alert("Failed to save agent.");
       }

@@ -48,6 +48,7 @@ import EditEquipment from "./Component/EmployeePages/EditEquipment";
 import { useState } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
 import Allstock from "./Component/AllStock/Allstock";
+import ChangePassword from "./ChangePassword";
 function App() {
   const [isChecked, setIsChecked] = useState(true);
 
@@ -72,7 +73,7 @@ function App() {
           </div>
           <div className="main-content flex-grow-1 mx-md-2 px-md-3 p-2">
             <Routes>
-              {/* <Route path="/" element={} */}
+              <Route path="/change-password" element={<ChangePassword/>}/>
               <Route path="/*" element={<UserLog />} />
               <Route path="/employee" element={<AddEmployee />} />
               <Route path="/getall_stock_details" element={<Allstock/>} />
@@ -123,6 +124,7 @@ function App() {
               <Route path="/panalty" element={<AddPenalty />} />
               <Route path="/panalty/:id" element={<AddPenalty />} />
               <Route path="/cash" element={<AddCash />} />
+              <Route path="/cash/:id" element={<AddCash />} />
               <Route path="/reports/Main" element={<Main_report />} />
               <Route path="/reports/Delivert" element={<Delivery_report />} />
               <Route path="/reports/KgRefill" element={<KgRefill_report />} />

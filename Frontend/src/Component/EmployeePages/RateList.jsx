@@ -7,7 +7,7 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 function RateList() {
   const [Rate_list, setRate_list] = useState([]);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const fetchRateList = async () => {
     try {
       const res = await axios.get("/addratelist");
@@ -19,8 +19,8 @@ function RateList() {
   useEffect(() => {
     fetchRateList();
   }, []);
-  function Edithandle(id,data) {
-        navigate(`/rate/rate/${id}`,{state:{empData:data}})
+  function Edithandle(id, data) {
+    navigate(`/app/rate/rate/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const valid = confirm("Are you sure you want to delete this item?");
@@ -47,7 +47,7 @@ function RateList() {
             style={{ maxWidth: "180px" }}
           />
           <div>
-            <Link to="/rate/rate">
+            <Link to="/app/rate/rate">
               <button className="btn btn-dark btn-sm">
                 Add Equipment Rate
               </button>
@@ -94,7 +94,7 @@ function RateList() {
                     </td>
                     <td>
                       <div className="divbtn">
-                       
+                        {item.update_ty == "A" ? (
                           <span>
                             <FaEdit
                               onClick={() => Edithandle(item._id, item)}
@@ -106,7 +106,14 @@ function RateList() {
                               className="ms-3"
                             />
                           </span>
-                       
+                        ) : (
+                          <span
+                            style={{ cursor: "not-allowed", color: "silver" }}
+                          >
+                            <FaEdit />
+                            <FaDeleteLeft className="ms-3" />
+                          </span>
+                        )}
                       </div>
                     </td>
                   </tr>

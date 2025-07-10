@@ -1,60 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from "./Component/AxiosConfig";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const times=new Date().toLocaleTimeString()
+  const [user, setuser] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const [loginError, setLoginError] = useState('');
+  const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
-    const savedEmail = localStorage.getItem('rememberEmail');
-    const savedPassword = localStorage.getItem('rememberPassword');
-    if (savedEmail && savedPassword) {
-      setEmail(savedEmail);
-      setPassword(savedPassword);
+      const fetchDate = ()=>{
+        // const res= await axios.get("")
+        // console.log(res)
+        const saveduser = localStorage.getItem("rememberuser");
+        const savedPassword = localStorage.getItem("rememberPassword");
+        if (saveduser && savedPassword) {
+          setuser(saveduser);
+          setPassword(savedPassword);
+        }
     }
+    fetchDate()
   }, []);
 
   const validate = () => {
     const newErrors = {};
-    if (!email.trim()) newErrors.email = 'Email is required';
-    if (!password.trim()) newErrors.password = 'Password is required';
+    if (!user.trim()) newErrors.user = "user is required";
+    if (!password.trim()) newErrors.password = "Password is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
   const handleLogin = () => {
     if (!validate()) return;
 
-    if (email === 'govind@123' && password === '1234') {
-      localStorage.setItem('isLoggedIn', true);
-      setLoginError(''); // Clear any old error
+    if (user === "govind@123" && password === "1234") {
+      localStorage.setItem("isLoggedIn", true);
+      setLoginError("");
 
       // if (remember) {
-      //   localStorage.setItem('rememberEmail', email);
+      //   localStorage.setItem('rememberuser', user);
       //   localStorage.setItem('rememberPassword', password);
       // } else {
-      //   localStorage.removeItem('rememberEmail');
+      //   localStorage.removeItem('rememberuser');
       //   localStorage.removeItem('rememberPassword');
       // }
 
-      navigate('/app');
+      navigate("/app");
     } else {
-      setLoginError('Invalid Email or Password');
-      setEmail("")
-      setPassword("")
+      setLoginError("Invalid user or Password");
+      setuser("");
+      setPassword("");
     }
+  };
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    navigate("/forgetpassword");
   };
 
   return (
-    <div className="container-fluid vh-100 d-flex justify-content-center align-items-center bg-light">
-      <div className="card shadow-lg p-5 bg-dark rounded" style={{ width: '400px' }}>
+    <div className="container-fluid vh-100 d-flex flex-column  justify-content-center align-items-center bg-light">
+      <div>
+        <img src="https://lpg.sbinnovative.com/backend/images/s_logo.png" />
+      </div>
+      <div
+        className="card shadow-lg p-5 bg-dark rounded"
+        style={{ width: "400px" }}
+      >
         <h3 className="text-center mb-4 text-primary">Admin Login</h3>
 
-    
         {loginError && (
           <div className="alert alert-danger text-center" role="alert">
             {loginError}
@@ -62,39 +76,48 @@ function Login() {
         )}
 
         <div className="mb-3">
-          <label className="form-label fw-semibold text-white">Email address</label>
+          <label className="form-label fw-semibold text-white">User Name</label>
           <input
-            type="email"
-            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            title="Email"
+            type="text"
+            name="user"
+            className={`form-control ${errors.user ? "is-invalid" : ""}`}
+            placeholder="Enter UserName"
+            value={user}
+            onChange={(e) => {setuser(e.target.value);
+            setErrors("");setLoginError("");}}
+            title="UserName"
           />
-          {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+          {errors.user && (
+            <div className="invalid-feedback">{errors.user}</div>
+          )}
         </div>
 
         <div className="mb-3">
           <label className="form-label fw-semibold text-white">Password</label>
           <input
             type="password"
-            title='Password'
-            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+            title="Password"
+            name="password"
+            value={password}
+            className={`form-control ${errors.password ? "is-invalid" : ""}`}
             placeholder="Enter Password"
-            
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={((e) => {setPassword(e.target.value); setErrors("");setLoginError("");
+})}
           />
-          {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+          {errors.password && (
+            <div className="invalid-feedback">{errors.password}</div>
+          )}
         </div>
-
-      
 
         <button onClick={handleLogin} className="btn btn-primary w-100 mb-2">
           Login
         </button>
-
         <div className="text-center">
-          <a href="#" onClick={(e) => e.preventDefault()} className="text-decoration-none">
+          <a
+            href="#"
+            onClick={handleForgotPassword}
+            className="text-decoration-none text-light"
+          >
             Forgot Password?
           </a>
         </div>

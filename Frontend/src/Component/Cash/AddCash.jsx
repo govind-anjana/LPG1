@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AddCash() {
+  const times = new Date().toLocaleTimeString();
   const [search, setSearch] = useState("");
   const [a2000, setA2000] = useState("0");
   const [a500, setA500] = useState(0);
@@ -14,15 +16,22 @@ function AddCash() {
   const [a20, setA20] = useState(0);
   const [a10, setA10] = useState(0);
   const [cashList, setCashList] = useState([]);
-
-  const totalAmount =
-    a2000 * 2000 +
-    a500 * 500 +
-    a200 * 200 +
-    a100 * 100 +
-    a50 * 50 +
-    a20 * 20 +
-    a10 * 10;
+  const [totalAmount, setTotalAmount] = useState(0);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
+  const editData = location.state?.empData;
+  useEffect(() => {
+    setTotalAmount(
+      a2000 * 2000 +
+        a500 * 500 +
+        a200 * 200 +
+        a100 * 100 +
+        a50 * 50 +
+        a20 * 20 +
+        a10 * 10
+    );
+  }, [a2000, a500, a200, a100, a50, a20, a10]);
   const fetchEmployees = async () => {
     try {
       const res = await axios.get("/cashlist");
@@ -33,11 +42,14 @@ function AddCash() {
   };
 
   useEffect(() => {
+    if (id && editData) {
+      setTotalAmount(editData.totalAmount);
+    }
     fetchEmployees();
-  }, []);
+  }, [id, editData]);
 
-  function Edithandle() {
-    alert();
+  function Edithandle(id, data) {
+    navigate(`/app/cash/${id}`, { state: { empData: data } });
   }
 
   async function Deletehandle(id) {
@@ -58,16 +70,40 @@ function AddCash() {
       alert("Please enter a valid amount.");
       return;
     }
-
-    await axios
-      .post("/addcash", {
+    if (id) {
+      await axios.put(`/updatecash/${id}`, {
         totalAmount,
-      })
-      .then((res) => {
-        alert("Data Submit", res.data.message);
-        fetchEmployees();
-      })
-      .catch((err) => err.message);
+        a2000,
+        a500,
+        a200,
+        a100,
+        a50,
+        a20,
+        a10,
+        update_ty: "U",
+      });
+    } else {
+      await axios
+        .post("/addcash", {
+          totalAmount,
+          a2000,
+          a500,
+          a200,
+          a100,
+          a50,
+          a20,
+          a10,
+          update_ty: "A",
+          times,
+        })
+        .then((res) => {
+          alert("Data Submit", res.data.message);
+          fetchEmployees();
+        })
+        .catch((err) => err.message);
+    }
+    setTotalAmount(0), setA10(0), setA20(0), setA50(0), setA100(0);
+    setA200(0), setA500(0), setA2000(0);
   }
   return (
     <div className="addcash allworking boxdesign">
@@ -84,6 +120,7 @@ function AddCash() {
                     <input
                       type="number"
                       style={{ width: "100px" }}
+                      value={a2000}
                       onChange={(e) => setA2000(Number(e.target.value))}
                     />
                   </td>
@@ -95,6 +132,7 @@ function AddCash() {
                     <input
                       type="number"
                       style={{ width: "100px" }}
+                      value={a500}
                       onChange={(e) => setA500(Number(e.target.value))}
                     />
                   </td>
@@ -105,6 +143,7 @@ function AddCash() {
                   <td>
                     <input
                       type="number"
+                      value={a200}
                       style={{ width: "100px" }}
                       onChange={(e) => setA200(Number(e.target.value))}
                     />
@@ -117,6 +156,7 @@ function AddCash() {
                     <input
                       type="number"
                       style={{ width: "100px" }}
+                      value={a100}
                       onChange={(e) => setA100(Number(e.target.value))}
                     />
                   </td>
@@ -127,6 +167,7 @@ function AddCash() {
                   <td>
                     <input
                       type="number"
+                      value={a50}
                       style={{ width: "100px" }}
                       onChange={(e) => setA50(Number(e.target.value))}
                     />
@@ -138,6 +179,7 @@ function AddCash() {
                   <td>
                     <input
                       type="number"
+                      value={a20}
                       style={{ width: "100px" }}
                       onChange={(e) => setA20(Number(e.target.value))}
                     />
@@ -149,6 +191,7 @@ function AddCash() {
                   <td>
                     <input
                       type="number"
+                      value={a10}
                       style={{ width: "100px" }}
                       onChange={(e) => setA10(Number(e.target.value))}
                     />
@@ -201,7 +244,10 @@ function AddCash() {
                       <td>{item.totalAmount}</td>
                       <td>
                         <div className="divbtn fs-5 ">
-                          <FaEdit className="me-2" onClick={Edithandle} />
+                          <FaEdit
+                            className="me-2"
+                            onClick={() => Edithandle(item._id, item)}
+                          />
                           <FaDeleteLeft
                             onClick={() => Deletehandle(item._id)}
                           />

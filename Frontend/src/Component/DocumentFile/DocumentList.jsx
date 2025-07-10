@@ -23,7 +23,7 @@ function DocumentList() {
   }, []);
 
   function Edithandle(id, data) {
-    navigate(`/document/document/${id}`, { state: { empData: data } });
+    navigate(`/app/document/document/${id}`, { state: { empData: data } });
   }
 
   async function Deletehandle(id) {
@@ -49,7 +49,7 @@ function DocumentList() {
             style={{ maxWidth: "180px" }}
           />
           <div>
-            <Link to="/document/document">
+            <Link to="/app/document/document">
               <button className="btn btn-dark btn-sm px-3 m-2">
                 Add Document
               </button>

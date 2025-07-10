@@ -190,11 +190,11 @@ function AddItemDocument() {
         alert("Failed to save agent.", err.message);
       }
     }
-    navigator("/document");
+    navigator("/app/document");
   };
   async function fetchModel() {
     const models = await axios.get("/nfrlist");
-    models;
+
   }
   useEffect(() => {
     if (!promotionType) return;

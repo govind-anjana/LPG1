@@ -22,7 +22,7 @@ function BulkDocumentList() {
   }, []);
 
   function Edithandle(id, data) {
-    navigate(`/bulkDocument/${id}`, { state: { empData: data } });
+    navigate(`/app/bulkDocument/${id}`, { state: { empData: data } });
   }
 
   async function Deletehandle(id) {
@@ -49,7 +49,7 @@ function BulkDocumentList() {
             style={{ maxWidth: "180px" }}
           />
           <div>
-            <Link to="/bulkDocument">
+            <Link to="/app/bulkDocument">
               <button className="btn btn-dark btn-sm px-3 m-2">
                 Add Bulk Document
               </button>

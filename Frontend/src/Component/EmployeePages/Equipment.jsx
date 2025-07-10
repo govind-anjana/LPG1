@@ -26,7 +26,7 @@ function Equipment() {
   // );
 
   function Edithandle(id, emp) {
-    navigate(`/equipment/${id}`, { state: { empData: emp } });
+    navigate(`/app/equipment/${id}`, { state: { empData: emp } });
   }
   async function Deletehandle(id) {
     const confirmDelete = window.confirm("Are you sure you want to delete?");

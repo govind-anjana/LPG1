@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 
 function Cash_report() {
@@ -21,7 +21,7 @@ function Cash_report() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get("/api/cashlist");
+      const res = await axios.get("/cashlist");
       const result = res.data;
 
       const filtered = result.filter(
@@ -34,7 +34,7 @@ function Cash_report() {
       setShow(true);
     } catch (error) {
       console.error("Error fetching data:", error);
-      alert("Failed to fetch delivery data.");
+      alert("Failed to fetch Cash Report data.");
     }
   };
 

@@ -23,7 +23,7 @@ function DepositCyllist() {
   }, []);
 
   function Edithandle(id, data) {
-    navigate(`/depositCyl/${id}`, { state: { empData: data } });
+    navigate(`/app/depositCyl/${id}`, { state: { empData: data } });
   }
 
   async function Deletehandle(id) {
@@ -53,7 +53,7 @@ function DepositCyllist() {
             style={{ maxWidth: "180px" }}
           />
           <div>
-            <Link to="/depositCyl">
+            <Link to="/app/depositCyl">
               <button className="btn btn-dark btn-sm px-3 m-2">
                 Add Deposit Cyl
               </button>

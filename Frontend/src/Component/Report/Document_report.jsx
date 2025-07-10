@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../AxiosConfig";
 import React, { useState } from "react";
 
 function Document_report() {
@@ -43,7 +43,7 @@ function Document_report() {
   const handleSubmit =async (e) => {
     e.preventDefault();
       try {
-      const res = await axios.get("/api/documentlist");
+      const res = await axios.get("/documentlist");
       const result = res.data;
 
      const filtered = result.filter((item) =>
