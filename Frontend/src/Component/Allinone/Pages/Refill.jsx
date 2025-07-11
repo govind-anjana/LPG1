@@ -4,7 +4,7 @@ import { useContext } from "react";
 import DataContext from "../../../Context/DataContext";
 
 function DocumentForm() {
-  const { data, date } = useContext(DataContext);
+  const { data, date,bool1,setBool1,alertM,setAlertM,employess } = useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
   const today = date.toLocaleDateString("en-CA");
@@ -41,27 +41,7 @@ function DocumentForm() {
   const [cylpayment3, setCylpayment3] = useState(0);
   const [onlineEx3, setOnlineEx3] = useState(0);
 
-  const delivery_Man_Name = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
-
+ 
   const Equipment_name = [
     "14.2 KG Filled Cyl Domestic",
     "5 KG Filled Cyl Domestic",
@@ -74,9 +54,10 @@ function DocumentForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+        setBool1(true);
+      setAlertM("Refill added successfully")
     try {
-      const res = await axios.post("/addDelivery", {
+      await axios.post("/addDelivery", {
         validTo,
         currentRate,
         dmanID,
@@ -95,7 +76,7 @@ function DocumentForm() {
         times,
         update_ty: "A",
       });
-      alert(res.data.message);
+
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
@@ -227,6 +208,11 @@ function DocumentForm() {
   return (
     <div className="refill settion p-3 rounded-3  border-warning border-3">
       <span className="fs-5 fw-semibold">Refill</span>
+        {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
       <form onSubmit={handleSubmit}>
         <div className="box-body row">
           <div className="form-group col-md-3">
@@ -262,9 +248,9 @@ function DocumentForm() {
               required
             >
               <option value="">Select</option>
-              {delivery_Man_Name.map((name, idx) => (
-                <option key={idx} value={name}>
-                  {name}
+              {employess.map((item, idx) => (
+                <option key={idx} value={item.name}>
+                  {item.name}
                 </option>
               ))}
             </select>

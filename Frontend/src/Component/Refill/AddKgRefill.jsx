@@ -4,8 +4,11 @@ import { useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FaEdit, FaIdCard } from "react-icons/fa";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useContext } from "react";
+import DataContext from "../../Context/DataContext";
 
 function AddKgRefill() {
+  const {employess,bool1,setBool1,alertM,setAlertM} =useContext(DataContext)
   const news = new Date();
   const times = news.toLocaleTimeString();
   const today = news.toISOString().split("T")[0];
@@ -37,26 +40,7 @@ function AddKgRefill() {
     "LPG Pressure Regulator Sound",
   ];
 
-  const delivery_Man_Name = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
+  
   const fetchEmployees = async () => {
     try {
       const res = await axios.get("/kgrefilllist");
@@ -160,6 +144,8 @@ function AddKgRefill() {
       alert("Update Data");
       fetchEmployees();
     } else {
+        setBool1(true);
+      setAlertM("Kg Refill  added successfully")
       await axios
         .post("/addkgrefill", {
           consumerName,
@@ -180,7 +166,7 @@ function AddKgRefill() {
           times,
         })
         .then((res) => {
-          alert("Data Submit", res.data.message);
+         
           fetchEmployees();
         })
         .catch((err) => err);
@@ -206,8 +192,13 @@ function AddKgRefill() {
       <span className="fs-5 fw-semibold"><FaIdCard /> Add 19 KG Refill</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold ">Add 19 KG Refill</span>
+         {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
-          <div className="box-body row mt-3">
+          <div className="box-body row mt-2">
             <div className="form-group col-md-3">
               <label>Consumer Name</label>
               <select
@@ -249,11 +240,11 @@ function AddKgRefill() {
                 required
               >
                 <option value="">Select</option>
-                {delivery_Man_Name.map((name, idx) => (
-                  <option key={idx} value={name}>
-                    {name}
-                  </option>
-                ))}
+                {employess.map((item, idx) => (
+                <option key={idx} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
               </select>
             </div>
 

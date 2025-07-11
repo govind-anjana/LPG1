@@ -1,10 +1,12 @@
 import axios from "../AxiosConfig";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FaBook } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function AddPromotionRate() {
+  const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const [promotion, setPromotion] = useState("");
   const [rate, setRate] = useState("");
   const [qty, setQty] = useState("");
@@ -32,11 +34,12 @@ function AddPromotionRate() {
           description,
           update_ty:'U'
           })
-          alert("update Data")
+         
           navigate("/app/promation")
     }
     else {
-
+         setBool1(true);
+         setAlertM("Promotion Rate added successfully")
       try {
         const res = await axios.post("/addpromotion", {
           promotion,
@@ -46,8 +49,8 @@ function AddPromotionRate() {
           times,
           update_ty:'A'
         });
-        alert(res.data.message);
-        navigate("/app/promation")
+       
+       
       } catch (err) {
         alert("Failed to save agent.");
       }
@@ -71,7 +74,12 @@ function AddPromotionRate() {
       <span className="fs-4 fw-semibold"><FaBook/> Add Promotion Rate</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-1">Equipment</span>
-        <form className="row mt-3" onSubmit={handleSubmit}>
+          {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
+        <form className="row mt-2" onSubmit={handleSubmit}>
           <div className="col-md-6 mb-3">
             <label className="form-label">Promotion Type</label>
             <select

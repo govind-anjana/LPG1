@@ -1,10 +1,12 @@
 import axios from "../AxiosConfig";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaEdit,FaRegCreditCard  } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function AddExpense() {
+   const {bool1,setBool1,alertM,setAlertM,employess}=useContext(DataContext)
   const times = new Date().toLocaleTimeString();
   const [userType, setUserType] = useState("");
   const [names, setName] = useState("");
@@ -13,6 +15,7 @@ function AddExpense() {
   const [description, setDescription] = useState("");
   const [expenseName, setExpenseName] = useState([]);
   const [Expense_List, setExpense_list] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
@@ -47,6 +50,11 @@ function AddExpense() {
     fetchEmployees();
   }, [id, editData]);
 
+   useEffect(()=>{
+          const filters=employess.filter(item=>(item.userType===userType))
+           setFilteredEmployees(filters);
+           
+    },[userType,employess])
   async function handleSubmit(e) {
     e.preventDefault();
     if (id) {
@@ -62,8 +70,10 @@ function AddExpense() {
       alert("Data Update");
       fetchEmployees();
     } else {
+        setBool1(true);
+      setAlertM("Expense added successfully")
       try {
-        const res = await axios.post("/addexpense", {
+       await axios.post("/addexpense", {
           userType,
           names,
           expenseHead,
@@ -72,7 +82,7 @@ function AddExpense() {
           times,
           update_ty: "A",
         });
-        alert(res.data.message);
+       
         fetchEmployees();
       } catch (err) {
         alert("Failed to save agent.", err.message);
@@ -101,9 +111,16 @@ function AddExpense() {
   return (
     <div className="expensehead allworking boxdesign">
       <span className="fs-4 fw-semibold"> <FaRegCreditCard /> Expenses</span>
+     
       <div className="d-md-flex mt-1 gap-4 flex-wrap ">
         <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm ">
           <span className="fs-6 fw-semibold">Add Expenses</span>
+            {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
+     
           <form onSubmit={handleSubmit}>
             <div className="box-body row mt-1">
               <div className="form-group mb-2">
@@ -116,22 +133,28 @@ function AddExpense() {
                   onChange={(e) => setUserType(e.target.value)}
                 >
                   <option value="">Select</option>
-                  <option value="delivery Man">Delivery Man</option>
-                  <option value="staff">Staff</option>
-                  <option value="vendor">Vendor</option>
-                  <option value="consumer">Consumer</option>
+                  <option value="Delivery Man">Delivery Man</option>
+                  <option value="Staff">Staff</option>
+                  <option value="Vendor">Vendor</option>
+                  <option value="Consumer">Consumer</option>
                 </select>
               </div>
 
               <div className="form-group mb-2">
                 <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="names"
+                 <select
+                  name="employeeName"
                   value={names}
                   onChange={(e) => setName(e.target.value)}
-                />
+                  required
+                >
+                  <option value="">Select</option>
+                  {filteredEmployees.map((item, idx) => (
+                    <option key={idx} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group mb-2">

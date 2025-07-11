@@ -1,8 +1,12 @@
 import { AiOutlineLineChart } from "react-icons/ai";
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
+import { useContext } from "react";
+import DataContext from "../../Context/DataContext";
+
 
 function Document_report() {
+  const {employess}=useContext(DataContext)
   const today = new Date().toISOString().split("T")[0];
  const [show, setShow] = useState(false);
   const [deliveryData, setDeliveryData] = useState([]);
@@ -13,26 +17,7 @@ function Document_report() {
     docType: "",
     
   });
-  const Delivery_Man_Names = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -77,7 +62,7 @@ function Document_report() {
                 type="date"
                 id="dateFrom"
                 name="dateFrom"
-                className="form-control"
+                
                 value={formData.dateFrom}
                 onChange={handleChange}
               />
@@ -89,7 +74,7 @@ function Document_report() {
                 type="date"
                 id="dateTo"
                 name="dateTo"
-                className="form-control"
+                 
                 value={formData.dateTo}
                 onChange={handleChange}
               />
@@ -104,11 +89,7 @@ function Document_report() {
                 onChange={handleChange}
               >
                 <option value="">Select</option>
-                {Delivery_Man_Names.map((name, idx) => (
-                  <option key={idx} value={name}>
-                    {name}
-                  </option>
-                ))}
+               
               </select>
             </div>
             <div className="form-group col-md-2">

@@ -1,10 +1,14 @@
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
+import { useContext } from "react";
 import { useEffect } from "react";
-import {FaBook} from 'react-icons/fa6'
+import { FaBook } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function AddItemDocument() {
+  const { employess, bool1, setBool1, alertM, setAlertM } =
+    useContext(DataContext);
   const times = new Date().toLocaleTimeString();
   const [connection, setConnection] = useState("");
   const [equipment, setEquipment] = useState("");
@@ -89,26 +93,7 @@ function AddItemDocument() {
     "DBC WITH OUT HOTPLATE",
     "DBC",
   ];
-  const delivery_Man_Name = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (id) {
@@ -140,7 +125,10 @@ function AddItemDocument() {
         update_ty: "U",
       });
       alert("update Document");
+      navigator("app/document")
     } else {
+      setBool1(true);
+      setAlertM("Document added successfully");
       try {
         const res = await axios.post("/adddocument", {
           connection,
@@ -170,32 +158,29 @@ function AddItemDocument() {
           times,
           update_ty: "A",
         });
-        setConnection(""),
-          setEquipment(""),
-          setItemType(""),
-          setAdvanceRecover(""),
-          setAmountPaid(""),
-          setConsumerName(""),
-          setConsumerNo(""),
-          setCylDeposit(""),
-          setCylQty(""),
-          setDeliveryMan(""),
-          setDocCharges(""),
-          setPrDeposit(""),
-          setPrQty(""),
-          setRemarks("");
-        setPaddingA("");
-        setPaymentT("");
-        alert(res.data.message);
       } catch (err) {
         alert("Failed to save agent.", err.message);
       }
     }
-    navigator("/app/document");
+    setConnection(""),
+      setEquipment(""),
+      setItemType(""),
+      setAdvanceRecover(""),
+      setAmountPaid(""),
+      setConsumerName(""),
+      setConsumerNo(""),
+      setCylDeposit(""),
+      setCylQty(""),
+      setDeliveryMan(""),
+      setDocCharges(""),
+      setPrDeposit(""),
+      setPrQty(""),
+      setRemarks("");
+    setPaddingA("");
+    setPaymentT("");
   };
   async function fetchModel() {
     const models = await axios.get("/nfrlist");
-
   }
   useEffect(() => {
     if (!promotionType) return;
@@ -255,9 +240,17 @@ function AddItemDocument() {
 
   return (
     <div className="allworking boxdesign">
-      <span className="fs-4 fw-semibold"><FaBook/>Document</span>
+      <span className="fs-4 fw-semibold">
+        <FaBook />
+        Document
+      </span>
       <div className="settion mt-2 p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-1">Add Document</span>
+         {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
         <form className="row mt-3" onSubmit={handleSubmit}>
           <div className="col-md-3">
             <label className="form-label">Connection Type</label>
@@ -322,9 +315,9 @@ function AddItemDocument() {
                 >
                   <option value="">Select</option>
 
-                  {delivery_Man_Name.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
+                  {employess.map((item, idx) => (
+                    <option key={idx} value={item.name}>
+                      {item.name}
                     </option>
                   ))}
                 </select>

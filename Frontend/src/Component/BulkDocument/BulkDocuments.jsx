@@ -1,10 +1,12 @@
 import axios from "../AxiosConfig";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import {FaRegCreditCard } from 'react-icons/fa'
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function BulkDocuments() {
+  const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const times = new Date().toLocaleTimeString();
   const [agentName, setAgentName] = useState("");
   const [promotionType, setPromotionType] = useState("");
@@ -43,8 +45,10 @@ function BulkDocuments() {
         alert("Failed to save agent.", err.message);
       }
     } else {
+        setBool1(true);
+      setAlertM("Bulk Document added successfully")
       try {
-        const res = await axios.post("/addbulkdoc", {
+       await axios.post("/addbulkdoc", {
           agentName,
           promotionType,
           documentSubmit,
@@ -57,7 +61,7 @@ function BulkDocuments() {
           update_ty: "A",
           times,
         });
-        navigate("/app/bulkDocumentList");
+        
       } catch (err) {
         alert("Failed to save agent.", err.message);
       }
@@ -112,6 +116,11 @@ function BulkDocuments() {
         <span className="fs-5 fw-semibold">
           {id ? "Edit Bulk Document" : "Add Bulk Document"}
         </span>
+          {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="box-body row mt-2">
             <div className="form-group col-md-3">

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useContext } from "react";
 import { AiOutlineLineChart } from "react-icons/ai";
+import DataContext from "../../Context/DataContext";
 
 function Salary_report() {
   const today = new Date().toISOString().split("T")[0];
-
+  const {employess}=useContext(DataContext)
   const [formData, setFormData] = useState({
     dateFrom: today,
     dateTo: today,
@@ -11,26 +13,7 @@ function Salary_report() {
     reportType: "",
   });
 
-  const employeeNames = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,11 +70,11 @@ function Salary_report() {
                 onChange={handleChange}
               >
                 <option value="">Select</option>
-                {employeeNames.map((name, idx) => (
-                  <option key={idx} value={name}>
-                    {name}
-                  </option>
-                ))}
+                 {employess.map((item, idx) => (
+                <option key={idx} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
               </select>
             </div>
            

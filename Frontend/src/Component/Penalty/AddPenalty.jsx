@@ -1,12 +1,15 @@
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
+import { useContext } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { MdCurrencyRupee } from "react-icons/md";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function AddPenalty() {
+  const {employess,bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const times = new Date().toLocaleTimeString();
   const [employeeName, setEmployeeName] = useState("");
   const [amount, setAmount] = useState("");
@@ -18,26 +21,6 @@ function AddPenalty() {
   const editData = location.state?.empData;
   const [penaltyList, setPenaltyList] = useState([]);
 
-  const delivery_Man_Name = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
   const fetchEmployees = async () => {
     try {
       const res = await axios.get("/penaltylist");
@@ -48,7 +31,6 @@ function AddPenalty() {
   };
   useEffect(() => {
     if (id && editData) {
-      console.log(editData);
       setAmount(editData.amount);
       setEmployeeName(editData.employeeName);
       setRemarks(editData.remarks);
@@ -65,7 +47,7 @@ function AddPenalty() {
     const valid = confirm("Are you sure you want to delete this item?");
     if (valid) {
       try {
-        const res = await axios.delete(`/deletepenalty/${id}`);
+       await axios.delete(`/deletepenalty/${id}`);
         fetchEmployees();
       } catch (err) {
         console.error("Error deleting employee:", err.message);
@@ -84,6 +66,8 @@ function AddPenalty() {
       alert("Update Data");
       fetchEmployees();
     } else {
+        setBool1(true);
+      setAlertM("Penalty added successfully")
       await axios
         .post("/addpenalty", {
           employeeName,
@@ -93,10 +77,8 @@ function AddPenalty() {
           update_ty: "A",
         })
         .then((res) => {
-          alert("Data Submit", res.data.message);
           fetchEmployees();
         })
-
         .catch((err) => err);
     }
     setAmount(""), setEmployeeName(""), setRemarks("");
@@ -107,6 +89,11 @@ function AddPenalty() {
        <div className="d-md-flex mt-1 gap-4 flex-wrap">
       <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm">
         <span className="fs-5 fw-semibold">Add Penalty</span>
+         {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="row mt-2">
             <div className="mb-2">
@@ -118,11 +105,11 @@ function AddPenalty() {
                 required
               >
                 <option value="">Select</option>
-                {delivery_Man_Name.map((item, idx) => (
-                  <option key={idx} value={item}>
-                    {item}
-                  </option>
-                ))}
+                 {employess.map((item, idx) => (
+                <option key={idx} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
               </select>
             </div>
 

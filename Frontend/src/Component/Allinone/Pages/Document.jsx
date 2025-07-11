@@ -1,8 +1,10 @@
 import axios from '../../AxiosConfig';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DataContext from '../../../Context/DataContext';
 
 function DocumentForm() {
+  const {bool1,setBool1,alertM,setAlertM,employess}=useContext(DataContext)
     const times = new Date().toLocaleTimeString();
   const [connection, setConnection] = useState("");
   const [equipment, setEquipment] = useState("");
@@ -54,29 +56,11 @@ function DocumentForm() {
     "DBC WITH OUT HOTPLATE",
     "DBC",
   ];
-  const delivery_Man_Name = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
+   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setBool1(true);
+    setAlertM("Document added successfully")
       try {
         const res = await axios.post("/adddocument", {
           connection,
@@ -122,7 +106,7 @@ function DocumentForm() {
           setRemarks("");
         setPaddingA("");
         setPaymentT("");
-        alert(res.data.message);
+        
       } catch (err) {
         alert("Failed to save agent.", err.message);
       }
@@ -192,6 +176,11 @@ function DocumentForm() {
   return (
     <div className="document settion p-3 rounded-3 border-top border-warning border-3">
       <span className="fs-5 fw-semibold">Document</span>
+        {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
       <form className="row mt-3" onSubmit={handleSubmit}>
           <div className="col-md-3">
             <label className="form-label">Connection Type</label>
@@ -256,11 +245,11 @@ function DocumentForm() {
                 >
                   <option value="">Select</option>
 
-                  {delivery_Man_Name.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                   {employess.map((item, idx) => (
+                <option key={idx} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
                 </select>
               </div>
 

@@ -1,7 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import DataContext from "../../../Context/DataContext";
 
 function SalePage() {
+   const { bool1,setBool1,alertM,setAlertM } = useContext(DataContext);
   const [conType, setConType] = useState("");
   const [rate, setRate] = useState("");
   const [qty,setQty]=useState("");
@@ -23,8 +25,10 @@ function SalePage() {
   };
   const handleSubmit =async (e) => {
     e.preventDefault();
+     setBool1(true);
+      setAlertM("Sale added successfully")
      try {
-      const res = await axios.post("/api/addsale", {
+     await axios.post("/api/addsale", {
         conType,
         model,
         rate,
@@ -33,7 +37,7 @@ function SalePage() {
         remarks,
       });
 
-      alert(res.data.message);
+     
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
@@ -43,6 +47,11 @@ function SalePage() {
   return (
     <div className="sales settion p-3 rounded-3  border-warning border-3">
       <span className="fs-5 fw-semibold">Equipment</span>
+        {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
       <form onSubmit={handleSubmit}>
         <div className="box-body row">
           <div className="form-group col-md-6">

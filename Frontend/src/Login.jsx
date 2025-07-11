@@ -13,8 +13,7 @@ function Login() {
 
   useEffect(() => {
       const fetchDate =async ()=>{
-          const res = await axios.get("/admin");
-     
+          const res = await axios.get("/admin"); 
       setCurrent(res.data[0]);
         const saveduser = localStorage.getItem("rememberuser");
         const savedPassword = localStorage.getItem("rememberPassword");
@@ -60,13 +59,13 @@ function Login() {
   };
 
   return (
-    <div className="container-fluid vh-100 d-flex flex-column  justify-content-center align-items-center bg-light">
+    <div className="container-fluid vh-100 d-flex flex-column  justify-content-center align-items-center bg-light p-2">
       <div>
         <img src="https://lpg.sbinnovative.com/backend/images/s_logo.png" />
       </div>
       <div
-        className="card shadow-lg p-5 bg-dark rounded"
-        style={{ width: "400px" }}
+        className="card shadow-lg p-4 bg-dark rounded"
+        style={{ width: "390px" }}
       >
         <h3 className="text-center mb-4 text-primary">Admin Login</h3>
 

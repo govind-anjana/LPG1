@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 function AddDelivery() {
-  const { data,date } = useContext(DataContext);
+  const { data,date,employess,bool1,setBool1,alertM,setAlertM } = useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
   const today =date.toLocaleDateString("en-CA");
@@ -48,27 +48,6 @@ function AddDelivery() {
   const { id } = useParams();
   const location = useLocation();
   const editData = location.state?.empData;
-  const delivery_Man_Name = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
-
   const Equipment_name = [
     "14.2 KG Filled Cyl Domestic",
     "5 KG Filled Cyl Domestic",
@@ -101,8 +80,10 @@ function AddDelivery() {
       alert("update data")
     }
     else{
+      setBool1(true);
+      setAlertM("Delivery added successfully")
     try {
-      const res = await axios.post("/addDelivery", {
+      await axios.post("/addDelivery", {
         validTo,
         currentRate,
         dmanID,
@@ -121,7 +102,7 @@ function AddDelivery() {
         times,
         update_ty: "A",
       });
-      alert(res.data.message);
+      
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
@@ -277,6 +258,11 @@ function AddDelivery() {
         <span className="fs-5 fw-semibold"><TbTruckDelivery /> Add Delivery</span>
         <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
           <span className="fs-5 fw-semibold">Refill</span>
+           {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
           <form onSubmit={handleSubmit}>
             <div className="box-body row">
               <div className="form-group col-md-3">
@@ -312,11 +298,11 @@ function AddDelivery() {
                   required
                 >
                   <option value="">Select</option>
-                  {delivery_Man_Name.map((name, idx) => (
-                    <option key={idx} value={name}>
-                      {name}
-                    </option>
-                  ))}
+                  {employess.map((item, idx) => (
+                <option key={idx} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
                 </select>
               </div>
 

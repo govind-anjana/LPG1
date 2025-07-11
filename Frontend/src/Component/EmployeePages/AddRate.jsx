@@ -1,10 +1,12 @@
 import axios from "../AxiosConfig";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FaBook } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function AddRate() {
+  const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const today = new Date();
   const dates = today.toLocaleTimeString();
   const news = today.toISOString().split("T")[0];
@@ -15,6 +17,7 @@ function AddRate() {
   const [basePrice, setBasePrice] = useState(0);
   const [validFrom, setValidFrom] = useState(news);
   const [validTo, setValidTo] = useState(news);
+  
   const { id } = useParams();
   const location = useLocation();
   const editData = location.state?.empData;
@@ -91,6 +94,8 @@ function AddRate() {
       });
       navigate("/app/rate");
     } else {
+      setBool1(true);
+      setAlertM("Equipment Rate added successfully")
       try {
         await axios.post("/addrate", {
           equipment,
@@ -103,7 +108,7 @@ function AddRate() {
           dates,
           update_ty: "A",
         });
-        navigate("/app/rate");
+
       } catch (err) {
         alert("Failed to save agent.");
       }
@@ -120,7 +125,12 @@ function AddRate() {
       <span className="fs-4 fw-semibold"><FaBook/> Add Rate</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-1">Equipment</span>
-        <form className="row mt-3" onSubmit={handleSubmit}>
+           {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
+        <form className="row mt-2" onSubmit={handleSubmit}>
           <div className="col-md-6 mb-3">
             <label className="form-label">Equipment Name</label>
             <select

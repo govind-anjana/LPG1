@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "../AxiosConfig";
 import { FaBook } from "react-icons/fa6";
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 function AddNfr() {
+  const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const times = new Date().toLocaleTimeString();
-
   const [itemGroup, setItemGroup] = useState("");
   const [vendorNames, setVendorNames] = useState("");
   const [modelName, setModelName] = useState("");
@@ -34,9 +35,11 @@ function AddNfr() {
           remarks,
           update_ty: "U",
         });
-  
+           navigate("/app/nfr");
       } else {
-        const res = await axios.post("/addnfr", {
+         setBool1(true);
+      setAlertM("NFR Rate added successfully")
+       await axios.post("/addnfr", {
           itemGroup,
           vendorNames,
           modelName,
@@ -47,7 +50,7 @@ function AddNfr() {
           times,
           update_ty: "A",
         });
-        // alert(res.data.message);
+        
       }
     } catch (err) {
       alert("Failed to save agent.", err.message);
@@ -58,8 +61,7 @@ function AddNfr() {
     setNfrRsp("");
     setOpeningStock("");
     setRemarks("");
-    setVendorNames("");
-    navigate("/app/nfr");
+    setVendorNames("");  
   };
   useEffect(() => {
     const fetchapi = async () => {
@@ -87,7 +89,12 @@ function AddNfr() {
       <span className="fs-4 fw-semibold"><FaBook/> Add NFR</span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-1">NFR</span>
-        <form className="row mt-3" onSubmit={handleSubmit}>
+          {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
+        <form className="row mt-2" onSubmit={handleSubmit}>
           <div className="col-md-6 mb-3">
             <label className="form-label">Item Group</label>
             <select

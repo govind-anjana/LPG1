@@ -1,7 +1,9 @@
+import DataContext from "../../../Context/DataContext";
 import axios from "../../AxiosConfig";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 function Kgrefill() {
+   const { employess,bool1,setBool1,alertM,setAlertM } = useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
   const today = news.toISOString().split("T")[0];
@@ -29,26 +31,7 @@ function Kgrefill() {
     "LPG Pressure Regulator Sound",
   ];
 
-  const delivery_Man_Name = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
+
   const fetchEmployees = async () => {
     try {
       const res1 = await axios.get("/consumerlist");
@@ -97,7 +80,8 @@ function Kgrefill() {
   
   async function handleSubmit(e) {
     e.preventDefault();
-   
+      setBool1(true);
+      setAlertM("Kg Refill added successfully")
       await axios
         .post("/addkgrefill", {
           consumerName,
@@ -118,7 +102,7 @@ function Kgrefill() {
           times,
         })
         .then((res) => {
-          alert("Data Submit", res.data.message);
+         
           fetchEmployees();
         })
         .catch((err) => err);
@@ -141,6 +125,11 @@ function Kgrefill() {
   return (
     <div className="kgrefill settion p-3 rounded-3 border-warning border-3">
       <span className="fs-5 fw-semibold">19 Kg Refill</span>
+       {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
       <form onSubmit={handleSubmit}>
           <div className="box-body row mt-3">
             <div className="form-group col-md-3">
@@ -184,11 +173,11 @@ function Kgrefill() {
                 required
               >
                 <option value="">Select</option>
-                {delivery_Man_Name.map((name, idx) => (
-                  <option key={idx} value={name}>
-                    {name}
-                  </option>
-                ))}
+               {employess.map((item, idx) => (
+                <option key={idx} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
               </select>
             </div>
 

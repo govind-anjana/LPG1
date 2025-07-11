@@ -1,10 +1,12 @@
 import axios from "../AxiosConfig";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FaEdit} from "react-icons/fa";
 import { FaDeleteLeft,FaBook } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 function Agent() {
+  const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const [agentList, setAgentList] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -51,7 +53,6 @@ function Agent() {
   }
   useEffect(() => {
     fetchEmployees();
-
     setFormData({
       agentName: "",
       mobile: "",
@@ -77,8 +78,9 @@ function Agent() {
       }
     } else {
       try {
-        const res = await axios.post("/master", dataToSend);
-        alert(res.data.message);
+         setBool1(true);
+         setAlertM("Agent Rate added successfully")
+       await axios.post("/master", dataToSend);
         fetchEmployees();
       } catch (err) {
         alert("Failed to save agent.");
@@ -119,6 +121,11 @@ function Agent() {
           className="flex-fill settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm"
           style={{ width: "250px" }}
         >
+         {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
           <form onSubmit={handleSubmit}>
             <div className="row agentname">
               <div className="col-sm-6 mb-3">

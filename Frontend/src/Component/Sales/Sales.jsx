@@ -1,10 +1,12 @@
 import axios from "../AxiosConfig";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import {FaIdCard} from 'react-icons/fa'
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function Sales() {
+   const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const [conType, setConType] = useState("");
   const [rate, setRate] = useState("0");
   const [qty, setQty] = useState("");
@@ -37,10 +39,12 @@ function Sales() {
         payment,
         remarks,
         update_ty: "U"})
-        alert("Update Data")
-        navigate("/sales")
+      
+        navigate("/app/sales")
     }
     else {
+       setBool1(true);
+      setAlertM("Sales added successfully")
     try {
       const res = await axios.post("/addsale", {
         conType,
@@ -52,7 +56,6 @@ function Sales() {
         update_ty: "A",
       });
 
-      alert(res.data.message);
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
@@ -79,8 +82,13 @@ function Sales() {
       <span className="fs-4 fw-semibold"><FaIdCard /> Sales</span>
       <div className="settion mt-2 p-3  bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold">Sales</span>
+         {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
-          <div className="box-body row mt-3">
+          <div className="box-body row mt-2">
             <div className="form-group col-md-6">
               <label htmlFor="conType">Sales Type</label>
               <select

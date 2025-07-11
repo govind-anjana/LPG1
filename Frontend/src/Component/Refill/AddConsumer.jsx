@@ -8,7 +8,7 @@ import { useContext } from "react";
 import DataContext from "../../Context/DataContext";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 function AddConsumer() {
-  const { data } = useContext(DataContext);
+  const { data ,employess,bool1,setBool1,alertM,setAlertM} = useContext(DataContext);
   const news = new Date();
   const today = news.toISOString().split("T")[0];
   const times = news.toLocaleTimeString();
@@ -56,26 +56,6 @@ function AddConsumer() {
   const [amount2, setAmount2] = useState("");
   const [emptyBalance2, setEmptyBalance2] = useState("");
 
-  const delivery_Man_Name = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
   const Equipment_name = [
     "14.2 KG Filled Cyl Domestic",
     "5 KG Filled Cyl Domestic",
@@ -156,6 +136,8 @@ function AddConsumer() {
       alert("Update Data");
       fetchEmployees();
     } else {
+      setBool1(true);
+      setAlertM("Consumer added successfully")
       await axios
         .post("/addconsumer", {
           consumreType,
@@ -178,7 +160,6 @@ function AddConsumer() {
           update_ty: "A",
         })
         .then((res) => {
-          alert("Data Submit", res.data.message);
           fetchEmployees();
         })
         .catch((err) => err);
@@ -329,6 +310,11 @@ function AddConsumer() {
   return (
     <div className="addconsumer allworking boxdesign">
       <span className="fs-4 fw-semibold mb-2"><FaIdCard /> Add Consumer</span>
+       {bool1 && (
+          <div className=" m-2 alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
       <form onSubmit={handleSubmit}>
         <div className="m-2 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm row">
           <div className="form-group col-md-3 ">
@@ -375,9 +361,9 @@ function AddConsumer() {
               onChange={(e) => setDeliveryMan(e.target.value)}
             >
               <option>Select</option>
-              {delivery_Man_Name.map((name, idx) => (
-                <option key={idx} value={name}>
-                  {name}
+              {employess.map((item, idx) => (
+                <option key={idx} value={item.name}>
+                  {item.name}
                 </option>
               ))}
             </select>

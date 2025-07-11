@@ -1,24 +1,26 @@
 import axios from "../AxiosConfig";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FaRegCreditCard } from "react-icons/fa";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function ExpenseHead() {
+  const {bool1,setBool1,alertM,setAlertM,employess}=useContext(DataContext)
   const [userType, setUserType] = useState("");
   const [employeeName, setEmployeeName] = useState("");
   const [equipmentType, setEquipmentType] = useState("");
   const [equipment, setEquipment] = useState("");
   const [depositCyl, setDepositCyl] = useState("");
   const [remarks, setRemarks] = useState("");
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
   const navigate=useNavigate()
   const {id}=useParams()
   const location=useLocation()
   const editData=location.state?.empData;
-
+  console.log(employess)
   useEffect(()=>{
       if(id,editData){
-        console.log(editData)
         setDepositCyl(editData.depositCyl)
         setEquipmentType(editData.equipmentType)
         setEmployeeName(editData.employeeName)
@@ -27,27 +29,12 @@ function ExpenseHead() {
         setUserType(editData.userType)
       }
   },[id,editData])
-  const delivery_Man_Name = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
-
+  
+  useEffect(()=>{
+        const filters=employess.filter(item=>(item.userType===userType))
+         setFilteredEmployees(filters);
+         
+  },[userType,employess])
   const equipmentOptions = [
     "14.2 KG Filled Cylinder",
     "5 KG Empty Cylinder",
@@ -66,12 +53,13 @@ function ExpenseHead() {
         depositCyl,
         remarks,
         update_ty:"U"})
-        alert("Update Data")
         navigate("/app/depositCylList")
     }
     else {
+      setBool1(true);
+    setAlertM("Deposity Cyl added successfully")
     try {
-      const res = await axios.post("/adddeposit", {
+       await axios.post("/adddeposit", {
         userType,
         equipmentType,
         employeeName,
@@ -81,8 +69,6 @@ function ExpenseHead() {
         update_ty:"A"
       });
 
-      alert(res.data.message);
-        navigate("/app/depositCylList")
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
@@ -97,9 +83,13 @@ function ExpenseHead() {
   return (
     <div className="allworking boxdesign">
       <span className="fs-4 fw-semibold"><FaRegCreditCard /> Deposit Cyl</span>
-     
         <div className="settion mt-3 p-3 bg-light rounded-2 border-warning border-3 shadow-sm">
           <span className="fs-5  fw-semibold">Add Deposit Cyl</span>
+           {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
           <form onSubmit={handleSubmit}>
             <div className="row mt-2">
               <div className="col-md-4">
@@ -111,10 +101,10 @@ function ExpenseHead() {
                   required
                 >
                   <option value="">Select</option>
-                  <option value="delivery Man">Delivery Man</option>
+                  <option value="Delivery Man">Delivery Man</option>
                   <option value="staff">Staff</option>
                   <option value="vendor">Vendor</option>
-                  <option value="consumer">Consumer</option>
+                  <option value="Consumer">Consumer</option>
                 </select>
               </div>
 
@@ -127,9 +117,9 @@ function ExpenseHead() {
                   required
                 >
                   <option value="">Select</option>
-                  {delivery_Man_Name.map((item, idx) => (
-                    <option key={idx} value={item}>
-                      {item}
+                  {filteredEmployees.map((item, idx) => (
+                    <option key={idx} value={item.name}>
+                      {item.name}
                     </option>
                   ))}
                 </select>

@@ -21,9 +21,8 @@ function SalesList() {
   }, []);
 
   function Edithandle(id, data) {
-    navigate(`/sales/sales/${id}`, { state: { empData: data } });
+    navigate(`/app/sales/sales/${id}`, { state: { empData: data } });
   }
-
   async function Deletehandle(id) {
     const valid = confirm("Delete Delivery");
     if (valid) {
@@ -48,7 +47,7 @@ function SalesList() {
             style={{ maxWidth: "180px" }}
           />
           <div>
-            <Link to="/sales/sales">
+            <Link to="/app/sales/sales">
               <button className="btn btn-dark btn-sm px-3 m-2">Add sale</button>
             </Link>
           </div>

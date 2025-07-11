@@ -4,7 +4,7 @@ import { useContext } from "react";
 import DataContext from "../../../Context/DataContext";
 
 function PlantTransaction() {
-    const {date} = useContext(DataContext)
+    const {date,bool1,setBool1,alertM,setAlertM } = useContext(DataContext)
     const today = date.toLocaleDateString("en-CA");
   // const dates = new Date().toISOString().split("T")[0];
   const [ReDate, setReDate] = useState(today);
@@ -26,6 +26,8 @@ function PlantTransaction() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+     setBool1(true);
+      setAlertM("Plant Transaction added successfully")
     await axios
       .post("/planttransaction", {
         ReDate,
@@ -36,7 +38,6 @@ function PlantTransaction() {
         invoice,
       })
       .then((res) => {
-        alert("Data Submit", res.data.message);
       })
       .catch((err) => err);
 
@@ -51,6 +52,11 @@ function PlantTransaction() {
   return (
     <div className="transaction  settion p-3 rounded-3  border-warning border-3">
       <span className="fs-5 fw-semibold">Plant Transaction</span>
+       {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
       <form onSubmit={handleSubmit}>
         <div className="box-body row">
           <div className="form-group col-md-4">

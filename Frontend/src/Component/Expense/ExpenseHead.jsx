@@ -1,11 +1,13 @@
 import axios from "../AxiosConfig";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FaEdit ,FaRegCreditCard } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function ExpenseHead() {
+   const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const [expenseType, setExpenseType] = useState("");
   const [expenseH, setexpenseH] = useState("");
   const [description, setDescription] = useState("");
@@ -61,6 +63,8 @@ function ExpenseHead() {
       alert("Data Update");
       fetchEmployees();
     } else {
+        setBool1(true);
+      setAlertM("Expense Head added successfully")
       await axios
         .post("/addexpensehead", {
           expenseType,
@@ -69,7 +73,7 @@ function ExpenseHead() {
           update_ty: "A",
         })
         .then((res) => {
-          alert("Data Submit", res.data.message);
+          
           fetchEmployees();
         })
         .catch((err) => err);
@@ -80,10 +84,15 @@ function ExpenseHead() {
   return (
     <div className="expensehead allworking boxdesign">
       <span className="fs-4 fw-semibold"><FaRegCreditCard /> Expenses</span>
+      
       <div className="d-md-flex mt-1 gap-4 flex-wrap ">
         <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm">
           <span className="fs-6 fw-semibold">Add Expense Head </span>
-          <br />
+            {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
           <form onSubmit={handleSubmit}>
             <div className="row mt-2">
               <div className="mb-3">

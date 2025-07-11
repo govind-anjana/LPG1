@@ -1,8 +1,11 @@
 import { AiOutlineLineChart } from "react-icons/ai";
 import axios from "../AxiosConfig";
 import React, { useState } from "react";
+import { useContext } from "react";
+import DataContext from "../../Context/DataContext";
 
 function Delivery_report() {
+  const {employess}=useContext(DataContext)
   const today = new Date().toISOString().split("T")[0];
 
   const [show, setShow] = useState(false);
@@ -14,26 +17,6 @@ function Delivery_report() {
     employee: "",
   });
 
-  const employeeNames = [
-    "Mahendra Singh",
-    "Shubham Mali",
-    "Dinesh Malviya",
-    "Ranchod",
-    "Ishwar",
-    "Raghu",
-    "Kamal",
-    "Vijay",
-    "Luckky Rathore",
-    "Dashrath",
-    "Sangram Singh",
-    "Sajay Yadav",
-    "Krishna",
-    "Paven",
-    "Manohar",
-    "Rajesh Mama",
-    "Bhaiyaa",
-    "Rameshwar",
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,7 +64,7 @@ function Delivery_report() {
                 name="dateFrom"
                 value={formData.dateFrom}
                 onChange={handleChange}
-                className="form-control"
+               
               />
             </div>
 
@@ -93,7 +76,7 @@ function Delivery_report() {
                 name="dateTo"
                 value={formData.dateTo}
                 onChange={handleChange}
-                className="form-control"
+               
               />
             </div>
 
@@ -104,14 +87,14 @@ function Delivery_report() {
                 name="employee"
                 value={formData.employee}
                 onChange={handleChange}
-                className="form-control"
+                
               >
                 <option value="">Select</option>
-                {employeeNames.map((name, idx) => (
-                  <option key={idx} value={name}>
-                    {name}
-                  </option>
-                ))}
+                {employess.map((item, idx) => (
+                <option key={idx} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
               </select>
             </div>
 

@@ -1,12 +1,14 @@
 import axios from "../AxiosConfig";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { MdCurrencyRupee } from "react-icons/md";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 
 function AddCash() {
+  const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const times = new Date().toLocaleTimeString();
   const [search, setSearch] = useState("");
   const [a2000, setA2000] = useState("0");
@@ -91,6 +93,8 @@ function AddCash() {
         update_ty: "U",
       });
     } else {
+       setBool1(true);
+      setAlertM("Cash added successfully")
       await axios
         .post("/addcash", {
           totalAmount,
@@ -105,7 +109,6 @@ function AddCash() {
           times,
         })
         .then((res) => {
-          alert("Data Submit", res.data.message);
           fetchEmployees();
         })
         .catch((err) => err.message);
@@ -119,6 +122,11 @@ function AddCash() {
       <div className="d-md-flex mt-2 gap-4 flex-wrap">
         <div className="headdiv px-2 settion py-2 bg-light rounded-2  border-warning border-3 shadow-sm">
           <span className="fs-6 fw-semibold ">Add Cash</span>
+          {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
           <form onSubmit={handleSubmit}>
             <table width="100%" className="table table-striped pt-2 table1">
               <tbody>

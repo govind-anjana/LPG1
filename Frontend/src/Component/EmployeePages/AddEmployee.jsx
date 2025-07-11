@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../Allinone/Pages/Refill.css";
 import { FaBook } from "react-icons/fa6";
 import axios from "../AxiosConfig";
 import { useLocation, useNavigate } from "react-router-dom";
+import DataContext from "../../Context/DataContext";
 function AddEmployee() {
+   const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
   const [userType, setUserType] = useState("");
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
@@ -75,6 +77,8 @@ function AddEmployee() {
       });
       alert("Updated Successfully");
     } else {
+        setBool1(true);
+         setAlertM("Employee added successfully")
       axios
         .post("/addEmployee", {
           userType,
@@ -97,8 +101,7 @@ function AddEmployee() {
           update_ty: "A",
           times,
         })
-        .then((res) => alert(res.data.message))
-        .catch((err) => err);
+       
     }
     setAadhar(""),
       setAddress(""),
@@ -125,6 +128,11 @@ function AddEmployee() {
         <span className="fs-6 fw-semibold ">
           {editId ? "Update" : "Add"} Employee
         </span>
+         {bool1 && (
+          <div className="alert alert-success text-success my-2" role="alert">
+            {alertM}
+          </div>
+        )}
         <form className="row mt-3" onSubmit={handleSubmit}>
           <div className="col-md-3 mb-3">
             <label className="form-label">User Type</label>
@@ -154,8 +162,10 @@ function AddEmployee() {
           <div className="col-md-3 mb-3">
             <label className="form-label">Mobile</label>
             <input
-              type="number"
+              type="text"
               name="mobile"
+               pattern="[0-9]{10}"
+               maxLength={10}
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
               placeholder="Enter Mobile Number"
@@ -257,12 +267,14 @@ function AddEmployee() {
           <div className="col-md-3 mb-3">
             <label className="form-label">Aadhar</label>
             <input
-              type="number"
+              type="text"
               name="aadhar"
               value={aadhar}
               onChange={(e) => setAadhar(e.target.value)}
               placeholder="************"
               required
+              maxLength={12}
+              pattern="[0-9]{12}"
             />
           </div>
 
