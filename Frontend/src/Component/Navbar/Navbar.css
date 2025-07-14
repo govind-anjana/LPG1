@@ -19,7 +19,6 @@
 .list-unstyled li a,.allinone  {
     color:white;
     text-decoration: none;
-    /* display: none; */
     transition: all 0.3s;;
 }
 .list-unstyled li a:hover,.list-unstyled li:hover,.allinone:hover,.list-unstyled li a:focus {

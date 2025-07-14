@@ -78,15 +78,20 @@
   overflow: auto;
   box-shadow:  0px 0px 19px inset black ;
 }
+ /* .govind li a ~ .d-flex .sidebar{
+  margin-left: -220px;
+  color:red !important; 
+} */
 
-#sidebarToggle:not(:checked) ~ .d-flex .sidebar {
+@media screen and (max-width:768px){
+
+  #sidebarToggle:not(:checked) ~ .d-flex .sidebar {
   margin-left: -220px;
 }
 #sidebarToggle:not(:checked) ~ .d-flex .main-content {
   width: 100%;
-  
+
 }
-@media screen and (max-width:768px){
    .apps{
     height:99vh;
 }
@@ -97,7 +102,6 @@
   position: absolute;
   opacity: 0.79;
  backdrop-filter: blur(80);
-
 }
 .boxdesign {
   height:auto;

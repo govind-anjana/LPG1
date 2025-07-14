@@ -96,7 +96,7 @@ function Sales_report() {
                 onChange={handleChange}
               >
                 <option value="">Select</option>
-                <option value="nfr">Nfr</option>
+                <option value="nfr Model">Nfr</option>
                 <option value="equipment">Equipment</option>
               </select>
             </div>

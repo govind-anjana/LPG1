@@ -24,7 +24,7 @@ function SalesList() {
     navigate(`/app/sales/sales/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
-    const valid = confirm("Delete Delivery");
+    const valid = confirm("Are you sure you want to delete this record?");
     if (valid) {
       try {
         const res = await axios.delete(`/deletesale/${id}`);

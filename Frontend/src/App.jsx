@@ -45,16 +45,29 @@ import DepositCyllist from "./Component/Deposit/DepositCyllist";
 import Main_report from "./Component/Report/Main_report";
 import DataProvider from "./Context/DataProvider";
 import EditEquipment from "./Component/EmployeePages/EditEquipment";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
 import Allstock from "./Component/AllStock/Allstock";
 import ChangePassword from "./ChangePassword";
 function App() {
+  const checkboxRef = useRef(null);
   const [isChecked, setIsChecked] = useState(true);
 
   const handleChange = (e) => {
     setIsChecked(e.target.checked);
   };
+  const handleSidebarClose = () => {
+  if (checkboxRef.current) {
+    checkboxRef.current.checked = false;
+    setIsChecked(false);
+  }
+};
+  useEffect(() => {
+    if (window.innerWidth <= 400 && checkboxRef.current) {
+      checkboxRef.current.checked = false;
+      setIsChecked(false);
+    }
+  }, []);
   return (
     <DataProvider>
         <Header />
@@ -66,10 +79,11 @@ function App() {
           id="sidebarToggle"
           onChange={handleChange}
           defaultChecked
+           ref={checkboxRef}
         />
         <div className="d-flex maindiv">
           <div className="sidebar">
-            <Navbar htmlFor="sidebarToggle" />
+            <Navbar onLinkClick={handleSidebarClose} />
           </div>
           <div className="main-content flex-grow-1 mx-md-2 px-md-3 p-2">
             <Routes>

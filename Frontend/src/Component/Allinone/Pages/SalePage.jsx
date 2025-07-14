@@ -1,28 +1,28 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DataContext from "../../../Context/DataContext";
 
 function SalePage() {
-   const { bool1,setBool1,alertM,setAlertM } = useContext(DataContext);
+   const { bool1,setBool1,alertM,setAlertM ,nfr_list} = useContext(DataContext);
   const [conType, setConType] = useState("");
   const [rate, setRate] = useState("");
   const [qty,setQty]=useState("");
   const [payment,setPayment]=useState("")
   const [model, setModel] = useState("");
   const [remarks,setRemarks]=useState("")
-    
-  const model_name = {
-    nfr: ["14.2 KG Filled Cyl Domestic", "5 KG Filled Cyl Domestic"],
-    equipment: [
-      "14.2 KG Filled Cyl Domestic",
-      "5 KG Filled Cyl Domestic",
-      "19 KG Filled Cyl CM",
-      "5 KG Filled Cyl CM FTL POS",
-      "10 KG Filled Cyl Composite",
-      "45 KG Filled Cyl",
-      "LPG Pressure Regulator Sound",
-    ],
-  };
+    const [nfrModel, setNfrModel] = useState([]);
+    const equipment = [
+    "14.2 KG Filled Cyl Domestic",
+    "5 KG Filled Cyl Domestic",
+    "19 KG Filled Cyl CM",
+    "5 KG Filled Cyl CM FTL POS",
+    "10 KG Filled Cyl Composite",
+    "45 KG Filled Cyl",
+    "LPG Pressure Regulator Sound",
+  ];
+   useEffect(()=>{
+            setNfrModel(nfr_list)
+    },[conType])
   const handleSubmit =async (e) => {
     e.preventDefault();
      setBool1(true);
@@ -66,7 +66,7 @@ function SalePage() {
               }}
             >
               <option value="">Select</option>
-              <option value="nfr">NFR</option>
+              <option value="nfr Model">NFR</option>
               <option value="equipment">Equipment</option>
             </select>
           </div>
@@ -74,18 +74,21 @@ function SalePage() {
           {conType && (
             <>
               <div className="form-group col-md-6">
-                <label htmlFor="model">{conType} Model Name</label>
+                <label htmlFor="model">{conType} Name</label>
                 <select
                   id="model"
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
                 >
                   <option value="">Select</option>
-                  {model_name[conType].map((item, index) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                    {(conType === "nfr Model"
+                      ? nfrModel.map((item) => item.modelName)
+                      : equipment
+                    ).map((item, index) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
                 </select>
               </div>
               <div className="form-group col-md-6">

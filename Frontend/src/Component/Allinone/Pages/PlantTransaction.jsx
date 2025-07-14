@@ -134,7 +134,7 @@ function PlantTransaction() {
         </div>
 
         <div className="text-end my-3">
-          <button type="submit" className="btn btn-dark dnt-sm px-3">
+          <button type="submit" className="btn btn-dark btn-sm px-3">
             Save
           </button>
         </div>
