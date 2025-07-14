@@ -24,14 +24,14 @@ function Email_Setting() {
   };
 
   return (
-    <div className="allworking border p-2">
+    <div className="allworking border-3 boxdesign p-2">
       <span className="fs-4 fw-semibold">System Setting</span>
-      <div className="mt-3 p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
-        <span className="fs-6">Email Setting</span>
+      <div className="mt-3 p-md-4 p-2 bg-light rounded-3  border-3 shadow-sm">
+        <span className="fs-6 fw-semibold">Email Setting</span>
 
         <form onSubmit={handleSubmit}>
-          <div className="table-responsive">
-            <table className="table w-50 mx-auto">
+          <div className="table-responsive setting_table mx-auto">
+            <table className="table ">
               <tbody>
                 <tr>
                   <th>
@@ -130,9 +130,6 @@ function Email_Setting() {
                         />
                       </td>
                     </tr>
-                  </>
-                )}
-
                 <tr>
                   <td colSpan="2" className="text-center">
                     <button type="submit" className="btn btn-dark btn-sm px-4">
@@ -140,6 +137,8 @@ function Email_Setting() {
                     </button>
                   </td>
                 </tr>
+                  </>
+                )}
               </tbody>
             </table>
           </div>

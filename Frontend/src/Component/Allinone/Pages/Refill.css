@@ -16,7 +16,7 @@
     /* border-radius: 1px; */
 
 }
- select option{
+ select option,select{
     font-size: 14px;
     text-transform: capitalize;
 }

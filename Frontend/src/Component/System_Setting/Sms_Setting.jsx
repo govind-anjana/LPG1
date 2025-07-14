@@ -106,11 +106,11 @@ function Sms_Setting() {
   };
 
   return (
-    <div className="allworking boxdesign">
+    <div className="allworking boxdesign ">
       <span className="fs-4 fw-semibold">System Setting</span>
       <div className="mt-3 rounded-3 border-warning border-3 shadow-lg">
-        <div className="d-md-flex p-1  justify-content-md-between align-items-center bg-dark text-white rounded-2">
-          <span className="fs-6 fw-semibold px-3 text-center">SMS Setting</span>
+        <div className="d-md-flex p-1 justify-content-md-between align-items-center bg-dark text-white rounded-2 flex-wrap">
+          <span className="fs-6 fw-semibold p-2 d-block d-md-inline text-center">SMS Setting</span>
           <div className="px-2" style={{ cursor: "pointer" }}>
             <ul
               className="list-inline m-0 fw-bold"
@@ -168,7 +168,7 @@ function Sms_Setting() {
           </div>
         </div>
 
-        <div className=" mt-0 smsdiv">
+        <div className="mt-3 smsdiv">
           {visibleDiv === "sms1" && (
             <div className="border m-0 p-2 row">
               <div className="col-md-8">
@@ -260,10 +260,10 @@ function Sms_Setting() {
             </div>
           )}
           {visibleDiv === "sms2" && (
-            <div className="border m-0 p-3 row">
+            <div className="border m-0 p-2 row">
               <div className="col-md-8">
                 <form className="row" onSubmit={handelSubmit2}>
-                  <div className="col-md-12 mt-3">
+                  <div className="col-md-12">
                     <div className="row align-items-md-end">
                       <div className="col-md-6 text-md-end">
                         <label className="form-label pe-3">
@@ -350,10 +350,10 @@ function Sms_Setting() {
             </div>
           )}
           {visibleDiv === "sms3" && (
-            <div className="border m-0 p-3 row">
+            <div className="border m-0 p-2 row">
               <div className="col-md-8">
                 <form className="row" onSubmit={handelSubmit3}>
-                  <div className="col-md-12 mt-3">
+                  <div className="col-md-12">
                     <div className="row align-items-md-end">
                       <div className="col-md-6 text-md-end">
                         <label className="form-label pe-3">Auth Key:</label>
@@ -420,10 +420,10 @@ function Sms_Setting() {
             </div>
           )}
           {visibleDiv === "sms4" && (
-            <div className="border m-0 p-3 row">
+            <div className="border m-0 p-2 row">
               <div className="col-md-8">
                 <form className="row" onSubmit={handelSubmit4}>
-                  <div className="col-md-12 mt-3">
+                  <div className="col-md-12">
                     <div className="row align-items-md-end">
                       <div className="col-md-6 text-md-end">
                         <label className="form-label pe-3">UserName:</label>
@@ -504,10 +504,10 @@ function Sms_Setting() {
             </div>
           )}
           {visibleDiv === "sms5" && (
-            <div className="border m-0 p-3 row">
+            <div className="border m-0 p-2 row">
               <div className="col-md-8">
                 <form className="row" onSubmit={handelSubmit5}>
-                  <div className="col-md-12 mt-3">
+                  <div className="col-md-12 ">
                     <div className="row align-items-md-end">
                       <div className="col-md-6 text-md-end">
                         <label className="form-label pe-3">UserName:</label>
@@ -588,10 +588,10 @@ function Sms_Setting() {
             </div>
           )}
           {visibleDiv === "sms6" && (
-            <div className="border m-0 p-3 row">
+            <div className="border m-0 p-2 row">
               <div className="col-md-8">
                 <form className="row" onSubmit={handelSubmit6}>
-                  <div className="col-md-12 mt-3">
+                  <div className="col-md-12">
                     <div className="row align-items-md-end">
                       <div className="col-md-6 text-md-end">
                         <label className="form-label pe-3">Gateway Name:</label>

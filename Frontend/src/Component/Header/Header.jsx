@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaChevronDown, FaChevronUp,FaUserAlt,FaRegUser } from "react-icons/fa";
+import {
+  FaChevronDown,
+  FaChevronUp,
+  FaUserAlt,
+  FaRegUser,
+} from "react-icons/fa";
 import DataContext from "../../Context/DataContext";
 import { MdOutlineExitToApp } from "react-icons/md";
 function Header() {
@@ -40,6 +45,8 @@ function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("alertM");
+    localStorage.removeItem("bool1");
     navigate("/");
   };
   const handleSuperAdmin = () => {
@@ -55,7 +62,9 @@ function Header() {
             Application Date : {`${dd}-${monthNames[result - 1]}-${yyyy}`}
           </span>
           <Link to="/app/getall_stock_details">
-            <button className=" btn btn-secondary px-3 btn-sm fw-semibold">EOD  <MdOutlineExitToApp /></button>
+            <button className=" btn btn-secondary px-3 btn-sm fw-semibold">
+              EOD <MdOutlineExitToApp />
+            </button>
           </Link>
         </div>
         <div className="position-relative super-admin-dropdown">
@@ -64,7 +73,8 @@ function Header() {
             onClick={handleSuperAdmin}
             style={{ cursor: "pointer" }}
           >
-            Super Admin <FaRegUser />&nbsp;{show ? <FaChevronUp /> : <FaChevronDown />}
+            Super Admin <FaRegUser />
+            &nbsp;{show ? <FaChevronUp /> : <FaChevronDown />}
           </div>
 
           {show && (
