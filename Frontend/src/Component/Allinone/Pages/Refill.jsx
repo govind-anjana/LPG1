@@ -7,8 +7,9 @@ function DocumentForm() {
   const { data, date,bool1,setBool1,alertM,setAlertM,employess } = useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
-  const today = date.toLocaleDateString("en-CA");
-  const [validTo, setValidTo] = useState(today);
+  const today=news.toISOString().split("T")[0];
+  const oldToday = date.toLocaleDateString("en-CA");
+  const [validTo, setValidTo] = useState(oldToday);
   const [currentRate, setCurrentRate] = useState(0);
   const [dmanID, setDmanID] = useState("");
   const [equipment, setEquipment] = useState("");
@@ -41,7 +42,6 @@ function DocumentForm() {
   const [cylpayment3, setCylpayment3] = useState(0);
   const [onlineEx3, setOnlineEx3] = useState(0);
 
- 
   const Equipment_name = [
     "14.2 KG Filled Cyl Domestic",
     "5 KG Filled Cyl Domestic",
@@ -300,7 +300,7 @@ function DocumentForm() {
             <input
               type="number"
               name="newConnection"
-              value={newConnection && "0"}
+              value={newConnection}
               onChange={(e) => setNewConnection(e.target.value)}
             />
           </div>

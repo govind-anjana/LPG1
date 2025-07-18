@@ -1,4 +1,5 @@
 import axios from "./Component/AxiosConfig";
+import logo from './Component/Images/s-favican.png'
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 function Login() {
@@ -61,7 +62,7 @@ function Login() {
   return (
     <div className="container-fluid vh-100 d-flex flex-column  justify-content-center align-items-center bg-light p-2">
       <div>
-        <img src="https://lpg.sbinnovative.com/backend/images/s_logo.png" />
+        <img src={logo} className="mb-2"/>
       </div>
       <div
         className="loginpage card shadow-lg p-4 bg-dark rounded"

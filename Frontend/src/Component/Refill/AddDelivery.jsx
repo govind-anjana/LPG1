@@ -143,7 +143,7 @@ function AddDelivery() {
       const rateList = [...data].reverse();
 
       const latestValidRate = rateList.find(
-        (item) => item.equipment == equipment && item.validTo >= today
+        (item) => item.equipment == equipment && item.validTo >= todayNew
       );
       if (latestValidRate) {
         setCurrentRate(latestValidRate.totalRsp);
@@ -350,7 +350,7 @@ function AddDelivery() {
                 <input
                   type="number"
                   name="newConnection"
-                  value={newConnection && "0"}
+                  value={newConnection}
                   onChange={(e) => setNewConnection(e.target.value)}
                 />
               </div>

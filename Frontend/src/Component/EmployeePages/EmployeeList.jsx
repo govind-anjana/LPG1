@@ -41,7 +41,7 @@ function EmployeeList() {
       <span className="fs-4 fw-semibold"><FaBook/> Employee</span>
       <div className="mt-3 settion p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-2">Employee List</span>
-        <div className="mt-3 px-2 d-flex justify-content-between align-items-center flex-wrap mb-2">
+        <div className="mt-3 px-2 d-flex justify-content-md-between justify-content-center align-items-center flex-wrap mb-2">
           <input
             type="text"
             placeholder="Search by name..."
@@ -50,7 +50,7 @@ function EmployeeList() {
           />
           <div>
             <Link to="/app/employee">
-              <button className="btn btn-dark btn-sm px-3">Add Employee</button>
+              <button className="btn btn-dark btn-sm px-3 m-2">Add Employee</button>
             </Link>
           </div>
         </div>

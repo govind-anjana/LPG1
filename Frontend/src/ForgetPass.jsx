@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import logo from './Component/Images/s-favican.png'
 function ForgetPass() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -21,7 +21,6 @@ function ForgetPass() {
 
   const handleLogin = () => {
     if (!validate()) return;
-    // TODO: Send email to backend for password reset
     console.log("Submit email:", email);
     alert("Password reset link sent to your email!");
     setEmail("");
@@ -29,15 +28,15 @@ function ForgetPass() {
   };
 
   return (
-    <div className="container-fluid vh-100 d-flex flex-column justify-content-center align-items-center bg-light">
+    <div className="container-fluid vh-100 d-flex flex-column justify-content-center align-items-center bg-light p-2">
       <div>
         <img
-          src="https://lpg.sbinnovative.com/backend/images/s_logo.png"
+          src={logo}
           alt="Logo"
           className="mb-4"
         />
       </div>
-      <div className="card shadow-lg p-5 bg-dark rounded" style={{ width: "400px" }}>
+      <div className="loginpage card shadow-lg p-4 bg-dark rounded">
         <h3 className="text-center mb-4 text-primary">Forget Password</h3>
 
         <div className="mb-3">

@@ -114,12 +114,12 @@ function Agent() {
     }
   }, [id, editData]);
   return (
-    <div className="allworking boxdesign">
+    <div className="expensehead allworking boxdesign">
       <span className="fs-4 fw-semibold"><FaBook/> Add Agent</span>
-      <div className="d-flex mt-3 gap-3 flex-wrap">
+      <div className="d-md-flex mt-1 gap-4 flex-wrap">
         <div
-          className="flex-fill settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm"
-          style={{ width: "250px" }}
+          className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm"
+           
         >
          {bool1 && (
           <div className="alert alert-success text-success my-2" role="alert">
@@ -209,9 +209,9 @@ function Agent() {
             <div></div>
           </div>
 
-          <div className="table-responsive">
+          <div className="table-responsive px-2 pb-2">
             <table
-              className="table table-striped my-3"
+              className="table table-striped text-capitalize"
               style={{ fontSize: "14px" }}
             >
               <thead className="table-secondary">
