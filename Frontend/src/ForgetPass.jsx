@@ -38,7 +38,6 @@ function ForgetPass() {
       </div>
       <div className="loginpage card shadow-lg p-4 bg-dark rounded">
         <h3 className="text-center mb-4 text-primary">Forget Password</h3>
-
         <div className="mb-3">
           <label className="form-label fw-semibold text-white">
             Email Address

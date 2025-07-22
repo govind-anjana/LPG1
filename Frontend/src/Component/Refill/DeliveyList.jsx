@@ -37,7 +37,9 @@ function DeliveryList() {
   }
   return (
     <div className="allworking boxdesign">
-      <span className="fs-4 fw-semibold"><TbTruckDelivery/> Delivery </span>
+      <span className="fs-4 fw-semibold">
+        <TbTruckDelivery /> Delivery{" "}
+      </span>
       <div className="settion mt-3 p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold px-2">Delivery List</span>
 
@@ -77,48 +79,52 @@ function DeliveryList() {
             </thead>
             <tbody>
               {delivery_list.length > 0 ? (
-                delivery_list.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.validTo}</td>
-                    <td>{item.dmanID}</td>
-                    <td>{item.equipment}</td>
-                    <td>{item.totalCylinder}</td>
-                    <td>{item.refill}</td>
-                    <td>{item.newConnection}</td>
-                    <td>{item.paidAmount}</td>
-                    <td>{item.remainingAmount}</td>
-                    <td>
-                      {item.totalAmount -
-                        item.paidAmount -
-                        item.remainingAmount}
-                    </td>
-                    <td>{item.totalAmount}</td>
-                    <td>
-                      <div className="divbtn">
-                        {item.update_ty == "A" ? (
-                          <span>
-                            <FaEdit
-                              onClick={() => Edithandle(item._id, item)}
-                              title="Edit"
-                            />
-                            <FaDeleteLeft
-                              onClick={() => Deletehandle(item._id)}
-                              title="Delete"
-                              className="ms-3"
-                            />
-                          </span>
-                        ) : (
-                          <span
-                            style={{ cursor: "not-allowed", color: "silver" }}
-                          >
-                            <FaEdit />
-                            <FaDeleteLeft className="ms-3" />
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                delivery_list.map((item, index) => {
+                    const [y, m, d] =
+                  item.date.split("T")[0].split("-");   
+                    return(
+                    <tr key={index}>
+                      <td>{`${d}-${m}-${y.slice(2)}`}</td>
+                      <td>{item.dmanID}</td>
+                      <td>{item.equipment}</td>
+                      <td>{item.totalCylinder}</td>
+                      <td>{item.refill}</td>
+                      <td>{item.newConnection}</td>
+                      <td>{item.paidAmount}</td>
+                      <td>{item.remainingAmount}</td>
+                      <td>
+                        {item.totalAmount -
+                          item.paidAmount -
+                          item.remainingAmount}
+                      </td>
+                      <td>{item.totalAmount}</td>
+                      <td>
+                        <div className="divbtn">
+                          {item.update_ty == "A" ? (
+                            <span>
+                              <FaEdit
+                                onClick={() => Edithandle(item._id, item)}
+                                title="Edit"
+                              />
+                              <FaDeleteLeft
+                                onClick={() => Deletehandle(item._id)}
+                                title="Delete"
+                                className="ms-3"
+                              />
+                            </span>
+                          ) : (
+                            <span
+                              style={{ cursor: "not-allowed", color: "silver" }}
+                            >
+                              <FaEdit />
+                              <FaDeleteLeft className="ms-3" />
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                    )  
+              })
               ) : (
                 <tr>
                   <td colSpan={11} className="text-center align-middle">

@@ -42,19 +42,32 @@ function DocumentForm() {
   const [cylpayment3, setCylpayment3] = useState(0);
   const [onlineEx3, setOnlineEx3] = useState(0);
 
+  const [stock, setStock] = useState([]);
+    const [stockEm, setStockEm] = useState([]);
   const Equipment_name = [
-    "14.2 KG Filled Cyl Domestic",
-    "5 KG Filled Cyl Domestic",
-    "19 KG Filled Cyl CM",
-    "5 KG Filled Cyl CM FTL POS",
-    "10 KG Filled Cyl Composite",
-    "45.5 KG Filled Cyl",
-    "LPG Pressure Regulator Sound",
+    { id: 1, name: "14.2 KG Filled Cyl Domestic" },
+    { id: 4, name: "5 KG Filled Cyl Domestic" },
+    { id: 7, name: "19 KG Filled Cyl CM" },
+    { id: 10, name: "5 KG Filled Cyl CM FTL POS" },
+    { id: 13, name: "10 KG Filled Cyl Composite" },
+    { id: 15, name: "45.5 KG Filled Cyl" },
+    { id: 26, name: "LPG Pressure Regulator Sound" },
   ];
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-        setBool1(true);
+    if (stock) {
+      const ids = stock[0]._id;
+      const ids2 = stockEm[0]._id;
+      const stocks = stock[0].op_Stock;
+      const stocks2 = stockEm[0].op_Stock;
+      const sto = parseInt(refill) + parseInt(newConnection);
+      if(stocks>sto) {
+      const newStocks = stocks - sto;
+      const cylinderempty = parseInt(refill) - parseInt(remainingCylinder);
+      const newEmptyStock = Number(stocks2) + Number(cylinderempty);
+      await axios.put(`/updatestock/${ids}`, { op_Stock: newStocks });
+      await axios.put(`/updatestock/${ids2}`, { op_Stock: newEmptyStock });
+      setBool1(true);
       setAlertM("Refill added successfully")
     try {
       await axios.post("/addDelivery", {
@@ -76,10 +89,15 @@ function DocumentForm() {
         times,
         update_ty: "A",
       });
-
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
+  }
+    else {
+      alert("Current Stock grather than Refill Delivery")
+    }
+    }
+ 
     setCurrentRate(""),
       setDmanID(""),
       setEquipment(""),
@@ -137,7 +155,8 @@ function DocumentForm() {
 
   useEffect(() => {
     if (!currentRate) return;
-    const totals = Number(refill) * Number(currentRate);
+    const newConn = Number(newConnection) || 0;
+    const totals = (Number(refill) + Number(newConn)) * Number(currentRate);
     const onlineCylAmount = Number(cylinderQty) * Number(currentRate);
 
     const cyl1Amount = Number(cylinder1) * Number(currentRate);
@@ -162,6 +181,7 @@ function DocumentForm() {
     currentRate,
     refill,
     cylinderQty,
+    newConnection,
     remainingAmount,
     onlineExtraAmount,
     currentRate,
@@ -205,6 +225,32 @@ function DocumentForm() {
     setOnlineEx3(0);
     setShow3(false);
   }
+   const fetchData = async () => {
+    try {
+      const res = await axios.get("/currntstock");
+      const data = res.data;
+      const found = Equipment_name.find((item) => item.name === equipment);
+      if (!found) {
+        return;
+      }
+      const newdata = data.filter((item) => item.eqID == found.id);
+      console.log(newdata);
+      const ss = data.filter((item) => item.eqID == found.id + 1);
+      console.log(ss);
+      setStockEm(ss);
+      if (newdata.length > 0) {
+        setStock(newdata);
+      } else {
+        setStock(null);
+      }
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [equipment]);
   return (
     <div className="refill settion p-3 rounded-3  border-warning border-3">
       <span className="fs-5 fw-semibold">Refill</span>
@@ -266,8 +312,8 @@ function DocumentForm() {
             >
               <option value="false">Select</option>
               {Equipment_name.map((item, idx) => (
-                <option key={idx} value={item}>
-                  {item}
+                <option key={idx} value={item.name}>
+                  {item.name}
                 </option>
               ))}
             </select>

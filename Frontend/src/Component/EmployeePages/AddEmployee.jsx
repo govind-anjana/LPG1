@@ -121,6 +121,7 @@ function AddEmployee() {
       setUserType(""),
       setVchNo("");
   };
+  
   return (
     <div className="addEmployee boxdesign">
       <span className="fs-4 fw-semibold"><FaBook /> Employee</span>

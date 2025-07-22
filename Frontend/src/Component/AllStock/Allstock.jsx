@@ -41,8 +41,10 @@ function Allstock() {
     11: "5 KG Empty Cyl FTL POS",
     13: "10 KG Filled Cyl Composite",
     14: "10 KG Empty Cyl Composite",
-    15: "47.5 KG Filled Cyl",
-    16: "47.5 KG Empty Cyl",
+    15: "45.5 KG Filled Cyl",
+    16: "45.5 KG Empty Cyl",
+    26:"LPG Pressure Regulator Sound",
+    27:"LPG Pressure Regulator Defective All TYPE"
   };
   return (
     <div className="allworking  boxdesign">

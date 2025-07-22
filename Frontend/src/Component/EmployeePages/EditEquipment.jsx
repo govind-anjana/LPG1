@@ -70,7 +70,6 @@ function EditEquipment() {
               value={strock}
             />
           </div>
-
           <div className="col-md-6 mb-3">
             <label className="form-label mb-2 d-block">Sale</label>
           
@@ -82,8 +81,6 @@ function EditEquipment() {
                 checked={gender === "yes"}
                 onChange={(e) => setGender(e.target.value)}
               />
-            
-           
               No
               <input
                 type="radio"

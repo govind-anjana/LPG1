@@ -19,7 +19,7 @@ function StockPage1() {
     fetchData();
   }, []);
   const equiCode={
-    1:"14.2 F",2:"14.2 E",4:"5 F",5:"5 E",7:"19 F",8:"19 E",10:"5 F POS",11:"5 E POS",13:"10 F",14:"10 E",15:"45.5 F",16:"45.5 E"
+    1:"14.2 F",2:"14.2 E",4:"5 F",5:"5 E",7:"19 F",8:"19 E",10:"5 F POS",11:"5 E POS",13:"10 F",14:"10 E",15:"45.5 F",16:"45.5 E",26:"PR",27:"LPG Pressure Regulat"
   }
   const equipmentName = {
       1: "14.2 KG Filled Cyl Domestic" ,
@@ -32,8 +32,10 @@ function StockPage1() {
       11: "5 KG Empty Cyl FTL POS" ,
       13: "10 KG Filled Cyl Composite" ,
       14: "10 KG Empty Cyl Composite" ,
-     15:	'47.5 KG Filled Cyl',
-     16:"47.5 KG Empty Cyl",
+     15:	"45.5 KG Filled Cyl",
+     16:"45.5 KG Empty Cyl",
+     26:"LPG Pressure Regulator Sound",
+     27:"LPG Pressure Regulator Defective All TYPE"
   }
   return (
     <div className="mt-3 settion p-2 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
@@ -62,7 +64,7 @@ function StockPage1() {
                   <td>{emp.sr}</td>
                   <td>{equiCode[emp.eqID]}</td>
                   <td>{equipmentName[emp.eqID]}</td>
-                  <td>{emp.cls_Stock}</td>
+                  <td>{emp.op_Stock}</td>
                   {/* <td>
                     <div className="divbtn ">
                       <FaEdit
@@ -70,8 +72,8 @@ function StockPage1() {
                         onClick={() => Edithandle(emp._id)}
                       />
                       <FaDeleteLeft onClick={() => Deletehandle(emp._id)} />
-                    </div> */}
-                  {/* </td> */}
+                    </div> 
+                   </td> */}
                 </tr>
               ))
             ) : (

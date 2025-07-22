@@ -7,18 +7,19 @@ import { useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 function AddDelivery() {
-  const { data,date,employess,bool1,setBool1,alertM,setAlertM } = useContext(DataContext);
+  const { data, date, employess, bool1, setBool1, alertM, setAlertM } =
+    useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
-  const today =date.toLocaleDateString("en-CA");
-  const todayNew=news.toISOString().split("T")[0]
+  const today = date.toLocaleDateString("en-CA");
+  const todayNew = news.toISOString().split("T")[0];
   const [validTo, setValidTo] = useState(today);
   const [currentRate, setCurrentRate] = useState(0);
   const [dmanID, setDmanID] = useState("");
   const [equipment, setEquipment] = useState("");
   const [totalCylinder, setTotalCyl] = useState(0);
   const [refill, setRefill] = useState(0);
-  const [newConnection, setNewConnection] = useState("0");
+  const [newConnection, setNewConnection] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
   const [remainingCylinder, setRemainingCylinder] = useState(0);
   const [paymentType, setPaymentType] = useState("");
@@ -30,7 +31,6 @@ function AddDelivery() {
   const [show, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
-
   const [paymentType1, setPaymentType1] = useState("");
   const [cylinder1, setCylinder1] = useState(0);
   const [cylpayment1, setCylpayment1] = useState(0);
@@ -45,23 +45,42 @@ function AddDelivery() {
   const [cylpayment3, setCylpayment3] = useState(0);
   const [onlineEx3, setOnlineEx3] = useState(0);
 
+  const [stock, setStock] = useState([]);
+  const [stockEm, setStockEm] = useState([]);
   const { id } = useParams();
   const location = useLocation();
   const editData = location.state?.empData;
   const Equipment_name = [
-    "14.2 KG Filled Cyl Domestic",
-    "5 KG Filled Cyl Domestic",
-    "19 KG Filled Cyl CM",
-    "5 KG Filled Cyl CM FTL POS",
-    "10 KG Filled Cyl Composite",
-    "45.5 KG Filled Cyl",
-    "LPG Pressure Regulator Sound",
+    { id: 1, name: "14.2 KG Filled Cyl Domestic" },
+    { id: 4, name: "5 KG Filled Cyl Domestic" },
+    { id: 7, name: "19 KG Filled Cyl CM" },
+    { id: 10, name: "5 KG Filled Cyl CM FTL POS" },
+    { id: 13, name: "10 KG Filled Cyl Composite" },
+    { id: 15, name: "45.5 KG Filled Cyl" },
+    { id: 26, name: "LPG Pressure Regulator Sound" },
   ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(id){
-      await axios.put(`/updatedelivery/${id}`,{
+    if (stock) {
+      console.log(stockEm);
+      const ids = stock[0]._id;
+      const ids2 = stockEm[0]._id;
+
+      const stocks = stock[0].op_Stock;
+      const stocks2 = stockEm[0].op_Stock;
+      const sto = parseInt(refill) + parseInt(newConnection);
+       if(stocks>sto) {
+
+      const newStocks = stocks - sto;
+      const cylinderempty = parseInt(refill) - parseInt(remainingCylinder);
+
+      const newEmptyStock = Number(stocks2) + Number(cylinderempty);
+      await axios.put(`/updatestock/${ids}`, { op_Stock: newStocks });
+      await axios.put(`/updatestock/${ids2}`, { op_Stock: newEmptyStock });
+    
+    if (id) {
+      await axios.put(`/updatedelivery/${id}`, {
         currentRate,
         equipment,
         totalCylinder,
@@ -76,37 +95,40 @@ function AddDelivery() {
         totalAmount,
         paidAmount,
         update_ty: "U",
-      })
-      alert("update data")
-    }
-    else{
-      setBool1(true);
-      setAlertM("Delivery added successfully")
-    try {
-      await axios.post("/addDelivery", {
-        validTo,
-        currentRate,
-        dmanID,
-        equipment,
-        totalCylinder,
-        refill,
-        newConnection,
-        remainingAmount,
-        remainingCylinder,
-        paymentType,
-        cylinderQty,
-        onlinePayments,
-        onlineExtraAmount,
-        totalAmount,
-        paidAmount,
-        times,
-        update_ty: "A",
       });
-      
-    } catch (err) {
+      alert("update data");
+    } else {
+      setBool1(true);
+      setAlertM("Delivery added successfully");
+      try {
+        await axios.post("/addDelivery", {
+          validTo,
+          currentRate,
+          dmanID,
+          equipment,
+          totalCylinder,
+          refill,
+          newConnection,
+          remainingAmount,
+          remainingCylinder,
+          paymentType,
+          cylinderQty,
+          onlinePayments,
+          onlineExtraAmount,
+          totalAmount,
+          paidAmount,
+          times,
+          update_ty: "A",
+        });
+      }  catch (err) {
       alert("Failed to save agent.", err.message);
-    }
+      }
+    } 
   }
+  else{
+     alert("Current Stock grather than Refill Delivery")
+  }
+    }
     setCurrentRate(""),
       setDmanID(""),
       setEquipment(""),
@@ -150,7 +172,7 @@ function AddDelivery() {
       } else {
         setCurrentRate(0);
         setRefill(0);
-        setCylinderQty(0)
+        setCylinderQty(0);
         alert("Please Add Equipment Rate.");
       }
     } catch (err) {
@@ -164,9 +186,9 @@ function AddDelivery() {
 
   useEffect(() => {
     if (!currentRate) return;
-    const totals = Number(refill) * Number(currentRate);
+    const newConn = Number(newConnection) || 0;
+    const totals = (Number(refill) + Number(newConn)) * Number(currentRate);
     const onlineCylAmount = Number(cylinderQty) * Number(currentRate);
-
     const cyl1Amount = Number(cylinder1) * Number(currentRate);
     const cyl2Amount = Number(cylinder2) * Number(currentRate);
     const cyl3Amount = Number(cylinder3) * Number(currentRate);
@@ -188,6 +210,7 @@ function AddDelivery() {
   }, [
     currentRate,
     refill,
+    newConnection,
     cylinderQty,
     remainingAmount,
     onlineExtraAmount,
@@ -199,9 +222,35 @@ function AddDelivery() {
     cylinder3,
     onlineEx3,
   ]);
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get("/currntstock");
+      const data = res.data;
+      const found = Equipment_name.find((item) => item.name === equipment);
+      if (!found) {
+        return;
+      }
+      const newdata = data.filter((item) => item.eqID == found.id);
+      console.log(newdata);
+      const ss = data.filter((item) => item.eqID == found.id + 1);
+      console.log(ss);
+      setStockEm(ss);
+      if (newdata.length > 0) {
+        setStock(newdata);
+      } else {
+        setStock(null);
+      }
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [equipment]);
   useEffect(() => {
     if (id && editData) {
-   
       setCurrentRate(editData.currentRate);
       setDmanID(editData.dmanID),
         setEquipment(editData.equipment),
@@ -216,7 +265,7 @@ function AddDelivery() {
         setOnlinePayments(editData.onlinePayments),
         setOnlineExtraAmount(editData.onlineExtraAmount),
         setTotalAmount(editData.totalAmount);
-        setPaidAmount(editData.paidAmount)
+      setPaidAmount(editData.paidAmount);
     }
   }, [id, editData]);
 
@@ -255,14 +304,16 @@ function AddDelivery() {
   return (
     <>
       <div className="allworking boxdesign">
-        <span className="fs-5 fw-semibold"><TbTruckDelivery /> Add Delivery</span>
+        <span className="fs-5 fw-semibold">
+          <TbTruckDelivery /> Add Delivery
+        </span>
         <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
           <span className="fs-5 fw-semibold">Refill</span>
-           {bool1 && (
-          <div className="alert alert-success text-success my-2" role="alert">
-            {alertM}
-          </div>
-        )}
+          {bool1 && (
+            <div className="alert alert-success text-success my-2" role="alert">
+              {alertM}
+            </div>
+          )}
           <form onSubmit={handleSubmit}>
             <div className="box-body row">
               <div className="form-group col-md-3">
@@ -271,8 +322,8 @@ function AddDelivery() {
                   type="date"
                   name="validTo"
                   value={validTo}
-                   className="custom-date-input"
-                    onFocus={(e) => e.target.showPicker && e.target.showPicker()}
+                  className="custom-date-input"
+                  onFocus={(e) => e.target.showPicker && e.target.showPicker()}
                   onChange={(e) => setValidTo(e.target.value)}
                 />
               </div>
@@ -299,10 +350,10 @@ function AddDelivery() {
                 >
                   <option value="">Select</option>
                   {employess.map((item, idx) => (
-                <option key={idx} value={item.name}>
-                  {item.name}
-                </option>
-              ))}
+                    <option key={idx} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -316,8 +367,8 @@ function AddDelivery() {
                 >
                   <option value="false">Select</option>
                   {Equipment_name.map((item, idx) => (
-                    <option key={idx} value={item}>
-                      {item}
+                    <option key={idx} value={item.name}>
+                      {item.name}
                     </option>
                   ))}
                 </select>
