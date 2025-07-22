@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 function AddDelivery() {
-  const { data, date, employess, bool1, setBool1, alertM, setAlertM } =
+  const {  date, employess, bool1, setBool1, alertM, setAlertM } =
     useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
@@ -162,8 +162,9 @@ function AddDelivery() {
   }
   const fetchPrice = async () => {
     try {
-      const rateList = [...data].reverse();
-
+      const res=await axios.get("/addratelist")
+      const  datas=res.data;
+      const rateList = [...datas].reverse();
       const latestValidRate = rateList.find(
         (item) => item.equipment == equipment && item.validTo >= todayNew
       );

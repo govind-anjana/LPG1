@@ -37,20 +37,24 @@ const DataProvider = ({ children }) => {
 
 
   useEffect(() => {
-    axios.get("/addratelist")
+
+  const  fetchData =async()=>{
+   await axios.get("/addratelist")
       .then((res) => {
         setData(res.data);
         setLoading(false);
       })
       .catch((err) => console.error("API Error:", err));
 
-    axios.get("/employeeList")
+   await axios.get("/employeeList")
       .then((res) => setEmployess(res.data))
       .catch((err) => alert("API Error:", err));
 
-      axios.get("/nfrlist").then((res)=>setNfr_list(res.data)).catch(err=>alert("API Error :",err))
+    await  axios.get("/nfrlist").then((res)=>setNfr_list(res.data)).catch(err=>alert("API Error :",err))
 
     localStorage.setItem("sharedDat", date.toISOString());
+    }
+    fetchData()
   }, [date]);
 
   const addOneDay = () => {

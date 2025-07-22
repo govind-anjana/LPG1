@@ -98,7 +98,7 @@ function DocumentForm() {
     }
     }
  
-    setCurrentRate(""),
+      setCurrentRate(""),
       setDmanID(""),
       setEquipment(""),
       setTotalCyl(""),
@@ -131,8 +131,11 @@ function DocumentForm() {
   }
   const fetchPrice = async () => {
     try {
-      const rateList = [...data].reverse();
+     const res=await axios.get("/addratelist")
+      const  datas=res.data;
 
+      const rateList = [...datas].reverse();
+  
       const latestValidRate = rateList.find(
         (item) => item.equipment == equipment && item.validTo >= today
       );
@@ -234,9 +237,8 @@ function DocumentForm() {
         return;
       }
       const newdata = data.filter((item) => item.eqID == found.id);
-      console.log(newdata);
       const ss = data.filter((item) => item.eqID == found.id + 1);
-      console.log(ss);
+      
       setStockEm(ss);
       if (newdata.length > 0) {
         setStock(newdata);
