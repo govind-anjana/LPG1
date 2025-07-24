@@ -13,7 +13,7 @@ function DocumentList() {
     try {
       const res = await axios.get("/documentlist");
       setDocument_list(res.data);
-      res.data;
+     
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
     }

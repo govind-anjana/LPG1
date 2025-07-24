@@ -217,6 +217,7 @@ function AddItemDocument() {
 
   useEffect(() => {
     if (!itemType) return;
+    setDiscountA(0);
     setFinalAmount(0);
     setTotalAmount(0);
     setCylQty(0);

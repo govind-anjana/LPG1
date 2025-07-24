@@ -3,15 +3,17 @@ import React, { useContext, useEffect, useState } from "react";
 import DataContext from "../../../Context/DataContext";
 
 function SalePage() {
-   const { bool1,setBool1,alertM,setAlertM ,nfr_list} = useContext(DataContext);
+  const { bool1, setBool1, alertM, setAlertM, nfr_list } =
+    useContext(DataContext);
   const [conType, setConType] = useState("");
   const [rate, setRate] = useState("");
-  const [qty,setQty]=useState("");
-  const [payment,setPayment]=useState("")
+  const [qty, setQty] = useState("");
+  const [total, setTotal] = useState(0);
+  const [payment, setPayment] = useState("");
   const [model, setModel] = useState("");
-  const [remarks,setRemarks]=useState("")
-    const [nfrModel, setNfrModel] = useState([]);
-    const equipment = [
+  const [remarks, setRemarks] = useState("");
+  const [nfrModel, setNfrModel] = useState([]);
+  const equipment = [
     "14.2 KG Filled Cyl Domestic",
     "5 KG Filled Cyl Domestic",
     "19 KG Filled Cyl CM",
@@ -20,15 +22,15 @@ function SalePage() {
     "45 KG Filled Cyl",
     "LPG Pressure Regulator Sound",
   ];
-   useEffect(()=>{
-            setNfrModel(nfr_list)
-    },[conType])
-  const handleSubmit =async (e) => {
+  useEffect(() => {
+    setNfrModel(nfr_list);
+  }, [conType]);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-     setBool1(true);
-      setAlertM("Sale added successfully")
-     try {
-     await axios.post("/api/addsale", {
+    setBool1(true);
+    setAlertM("Sale added successfully");
+    try {
+      await axios.post("/api/addsale", {
         conType,
         model,
         rate,
@@ -36,22 +38,30 @@ function SalePage() {
         payment,
         remarks,
       });
-
-     
     } catch (err) {
       alert("Failed to save agent.", err.message);
     }
-     setConType(""),setModel(""),setPayment(""),setQty(""),setRate(""),setRemarks("")
+    setConType(""),
+      setModel(""),
+      setPayment(""),
+      setQty(""),
+      setRate(""),
+      setRemarks(""),
+      setTotal("");
   };
+  useEffect(() => {
+    const result = rate * qty;
+    setTotal(result);
+  }, [qty, rate]);
 
   return (
     <div className="sales settion p-3 rounded-3  border-warning border-3">
       <span className="fs-5 fw-semibold">Equipment</span>
-        {bool1 && (
-          <div className="alert alert-success text-success my-2" role="alert">
-            {alertM}
-          </div>
-        )}
+      {bool1 && (
+        <div className="alert alert-success text-success my-2" role="alert">
+          {alertM}
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="box-body row">
           <div className="form-group col-md-6">
@@ -81,17 +91,17 @@ function SalePage() {
                   onChange={(e) => setModel(e.target.value)}
                 >
                   <option value="">Select</option>
-                    {(conType === "nfr Model"
-                      ? nfrModel.map((item) => item.modelName)
-                      : equipment
-                    ).map((item, index) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ))}
+                  {(conType === "nfr Model"
+                    ? nfrModel.map((item) => item.modelName)
+                    : equipment
+                  ).map((item, index) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
                 </select>
               </div>
-              <div className="form-group col-md-6">
+              <div className="form-group col-md-4">
                 <label htmlFor="rate">Rate</label>
                 <br />
                 <input
@@ -103,7 +113,7 @@ function SalePage() {
                   required
                 />
               </div>
-              <div className="form-group col-md-6">
+              <div className="form-group col-md-4">
                 <label htmlFor="qty">Qty</label>
                 <br />
                 <input
@@ -114,28 +124,48 @@ function SalePage() {
                   required
                 />
               </div>
-               <div className="form-group col-md-6">
-            <label htmlFor="paymentType">Payment Type</label>
-            <select id="paymentType" name="paymentType" onChange={e=>setPayment(e.target.value)} >
-              <option value="">Select</option>
-              <option value="Online">Online</option>
-              <option value="PatTm">PayTM</option>
-              <option value="Google pay">Google Pay</option>
-              <option value="Bhimupi">Bhim UPI</option>
-              <option value="Cash">Cash</option>
-              <option value="Other">Others</option>
-            </select>
-          </div>
-          <div className="form-group col-md-6">
-            <label htmlFor="remarks">Remarks</label>
-            <input type="text" onChange={e=>setRemarks(e.target.value)}  name="remarks"  />
-          </div>
+              <div className="form-group col-md-4">
+                <label htmlFor="total">Qty</label>
+                <br />
+                <input
+                  type="number"
+                  id="total"
+                  value={total}
+                  readOnly
+                  disabled
+                  required
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="paymentType">Payment Type</label>
+                <select
+                  id="paymentType"
+                  name="paymentType"
+                  onChange={(e) => setPayment(e.target.value)}
+                >
+                  <option value="">Select</option>
+                  <option value="Online">Online</option>
+                  <option value="PatTm">PayTM</option>
+                  <option value="Google pay">Google Pay</option>
+                  <option value="Bhimupi">Bhim UPI</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Other">Others</option>
+                </select>
+              </div>
+              <div className="form-group col-md-6">
+                <label htmlFor="remarks">Remarks</label>
+                <input
+                  type="text"
+                  onChange={(e) => setRemarks(e.target.value)}
+                  name="remarks"
+                />
+              </div>
             </>
           )}
         </div>
         <div className="text-end my-3">
           <button type="submit" className="btn btn-dark btn-sm px-3">
-            Submit
+            Save
           </button>
         </div>
       </form>

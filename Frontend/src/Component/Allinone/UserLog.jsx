@@ -59,7 +59,7 @@ function UserLog() {
               Sales
             </NavLink>
           </li>
-          {/* <li className="list-inline-item p-2">
+          <li className="list-inline-item p-2">
             <NavLink
               to="/app/summary"
               className={({ isActive }) =>
@@ -70,7 +70,7 @@ function UserLog() {
             >
               Summary
             </NavLink>
-          </li> */}
+          </li>
           <li className="list-inline-item p-2">
             <NavLink
               to="/app/stock"
@@ -119,6 +119,7 @@ function UserLog() {
             <Route path="/summary" element={<SummaryPage />} />
             <Route path="/stock" element={<StockPage />} />
             <Route path="/plant-transaction" element={<PlantTransaction />} />
+            <Route path="/plant-transaction/:id" element={<PlantTransaction />} />
             <Route path="/kgrefill19" element={<Kgrefill />} />
           </Routes>
         </div>

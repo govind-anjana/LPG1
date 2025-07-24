@@ -29,7 +29,6 @@ const DataProvider = ({ children }) => {
     }
   }, []);
 
-  
   useEffect(() => {
     localStorage.setItem("bool1", bool1);
     localStorage.setItem("alertM", alertM);

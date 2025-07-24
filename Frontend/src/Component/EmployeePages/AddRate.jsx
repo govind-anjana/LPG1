@@ -17,7 +17,7 @@ function AddRate() {
   const [basePrice, setBasePrice] = useState(0);
   const [validFrom, setValidFrom] = useState(news);
   const [validTo, setValidTo] = useState(news);
-  
+   const [btnDisabled, setBtnDisabled] = useState(false);
   const { id } = useParams();
   const location = useLocation();
   const editData = location.state?.empData;
@@ -79,8 +79,16 @@ function AddRate() {
     const values = e.target.value;
     setTotalRsp(values);
   }
+   
   const handleSubmit = async (e) => {
+    setBtnDisabled(true)
     e.preventDefault();
+     const btn=document.querySelectorAll('.btn')[1];
+    if (btn) {
+    setTimeout(() => {
+     setBtnDisabled(false) 
+    }, 5000);
+  }
     if (id) {
       await axios.put(`/updaterate/${id}`, {
         equipment,
@@ -211,8 +219,8 @@ function AddRate() {
           </div>
 
           <div className="text-end mt-3">
-            <button type="submit" className="btn btn-dark">
-              Save
+            <button type="submit" disabled={btnDisabled}  className="btn btn-dark px-3 btn-sm">
+              Saves
             </button>
           </div>
         </form>

@@ -257,7 +257,6 @@ function AddDelivery() {
         setEquipment(editData.equipment),
         setTotalCyl(editData.totalCylinder),
         setRefill(editData.refill),
-        setTotalCyl(editData.total),
         setNewConnection(editData.newConnection),
         setRemainingAmount(editData.remainingAmount),
         setRemainingCylinder(editData.remainingCylinder),

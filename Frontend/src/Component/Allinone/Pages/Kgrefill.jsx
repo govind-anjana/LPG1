@@ -229,6 +229,8 @@ function Kgrefill() {
                 name="emptyRefill"
                 value={emptyRefill}
                 onChange={(e) => setEmptyRefill(e.target.value)}
+                readOnly
+                disabled
               />
             </div>
 

@@ -9,8 +9,9 @@ function Sales() {
   const { bool1, setBool1, alertM, setAlertM, nfr_list } =
     useContext(DataContext);
   const [conType, setConType] = useState("");
-  const [rate, setRate] = useState("0");
+  const [rate, setRate] = useState(0);
   const [qty, setQty] = useState("");
+  const [total,setTotal]=useState(0)
   const [payment, setPayment] = useState("");
   const [model, setModel] = useState("");
   const [remarks, setRemarks] = useState("");
@@ -71,6 +72,10 @@ function Sales() {
       setRate(""),
       setRemarks("");
   };
+  useEffect(()=>{
+        const result=rate*qty;
+        setTotal(result)
+  },[qty,rate])
   useEffect(() => {
     if (id && editData) {
       
@@ -80,6 +85,7 @@ function Sales() {
         setQty(editData.qty),
         setRate(editData.rate),
         setRemarks(editData.remarks);
+        setTotal((editData.qty)*(editData.rate))
     }
   }, [id, editData]);
   return (
@@ -134,7 +140,7 @@ function Sales() {
                     ))}
                   </select>
                 </div>
-                <div className="form-group col-md-6">
+                <div className="form-group col-md-4">
                   <label htmlFor="rate">Rate</label>
                   <br />
                   <input
@@ -146,7 +152,7 @@ function Sales() {
                     required
                   />
                 </div>
-                <div className="form-group col-md-6">
+                <div className="form-group col-md-4">
                   <label htmlFor="qty">Qty</label>
                   <br />
                   <input
@@ -155,6 +161,17 @@ function Sales() {
                     value={qty}
                     onChange={(e) => setQty(e.target.value)}
                     required
+                  />
+                </div>
+                 <div className="form-group col-md-4">
+                  <label htmlFor="total">Total</label>
+                  <br />
+                  <input
+                    type="number"
+                    id="total"
+                    value={total}
+                    readOnly
+                    disabled
                   />
                 </div>
                 <div className="form-group col-md-6">
@@ -187,7 +204,7 @@ function Sales() {
           </div>
           <div className="text-end my-2">
             <button type="submit" className="btn btn-dark btn-sm px-3">
-              Submit
+              Save
             </button>
           </div>
         </form>
