@@ -30,7 +30,7 @@ function Delivery_report() {
     try {
       const res = await axios.get("/deliverylist");
       const result = res.data;
-      // console.log(result)
+      console.log(result)
 
       const filtered = result.filter(
         (item) =>
@@ -124,23 +124,23 @@ function Delivery_report() {
 
                 <tbody>
                   <tr>
-                    <th>Date From</th>
-                    <th>Date To</th>
+                   
+                    <th>Date</th>
                     <th>Employee</th>
                     <th>Current Rate</th>
                     <th>Equipment</th>
                   </tr>
                   {deliveryData.length === 0 ? (
                     <tr>
-                      <td colSpan="5" className="text-center text-danger">
+                      <td colSpan="4" className="text-center text-danger">
                         No records found
                       </td>
                     </tr>
                   ) : (
                     deliveryData.map((item, index) => (
                       <tr key={index}>
-                        <td>{item.validTo}</td>
-                        <td>{item.date.split("T")[0]}</td>
+                        
+                        <td>{new Date(item.validTo).toLocaleDateString('en-GB')}</td>
                         <td>{item.dmanID}</td>
                         <td>{item.currentRate || "N/A"}</td>
                         <td>{item.equipment}</td>

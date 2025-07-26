@@ -60,7 +60,7 @@ function ItemGroupNfr() {
     } else {
       try {
          setBool1(true);
-         setAlertM("Item Group NFR added successfully")
+         setAlertM("Item Group NFR Added Successfully")
        await axios.post("/itemgroup",{
         itemGroupName,update_ty:"A", date
        } );
@@ -69,11 +69,12 @@ function ItemGroupNfr() {
         alert("Failed to save agent.");
       }
     }
+    navigate(`/app/itemGroupNfr`);
     setItemGroupName("")
 }
   useEffect(() => {
     if (id && editData) {
-        
+        setItemGroupName(editData.itemGroupName)
     }
   }, [id, editData]);
 
@@ -131,7 +132,7 @@ function ItemGroupNfr() {
                 <tr>
                   <th>Sr</th>
                   <th>Name</th>
-                  
+              
                   <th>Action</th>
                 </tr>
               </thead>
@@ -140,11 +141,11 @@ function ItemGroupNfr() {
                   itemGroup_list.map((item, index) => (
                     <tr key={index}>
                    
-                      <td>{item.address}</td>
-                      <td>{item.discount}</td>
+                      <td>{++index}</td>
+                      <td>{item.itemGroupName}</td>
                       <td>
                         <div className="divbtn">
-                          {item.update_ty !== "A" ? (
+                          {item.update_ty == "A" ? (
                             <span>
                               <FaEdit
                                 onClick={() => Edithandle(item._id, item)}

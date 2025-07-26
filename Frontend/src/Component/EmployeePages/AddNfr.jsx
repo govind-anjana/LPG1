@@ -68,9 +68,9 @@ function AddNfr() {
     const fetchapi = async () => {
       const res = await axios.get("/consumerlist");
       setVendorName(res.data);
-      res.data;
+      
       const resitem=await axios.get("/itemgrouplist");
-      setItemGroup_List(res.data);
+      setItemGroup_List(resitem.data);
     };
     fetchapi();
   }, []);
@@ -109,12 +109,11 @@ function AddNfr() {
               <option value="">Select</option>
               {itemGroup_list.map((item, idx) => (
                 <option key={idx} value={item.itemGroupName}>
-                  {item.deliveryMan}
+                  {item.itemGroupName}
                 </option>
               ))}
             </select>
           </div>
-
           <div className="col-md-6 mb-3">
             <label className="form-label">Vendor Name</label>
             <select

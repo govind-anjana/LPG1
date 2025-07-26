@@ -31,7 +31,7 @@ function Document_report() {
       try {
       const res = await axios.get("/documentlist");
       const result = res.data;
-
+      console.log(result)
      const filtered = result.filter((item) =>
   item.date.split("T")[0] >= formData.dateFrom &&
   item.date.split("T")[0] <= formData.dateTo &&
@@ -80,7 +80,7 @@ function Document_report() {
               />
             </div>
 
-            <div className="form-group col-md-2">
+            <div className="form-group col-md-3">
               <label htmlFor="delivery">Delivery Man Name</label>
               <select
                 id="delivery"
@@ -89,10 +89,14 @@ function Document_report() {
                 onChange={handleChange}
               >
                 <option value="">Select</option>
-               
+                 {employess.map((item, idx) => (
+                  <option key={idx} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
             </div>
-            <div className="form-group col-md-2">
+            <div className="form-group col-md-3">
               <label htmlFor="docType">Doc Type</label>
               <select
                 id="docType"

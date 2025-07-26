@@ -1,11 +1,12 @@
 import { AiOutlineLineChart } from "react-icons/ai";
 import axios from "../AxiosConfig";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Nft_report() {
   const today = new Date().toISOString().split("T")[0];
   const [show, setShow] = useState(false);
   const [deliveryData, setDeliveryData] = useState([]);
+  const [itemGroup_list,setItemGroup_List]=useState([])
   const [formData, setFormData] = useState({
     dateFrom: today,
     dateTo: today,
@@ -26,7 +27,7 @@ function Nft_report() {
     try {
       const res = await axios.get("/nfrlist");
       const result = res.data;
-      console.log(result)
+      
       const filtered = result.filter(
         (item) =>
           item.date.split("T")[0] >= formData.dateFrom &&
@@ -41,6 +42,14 @@ function Nft_report() {
       alert("Failed to fetch NFT data.");
     }
   };
+  useEffect(() => {
+    const fetchapi = async () => {
+        
+      const resitem=await axios.get("/itemgrouplist");
+      setItemGroup_List(resitem.data);
+    };
+    fetchapi();
+  }, []);
 
   return (
     <div className="allworking boxdesign">
@@ -84,8 +93,11 @@ function Nft_report() {
                 onChange={handleChange}
               >
                 <option value="">Select</option>
-                <option value="rabar tube">Rabar Tube</option>
-                <option value="hotplate">Hotplate</option>
+                {itemGroup_list.map((item, idx) => (
+                <option key={idx} value={item.itemGroupName}>
+                  {item.itemGroupName}
+                </option>
+              ))}
               </select>
             </div>
 

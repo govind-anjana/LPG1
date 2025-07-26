@@ -157,7 +157,7 @@ function Sales_report() {
                 <tbody>
                   {deliveryData.length === 0 ? (
                     <tr>
-                      <th colSpan="3" className="text-center text-danger">
+                      <th colSpan="4" className="text-center text-danger">
                         No records found
                       </th>
                     </tr>
