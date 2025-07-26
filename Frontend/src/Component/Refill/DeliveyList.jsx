@@ -14,6 +14,7 @@ function DeliveryList() {
       try {
         const res = await axios.get("/deliverylist");
         setDelivery_list(res.data);
+       
       } catch (err) {
         console.error(" Error fetching employee list:", err.message);
       }
@@ -81,7 +82,7 @@ function DeliveryList() {
               {delivery_list.length > 0 ? (
                 delivery_list.map((item, index) => {
                     const [y, m, d] =
-                  item.date.split("T")[0].split("-");   
+                  item.validTo.split("T")[0].split("-");   
                     return(
                     <tr key={index}>
                       <td>{`${d}-${m}-${y.slice(2)}`}</td>

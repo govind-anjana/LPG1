@@ -49,6 +49,7 @@ import { useEffect, useRef, useState } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
 import Allstock from "./Component/AllStock/Allstock";
 import ChangePassword from "./ChangePassword";
+import ItemGroupNfr from "./Component/EmployeePages/ItemGroupNfr";
 function App() {
   const checkboxRef = useRef(null);
   const [isChecked, setIsChecked] = useState(true);
@@ -96,6 +97,8 @@ function App() {
               <Route path="/equipment/:id" element={<EditEquipment />} />
               <Route path="/agent" element={<Agent />} />
               <Route path="/agent/:id" element={<Agent />} />
+              <Route path="/itemGroupNfr" element={<ItemGroupNfr/>}/>
+              <Route path="/itemGroupNfr/:id" element={<ItemGroupNfr/>}/>
 
               <Route path="/promotion/rate" element={<AddPromotionRate />} />
               <Route

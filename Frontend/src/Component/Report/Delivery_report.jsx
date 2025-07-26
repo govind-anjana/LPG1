@@ -5,7 +5,7 @@ import { useContext } from "react";
 import DataContext from "../../Context/DataContext";
 
 function Delivery_report() {
-  const {employess}=useContext(DataContext)
+  const { employess } = useContext(DataContext);
   const today = new Date().toISOString().split("T")[0];
 
   const [show, setShow] = useState(false);
@@ -16,7 +16,6 @@ function Delivery_report() {
     dateTo: today,
     employee: "",
   });
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,6 +30,7 @@ function Delivery_report() {
     try {
       const res = await axios.get("/deliverylist");
       const result = res.data;
+      // console.log(result)
 
       const filtered = result.filter(
         (item) =>
@@ -38,7 +38,6 @@ function Delivery_report() {
           item.validTo >= formData.dateFrom &&
           item.date.split("T")[0] <= formData.dateTo
       );
-     
 
       setDeliveryData(filtered);
       setShow(true);
@@ -50,7 +49,9 @@ function Delivery_report() {
 
   return (
     <div className="allworking boxdesign">
-      <span className="fs-4 fw-semibold"><AiOutlineLineChart /> Reports</span>
+      <span className="fs-4 fw-semibold">
+        <AiOutlineLineChart /> Reports
+      </span>
       <div className="mt-3 settion p-3 bg-light rounded-3 border-warning border-3 shadow-sm">
         <span className="fs-6 fw-semibold">Delivery Report</span>
 
@@ -64,7 +65,6 @@ function Delivery_report() {
                 name="dateFrom"
                 value={formData.dateFrom}
                 onChange={handleChange}
-               
               />
             </div>
 
@@ -76,7 +76,6 @@ function Delivery_report() {
                 name="dateTo"
                 value={formData.dateTo}
                 onChange={handleChange}
-               
               />
             </div>
 
@@ -87,14 +86,13 @@ function Delivery_report() {
                 name="employee"
                 value={formData.employee}
                 onChange={handleChange}
-                
               >
                 <option value="">Select</option>
                 {employess.map((item, idx) => (
-                <option key={idx} value={item.name}>
-                  {item.name}
-                </option>
-              ))}
+                  <option key={idx} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -108,11 +106,23 @@ function Delivery_report() {
         </form>
 
         {show && (
-          <div className="mt-4">
-            <h6 className="text-center">Delivery List</h6>
+          <div className="my-2">
+            <hr />
+            {/* <h6 className="text-center text-primary">Delivery List</h6> */}
             <div className="table-responsive">
-              <table className="table table-bordered table-striped">
-                <thead>
+              <table
+                className="table table-bordered table-striped table-hover"
+                style={{ fontSize: "14px " }}
+              >
+                <thead className="thead-dark">
+                  <tr>
+                    <th colSpan="5" className="text-center text-primary fs-6">
+                      Delivery List
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
                   <tr>
                     <th>Date From</th>
                     <th>Date To</th>
@@ -120,11 +130,11 @@ function Delivery_report() {
                     <th>Current Rate</th>
                     <th>Equipment</th>
                   </tr>
-                </thead>
-                <tbody>
                   {deliveryData.length === 0 ? (
                     <tr>
-                      <td colSpan="3">No records found</td>
+                      <td colSpan="5" className="text-center text-danger">
+                        No records found
+                      </td>
                     </tr>
                   ) : (
                     deliveryData.map((item, index) => (

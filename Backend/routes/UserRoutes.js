@@ -113,6 +113,7 @@ import {
 } from "../controller/EquipmentListController.js";
 import { CurrentStock, deleteStock, UpdateStock } from "../controller/CurrentStockController.js";
 import { UpdateUser, Useradmin } from "../controller/AdminUserController.js";
+import { deleteItemGroup, ItemGroup, ItemGroupList, UpdateItemGroup } from "../controller/ItemGroupController.js";
 const router = express.Router();
 
 router.get("/currntstock", CurrentStock);
@@ -137,6 +138,11 @@ router.post("/master", AgentEmployee);
 router.get("/masterlist", AgentEmployeeList);
 router.delete("/deleteagent/:id", deleteAgent);
 router.put("/masters/:id",AgentUpdate);
+
+router.post("/itemgroup",ItemGroup)
+router.get("/itemgrouplist",ItemGroupList)
+router.delete("/deleteItemgroup/:id",deleteItemGroup)
+router.put("/itemgroup/:id",UpdateItemGroup)
 
 router.post("/planttransaction", PlantTran);
 router.get("/plantlist", PlantList);

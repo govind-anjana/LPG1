@@ -5,38 +5,26 @@ import { FaEdit} from "react-icons/fa";
 import { FaDeleteLeft,FaBook } from "react-icons/fa6";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import DataContext from "../../Context/DataContext";
-function Agent() {
+function ItemGroupNfr() {
   const {bool1,setBool1,alertM,setAlertM}=useContext(DataContext)
-  const [agentList, setAgentList] = useState([]);
+  const [itemGroupName,setItemGroupName]=useState("")
+  const date=new Date().toLocaleTimeString()
+  const [itemGroup_list, setItemGroup_list] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
   const editData = location.state?.empData;
-  const [formData, setFormData] = useState({
-    agentName: "",
-    mobile: "",
-    address: "",
-    promotionName: "",
-    discount: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/masterlist");
-      setAgentList(res.data);
+      const res = await axios.get("/itemgrouplist");
+      setItemGroup_list(res.data);
     } catch (err) {
       console.error(" Error fetching employee list:", err.message);
     }
   };
   function Edithandle(id, data) {
-    navigate(`/app/agent/${id}`, { state: { empData: data } });
+    navigate(`/app/itemGroupNfr/${id}`, { state: { empData: data } });
   }
   async function Deletehandle(id) {
     const confirmDelete = window.confirm(
@@ -44,7 +32,7 @@ function Agent() {
     );
     if (!confirmDelete) return;
     try {
-      const res = await axios.delete(`/deleteagent/${id}`);
+      const res = await axios.delete(`/deleteItemgroup/${id}`);
       res.data;
       fetchEmployees();
     } catch (err) {
@@ -53,23 +41,16 @@ function Agent() {
   }
   useEffect(() => {
     fetchEmployees();
-    setFormData({
-      agentName: "",
-      mobile: "",
-      address: "",
-      promotionName: "",
-      discount: "",
-    });
+   
   }, []);
   const handleSubmit = async (e) => {
-    const dataToSend = {
-      ...formData,
-      update_ty: id ? "U":"A",
-    };
     e.preventDefault();
     if (id) {
       try{
-      await axios.put(`/masters/${id}`, dataToSend);
+      await axios.put(`/itemgroup/${id}`,{
+        itemGroupName,update_ty:"U",
+        
+       }  );
       alert("Update Data");
       fetchEmployees();
       }
@@ -79,48 +60,31 @@ function Agent() {
     } else {
       try {
          setBool1(true);
-         setAlertM("Agent Rate added successfully")
-       await axios.post("/master", dataToSend);
+         setAlertM("Item Group NFR added successfully")
+       await axios.post("/itemgroup",{
+        itemGroupName,update_ty:"A", date
+       } );
         fetchEmployees();
       } catch (err) {
         alert("Failed to save agent.");
       }
     }
-    setFormData({
-      agentName: "",
-      mobile: "",
-      address: "",
-      promotionName: "",
-      discount: "",
-    });
-  };
-  const promotion_type = [
-    "SBC WITH HOTPLATE",
-    "SBC WITH OUT HOTPLATE",
-    "DBC WITH HOTPLATE",
-    "DBC WITH OUT HOTPLATE",
-    "DBC",
-  ];
+    setItemGroupName("")
+}
   useEffect(() => {
     if (id && editData) {
-      setFormData({
-        agentName: editData.agentName,
-        mobile: editData.mobile,
-        address: editData.address,
-        promotionName: editData.promotionName,
-        discount: editData.discount,
-        update_ty: "U",
-      });
+        
     }
   }, [id, editData]);
+
   return (
-    <div className="expensehead allworking boxdesign">
-      <span className="fs-4 fw-semibold"><FaBook/> Agent</span>
-      <div className="d-md-flex mt-1 gap-4 flex-wrap align-items-start">
+    <div className="expensehead allworking boxdesign ">
+      <span className="fs-4 fw-semibold"><FaBook/> Item Group NFR</span>
+      <div className="d-md-flex mt-3 gap-4 flex-wrap align-items-start">
         <div
-          className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm"
+          className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm "
         >
-        <span className="fs-6 fw-semibold ">Add Agent Model</span>
+        <span className="fs-6 fw-semibold ">Add Item Group NFR</span>
          {bool1 && (
           <div className="alert alert-success text-success my-2" role="alert">
             {alertM}
@@ -128,66 +92,17 @@ function Agent() {
         )}
           <form onSubmit={handleSubmit}>
             <div className="row agentname">
-              <div className="col-sm-6 mb-3">
-                <label className="form-label">Agent Name</label>
+              <div className="col-sm-12 mb-3">
+                <label className="form-label">Item Group Name</label>
                 <input
                   type="text"
-                  className="form-control"
-                  name="agentName"
-                  value={formData.agentName}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="col-sm-6 mb-3">
-                <label className="form-label">Mobile</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  name="mobile"
-                  value={formData.mobile}
-                  onChange={handleChange}
-                />
-              </div>
 
-              <div className="col-sm-6 mb-3">
-                <label className="form-label">Address</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
+                  name="itemGroupName"
+                    value={itemGroupName}
+                    onChange={e=>setItemGroupName(e.target.value)}
                 />
               </div>
-
-              <div className="col-sm-6 mb-3">
-                <label className="form-label">Promotion Name</label>
-                <select
-                  name="promotionName"
-                  value={formData.promotionName}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Promotion Type</option>
-                  {promotion_type.map((type, index) => (
-                    <option key={index} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="col-sm-6 mb-3">
-                <label className="form-label">Discount (₹)</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  name="discount"
-                  value={formData.discount}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+             </div>
 
             <div className="text-end my-3">
               <button type="submit" className="btn btn-dark btn-sm px-3">
@@ -196,11 +111,10 @@ function Agent() {
             </div>
           </form>
         </div>
-
         <div className="flex-fill settion allworking p-3 bg-light rounded-2 border-top border-warning border-3 shadow-sm">
-         <span className="fs-6 fw-semibold ">Agent Model List</span>
+          <span className="fs-6 fw-semibold">Item Group Name List</span>
           <br />
-          <div className="mt-3 d-flex justify-content-between">
+          <div className="my-2 d-flex justify-content-between">
             <input
               type="text"
               placeholder="Search..."
@@ -208,32 +122,29 @@ function Agent() {
             />
             <div></div>
           </div>
-
-          <div className="table-responsive py-2 pb-2">
+          <div className="table-responsive  pb-2">
             <table
               className="table table-striped text-capitalize"
               style={{ fontSize: "14px" }}
             >
               <thead className="table-secondary">
                 <tr>
+                  <th>Sr</th>
                   <th>Name</th>
-                  <th>Phone</th>
-                  <th>Address</th>
-                  <th>Discount</th>
+                  
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {agentList.length > 0 ? (
-                  agentList.map((item, index) => (
+                {itemGroup_list.length > 0 ? (
+                  itemGroup_list.map((item, index) => (
                     <tr key={index}>
-                      <td>{item.agentName}</td>
-                      <td>{item.mobile}</td>
+                   
                       <td>{item.address}</td>
                       <td>{item.discount}</td>
                       <td>
                         <div className="divbtn">
-                          {item.update_ty == "A" ? (
+                          {item.update_ty !== "A" ? (
                             <span>
                               <FaEdit
                                 onClick={() => Edithandle(item._id, item)}
@@ -259,7 +170,7 @@ function Agent() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={5} className="text-center align-middle">
+                    <td colSpan={3} className="text-center align-middle">
                       <div className="text-center py-3">
                         <span className="text-warning">
                           No data available in table
@@ -280,7 +191,7 @@ function Agent() {
                 )}
                 <tr>
                   <td colSpan={5}>
-                    <span className=" text-muted small">{`Records : 1 to ${agentList.length} to  ${agentList.length}`}</span>
+                    <span className=" text-muted small">{`Records : 1 to ${itemGroup_list.length} to  ${itemGroup_list.length}`}</span>
                   </td>
                 </tr>
               </tbody>
@@ -292,4 +203,4 @@ function Agent() {
   );
 }
 
-export default Agent;
+export default ItemGroupNfr;

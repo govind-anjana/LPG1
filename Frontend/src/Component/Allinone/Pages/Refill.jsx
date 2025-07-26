@@ -4,10 +4,11 @@ import { useContext } from "react";
 import DataContext from "../../../Context/DataContext";
 
 function DocumentForm() {
-  const { data, date,bool1,setBool1,alertM,setAlertM,employess } = useContext(DataContext);
+  const { data, date, bool1, setBool1, alertM, setAlertM, employess } =
+    useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
-  const today=news.toISOString().split("T")[0];
+  const today = news.toISOString().split("T")[0];
   const oldToday = date.toLocaleDateString("en-CA");
   const [validTo, setValidTo] = useState(oldToday);
   const [currentRate, setCurrentRate] = useState(0);
@@ -43,7 +44,9 @@ function DocumentForm() {
   const [onlineEx3, setOnlineEx3] = useState(0);
 
   const [stock, setStock] = useState([]);
-    const [stockEm, setStockEm] = useState([]);
+  const [stockEm, setStockEm] = useState([]);
+  const [stock1, setStock1] = useState([]);
+  const [stockEm1, setStockEm1] = useState([]);
   const Equipment_name = [
     { id: 1, name: "14.2 KG Filled Cyl Domestic" },
     { id: 4, name: "5 KG Filled Cyl Domestic" },
@@ -56,49 +59,57 @@ function DocumentForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (stock) {
-      const ids = stock[0]._id;
-      const ids2 = stockEm[0]._id;
+      const ids =  stock[0]._id;
+      const ids2 =  stockEm[0]._id;
+      const ids1 =  stock1[0]._id;
+      const ids21 =  stockEm1[0]._id;
+
       const stocks = stock[0].op_Stock;
       const stocks2 = stockEm[0].op_Stock;
       const sto = parseInt(refill) + parseInt(newConnection);
-      if(stocks>sto) {
-      const newStocks = stocks - sto;
-      const cylinderempty = parseInt(refill) - parseInt(remainingCylinder);
-      const newEmptyStock = Number(stocks2) + Number(cylinderempty);
-      await axios.put(`/updatestock/${ids}`, { op_Stock: newStocks });
-      await axios.put(`/updatestock/${ids2}`, { op_Stock: newEmptyStock });
-      setBool1(true);
-      setAlertM("Refill added successfully")
-    try {
-      await axios.post("/addDelivery", {
-        validTo,
-        currentRate,
-        dmanID,
-        equipment,
-        totalCylinder,
-        refill,
-        newConnection,
-        remainingAmount,
-        remainingCylinder,
-        paymentType,
-        cylinderQty,
-        onlinePayments,
-        onlineExtraAmount,
-        totalAmount,
-        paidAmount,
-        times,
-        update_ty: "A",
-      });
-    } catch (err) {
-      alert("Failed to save agent.", err.message);
+
+      if (stocks > sto) {
+        const remaining = parseInt(remainingCylinder || 0);
+        const newStocks = stocks - sto;
+        const cylinderempty = parseInt(refill) - parseInt(remaining);
+
+        const newEmptyStock = Number(stocks2) + cylinderempty;
+        await axios.put(`/updatestock/${ids}`, { op_Stock: newStocks });
+        await axios.put(`/equipment/${ids1}`, { op_stock: newStocks });
+        await axios.put(`/updatestock/${ids2}`, { op_Stock: newEmptyStock });
+        await axios.put(`/equipment/${ids21}`, { op_stock: newEmptyStock });
+
+        try {
+          setBool1(true);
+          setAlertM("Refill added successfully");
+          await axios.post("/addDelivery", {
+            validTo,
+            currentRate,
+            dmanID,
+            equipment,
+            totalCylinder,
+            refill,
+            newConnection,
+            remainingAmount,
+            remainingCylinder,
+            paymentType,
+            cylinderQty,
+            onlinePayments,
+            onlineExtraAmount,
+            totalAmount,
+            paidAmount,
+            times,
+            update_ty: "A",
+          });
+        } catch (err) {
+          alert("Failed to save agent.", err.message);
+        }
+      } else {
+        alert("Current Stock grather than Refill Delivery");
+      }
     }
-  }
-    else {
-      alert("Current Stock grather than Refill Delivery")
-    }
-    }
- 
-      setCurrentRate(""),
+
+    setCurrentRate(""),
       setDmanID(""),
       setEquipment(""),
       setTotalCyl(""),
@@ -131,11 +142,11 @@ function DocumentForm() {
   }
   const fetchPrice = async () => {
     try {
-     const res=await axios.get("/addratelist")
-      const  datas=res.data;
+      const res = await axios.get("/addratelist");
+      const datas = res.data;
 
       const rateList = [...datas].reverse();
-  
+
       const latestValidRate = rateList.find(
         (item) => item.equipment == equipment && item.validTo >= today
       );
@@ -228,22 +239,31 @@ function DocumentForm() {
     setOnlineEx3(0);
     setShow3(false);
   }
-   const fetchData = async () => {
+  const fetchData = async () => {
     try {
       const res = await axios.get("/currntstock");
+      const res1 = await axios.get("/equipment");
       const data = res.data;
+      const data1 = res1.data;
       const found = Equipment_name.find((item) => item.name === equipment);
+
       if (!found) {
         return;
       }
       const newdata = data.filter((item) => item.eqID == found.id);
+      const newdata1 = data1.filter((item) => item.eqID == found.id);
+
       const ss = data.filter((item) => item.eqID == found.id + 1);
-      
+      const ss1 = data1.filter((item) => item.eqID == found.id + 1);
+
       setStockEm(ss);
-      if (newdata.length > 0) {
+      setStockEm1(ss1);
+      if (newdata.length >= 0) {
         setStock(newdata);
+        setStock1(newdata1);
       } else {
         setStock(null);
+        setStock1(null);
       }
     } catch (err) {
       alert(err.message);
@@ -256,11 +276,11 @@ function DocumentForm() {
   return (
     <div className="refill settion p-3 rounded-3  border-warning border-3">
       <span className="fs-5 fw-semibold">Refill</span>
-        {bool1 && (
-          <div className="alert alert-success text-success my-2" role="alert">
-            {alertM}
-          </div>
-        )}
+      {bool1 && (
+        <div className="alert alert-success text-success my-2" role="alert">
+          {alertM}
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="box-body row">
           <div className="form-group col-md-3">

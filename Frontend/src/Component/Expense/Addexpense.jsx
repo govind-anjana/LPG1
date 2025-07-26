@@ -112,7 +112,7 @@ function AddExpense() {
     <div className="expensehead allworking boxdesign">
       <span className="fs-4 fw-semibold"> <FaRegCreditCard /> Expenses</span>
      
-      <div className="d-md-flex mt-1 gap-4 flex-wrap ">
+      <div className="d-md-flex mt-1 gap-4 flex-wrap align-items-start">
         <div className="headdiv settion p-3 bg-light rounded-2  border-warning border-3 shadow-sm ">
           <span className="fs-6 fw-semibold">Add Expenses</span>
             {bool1 && (

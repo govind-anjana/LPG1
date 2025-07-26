@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 function AddDelivery() {
-  const {  date, employess, bool1, setBool1, alertM, setAlertM } =
+  const { date, employess, bool1, setBool1, alertM, setAlertM } =
     useContext(DataContext);
   const news = new Date();
   const times = news.toLocaleTimeString();
@@ -35,7 +35,6 @@ function AddDelivery() {
   const [cylinder1, setCylinder1] = useState(0);
   const [cylpayment1, setCylpayment1] = useState(0);
   const [onlineEx1, setOnlineEx1] = useState(0);
-
   const [paymentType2, setPaymentType2] = useState("");
   const [cylinder2, setCylinder2] = useState(0);
   const [cylpayment2, setCylpayment2] = useState(0);
@@ -44,9 +43,10 @@ function AddDelivery() {
   const [cylinder3, setCylinder3] = useState(0);
   const [cylpayment3, setCylpayment3] = useState(0);
   const [onlineEx3, setOnlineEx3] = useState(0);
-
   const [stock, setStock] = useState([]);
   const [stockEm, setStockEm] = useState([]);
+  const [stock1, setStock1] = useState([]);
+  const [stockEm1, setStockEm1] = useState([]);
   const { id } = useParams();
   const location = useLocation();
   const editData = location.state?.empData;
@@ -59,75 +59,77 @@ function AddDelivery() {
     { id: 15, name: "45.5 KG Filled Cyl" },
     { id: 26, name: "LPG Pressure Regulator Sound" },
   ];
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (stock) {
-      console.log(stockEm);
       const ids = stock[0]._id;
       const ids2 = stockEm[0]._id;
+      const ids1 = stock1[0]._id;
+      const ids21 = stockEm1[0]._id;
 
       const stocks = stock[0].op_Stock;
       const stocks2 = stockEm[0].op_Stock;
       const sto = parseInt(refill) + parseInt(newConnection);
-       if(stocks>sto) {
-
-      const newStocks = stocks - sto;
-      const cylinderempty = parseInt(refill) - parseInt(remainingCylinder);
-
-      const newEmptyStock = Number(stocks2) + Number(cylinderempty);
-      await axios.put(`/updatestock/${ids}`, { op_Stock: newStocks });
-      await axios.put(`/updatestock/${ids2}`, { op_Stock: newEmptyStock });
     
-    if (id) {
-      await axios.put(`/updatedelivery/${id}`, {
-        currentRate,
-        equipment,
-        totalCylinder,
-        refill,
-        newConnection,
-        remainingAmount,
-        remainingCylinder,
-        paymentType,
-        cylinderQty,
-        onlinePayments,
-        onlineExtraAmount,
-        totalAmount,
-        paidAmount,
-        update_ty: "U",
-      });
-      alert("update data");
-    } else {
-      setBool1(true);
-      setAlertM("Delivery added successfully");
-      try {
-        await axios.post("/addDelivery", {
-          validTo,
-          currentRate,
-          dmanID,
-          equipment,
-          totalCylinder,
-          refill,
-          newConnection,
-          remainingAmount,
-          remainingCylinder,
-          paymentType,
-          cylinderQty,
-          onlinePayments,
-          onlineExtraAmount,
-          totalAmount,
-          paidAmount,
-          times,
-          update_ty: "A",
-        });
-      }  catch (err) {
-      alert("Failed to save agent.", err.message);
+      if (stocks > sto) {
+         const remaining = parseInt(remainingCylinder || 0);
+        const newStocks = stocks - sto;
+        const cylinderempty = parseInt(refill) - parseInt(remaining);
+       
+        const newEmptyStock = Number(stocks2) + cylinderempty;
+        await axios.put(`/updatestock/${ids}`, { op_Stock: newStocks });
+        await axios.put(`/equipment/${ids1}`, { op_stock: newStocks });
+        await axios.put(`/updatestock/${ids2}`, { op_Stock: newEmptyStock });
+        await axios.put(`/equipment/${ids21}`, { op_stock: newEmptyStock });
+
+        if (id) {
+          await axios.put(`/updatedelivery/${id}`, {
+            currentRate,
+            equipment,
+            totalCylinder,
+            refill,
+            newConnection,
+            remainingAmount,
+            remainingCylinder,
+            paymentType,
+            cylinderQty,
+            onlinePayments,
+            onlineExtraAmount,
+            totalAmount,
+            paidAmount,
+            update_ty: "U",
+          });
+          alert("update data");
+        } else {
+          setBool1(true);
+          setAlertM("Delivery added successfully");
+          try {
+            await axios.post("/addDelivery", {
+              validTo,
+              currentRate,
+              dmanID,
+              equipment,
+              totalCylinder,
+              refill,
+              newConnection,
+              remainingAmount,
+              remainingCylinder,
+              paymentType,
+              cylinderQty,
+              onlinePayments,
+              onlineExtraAmount,
+              totalAmount,
+              paidAmount,
+              times,
+              update_ty: "A",
+            });
+          } catch (err) {
+            alert("Failed to save agent.", err.message);
+          }
+        }
+      } else {
+        alert("Current Stock grather than Refill Delivery");
       }
-    } 
-  }
-  else{
-     alert("Current Stock grather than Refill Delivery")
-  }
     }
     setCurrentRate(""),
       setDmanID(""),
@@ -162,8 +164,8 @@ function AddDelivery() {
   }
   const fetchPrice = async () => {
     try {
-      const res=await axios.get("/addratelist")
-      const  datas=res.data;
+      const res = await axios.get("/addratelist");
+      const datas = res.data;
       const rateList = [...datas].reverse();
       const latestValidRate = rateList.find(
         (item) => item.equipment == equipment && item.validTo >= todayNew
@@ -227,20 +229,28 @@ function AddDelivery() {
   const fetchData = async () => {
     try {
       const res = await axios.get("/currntstock");
+      const res1 = await axios.get("/equipment");
       const data = res.data;
+      const data1 = res1.data;
       const found = Equipment_name.find((item) => item.name === equipment);
+      
       if (!found) {
         return;
       }
       const newdata = data.filter((item) => item.eqID == found.id);
-      console.log(newdata);
+      const newdata1 = data1.filter((item) => item.eqID == found.id);
+
       const ss = data.filter((item) => item.eqID == found.id + 1);
-      console.log(ss);
+      const ss1 = data1.filter((item) => item.eqID == found.id + 1);
+
       setStockEm(ss);
-      if (newdata.length > 0) {
+      setStockEm1(ss1);
+      if (newdata.length >= 0) {
         setStock(newdata);
+        setStock1(newdata1);
       } else {
         setStock(null);
+        setStock1(null);
       }
     } catch (err) {
       alert(err.message);
@@ -252,6 +262,7 @@ function AddDelivery() {
   }, [equipment]);
   useEffect(() => {
     if (id && editData) {
+      setValidTo(editData.validTo);
       setCurrentRate(editData.currentRate);
       setDmanID(editData.dmanID),
         setEquipment(editData.equipment),
@@ -305,7 +316,7 @@ function AddDelivery() {
     <>
       <div className="allworking boxdesign">
         <span className="fs-5 fw-semibold">
-          <TbTruckDelivery /> Add Delivery
+          <TbTruckDelivery /> {id ? "Edit" : "Add"} Delivery
         </span>
         <div className="mt-3 settion p-3 bg-light rounded-3 border-top border-warning border-3 shadow-sm">
           <span className="fs-5 fw-semibold">Refill</span>

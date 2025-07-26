@@ -8,7 +8,7 @@ import { useContext } from "react";
 import DataContext from "../../Context/DataContext";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 function AddConsumer() {
-  const { data ,employess,bool1,setBool1,alertM,setAlertM} = useContext(DataContext);
+  const { employess,bool1,setBool1,alertM,setAlertM} = useContext(DataContext);
   const news = new Date();
   const today = news.toISOString().split("T")[0];
   const times = news.toLocaleTimeString();
@@ -181,12 +181,12 @@ function AddConsumer() {
       setRemarks(""),
       setTotalAmount("");
   };
-
-  useEffect(() => {
-    if (!equipmentNam) return;
-    const fetchPrice = async () => {
+   const fetchPrice = async () => {
       try {
-        const rateList = [...data].reverse();
+         const res = await axios.get("/addratelist");
+      const datas = res.data;
+
+        const rateList = [...datas].reverse();
 
         const latestValidRate = rateList.find(
           (item) => item.equipment == equipmentNam && item.validTo >= today
@@ -202,6 +202,9 @@ function AddConsumer() {
         console.error("Error fetching rate list:", err.message);
       }
     };
+
+  useEffect(() => {
+    if (!equipmentNam) return;
     fetchPrice();
   }, [equipmentNam]);
   //   useEffect(() => {
@@ -254,11 +257,12 @@ function AddConsumer() {
     const totals2 = refill2 * currentRate2;
     const discount2 = refill2 * discountRate2;
     const netTotal2 = totals2 - discount2;
-
+    const emptyBal=refill-emptyRefill;
     const total = netTotal + netTotal2;
     // setTotalAmount(totalAmount);
     setDiscount(discount);
-    setEmptyRefill(refill);
+    // setEmptyRefill(refill);
+          setEmptyBalance(emptyBal),
     setAmount(netTotal);
 
     setDiscount2(discount2);
@@ -267,7 +271,7 @@ function AddConsumer() {
     setAmount2(netTotal2);
 
     setTotalAmount(total);
-  }, [refill, discountRate, refill2, discountRate2]);
+  }, [refill,emptyRefill ,discountRate, refill2, discountRate2]);
   //      const addRow = () => {
   //       setRefillRows([...refillRows, {
   //     equipmentName: "",
@@ -455,6 +459,7 @@ function AddConsumer() {
               type="text"
               value={emptyRefill}
               onChange={(e) => setEmptyRefill(e.target.value)}
+              
             />
           </div>
           <div className="form-group col-md-3 col-sm-4">

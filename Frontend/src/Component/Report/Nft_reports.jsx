@@ -26,7 +26,7 @@ function Nft_report() {
     try {
       const res = await axios.get("/nfrlist");
       const result = res.data;
-
+      console.log(result)
       const filtered = result.filter(
         (item) =>
           item.date.split("T")[0] >= formData.dateFrom &&
@@ -118,8 +118,9 @@ function Nft_report() {
               <table className="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Date</th>
+                   
                     <th>Item Group</th>
+                    <th>NFR Rate</th>
                     <th>Opening Stock</th>
                     <th>Details</th>
                   </tr>
@@ -134,8 +135,9 @@ function Nft_report() {
                   ) : (
                     deliveryData.map((item, index) => (
                       <tr key={index}>
-                        <td>{item.date.split("T")[0]}</td>
+                       
                         <td>{item.itemGroup}</td>
+                        <td>{item.nfrRate}</td>
                         <td>{item.openingStock}</td>
                         <td>{item.remarks || "N/A"}</td>
                       </tr>

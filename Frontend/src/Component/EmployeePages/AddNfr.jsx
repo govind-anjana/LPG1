@@ -15,6 +15,7 @@ function AddNfr() {
   const [openingStock, setOpeningStock] = useState("");
   const [remarks, setRemarks] = useState("");
   const [vendorName, setVendorName] = useState([]);
+  const [itemGroup_list,setItemGroup_List]=useState([])
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -68,6 +69,8 @@ function AddNfr() {
       const res = await axios.get("/consumerlist");
       setVendorName(res.data);
       res.data;
+      const resitem=await axios.get("/itemgrouplist");
+      setItemGroup_List(res.data);
     };
     fetchapi();
   }, []);
@@ -104,8 +107,11 @@ function AddNfr() {
               required
             >
               <option value="">Select</option>
-              <option value="Rabar Tube">Rabar Tube</option>
-              <option value="Hot Plate">Hot Plate</option>
+              {itemGroup_list.map((item, idx) => (
+                <option key={idx} value={item.itemGroupName}>
+                  {item.deliveryMan}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -118,8 +124,6 @@ function AddNfr() {
               required
             >
               <option value="">Select</option>
-              <option value="govind">Govind</option>
-              <option value="hariom">Hariom</option>
               {vendorName.map((item, idx) => (
                 <option key={idx} value={item.deliveryMan}>
                   {item.deliveryMan}

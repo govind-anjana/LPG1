@@ -69,7 +69,7 @@ function Navbar({ onLinkClick }) {
           <li><Link to="/app/agent" onClick={onLinkClick} className="p-0"><FaAngleDoubleRight className="me-2" />
                Master Agent </Link>
           </li>
-          <li><Link to="#" onClick={onLinkClick} className="p-0"><FaAngleDoubleRight className="me-2" />
+          <li><Link to="/app/itemGroupNfr" onClick={onLinkClick} className="p-0"><FaAngleDoubleRight className="me-2" />
                Master Item Group NFR</Link>
           </li>
           <li><Link to="/app/promotion/rate" onClick={onLinkClick}className="p-0"><FaAngleDoubleRight className="me-2" />

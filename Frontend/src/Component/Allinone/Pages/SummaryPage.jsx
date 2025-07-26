@@ -53,6 +53,7 @@ if (!cashData || cashData.length === 0) return <h4 className='text-center text-d
   return (
      <div className="sales settion p-3 rounded-3  border-warning border-3">
      <h3 className="mb-3 text-center text-decoration-underline text-primary">LPG Daily Report</h3>
+      <h5 className='text-primary text-center my-2'>Refill</h5>
       <div className="table-responsive px-2 pb-2">
        <table
         className="table table-striped "
